@@ -6,6 +6,8 @@ OpenGLMD5Viewer::OpenGLMD5Viewer(QWidget *parent)
     : QMainWindow(parent)
 {
 	ui.setupUi(this);
+	displayer = new RenderCanvas(50, ui.glCanvasWidget);
+	displayer->resize(ui.glCanvasWidget->width(), ui.glCanvasWidget->height());
 }
 
 OpenGLMD5Viewer::~OpenGLMD5Viewer()

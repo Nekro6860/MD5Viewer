@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'openglmd5viewer.ui'
 **
-** Created: Mon 5. Mar 01:49:41 2012
+** Created: Wed 7. Mar 01:29:45 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -26,6 +26,7 @@ class Ui_OpenGLMD5ViewerClass
 {
 public:
     QWidget *centralwidget;
+    QWidget *glCanvasWidget;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -36,10 +37,13 @@ public:
         OpenGLMD5ViewerClass->resize(800, 600);
         centralwidget = new QWidget(OpenGLMD5ViewerClass);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+        glCanvasWidget = new QWidget(centralwidget);
+        glCanvasWidget->setObjectName(QString::fromUtf8("glCanvasWidget"));
+        glCanvasWidget->setGeometry(QRect(360, 10, 421, 551));
         OpenGLMD5ViewerClass->setCentralWidget(centralwidget);
         menubar = new QMenuBar(OpenGLMD5ViewerClass);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 21));
+        menubar->setGeometry(QRect(0, 0, 800, 20));
         OpenGLMD5ViewerClass->setMenuBar(menubar);
         statusbar = new QStatusBar(OpenGLMD5ViewerClass);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));

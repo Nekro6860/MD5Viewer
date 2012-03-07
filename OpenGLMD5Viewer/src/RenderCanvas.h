@@ -10,6 +10,8 @@
 
 #include <QGLWidget>
 
+#include "rendering/Renderer.h"
+
 namespace OpenGLMD5Viewer {
 
 class RenderCanvas : public QGLWidget{
@@ -19,6 +21,9 @@ public:
 	virtual ~RenderCanvas();
 
 	void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ);
+
+	Renderer * getRenderer();
+	void setRenderer(Renderer * r);
 
 protected:
 	void initializeGL();
@@ -30,6 +35,7 @@ public slots:
 
 private:
     QTimer *t_Timer;
+    Renderer * renderer;
 };
 
 } /* namespace OpenGLMD5Viewer */

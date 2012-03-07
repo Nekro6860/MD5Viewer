@@ -14,6 +14,10 @@ class Renderer {
 public:
 	Renderer();
 	virtual ~Renderer();
+
+	virtual void init()=0;
+	virtual void draw()=0;
+	virtual void close()=0;
 };
 
 } /* namespace OpenGLMD5Viewer */
