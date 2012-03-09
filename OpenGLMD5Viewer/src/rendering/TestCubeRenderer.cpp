@@ -31,12 +31,13 @@ void TestCubeRenderer::init()
 	gluPerspective(90, (double) 200 / 200, 1, 650);
 
 	/* init OpenGL */
-	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+	glClearColor(8.0f, 8.0f, 8.0f, 1.0f);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_COLOR_MATERIAL);
 
 	/* init OpenGL light */
-	GLfloat lightpos[] = { -10.0f, 2.0f, -40.0f, 0.0f };
+	GLfloat lightpos[] = { -10.0f, 2.0f, 40.0f, 0.0f };
 	GLfloat diffuse_color[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat specular_color[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat ambiant_color[] = { 0.3, 0.3, 0.3, 1.0 };
@@ -63,23 +64,50 @@ void TestCubeRenderer::draw()
 
 	glMatrixMode(GL_MODELVIEW);
 
-	glBegin(GL_TRIANGLES);
-		glVertex3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-1.0f, -1.0f, 0.0f);
-		glVertex3f(1.0f, -1.0f, 0.0f);
-	glEnd();
+//	glRotatef(45.0f, 1.0f, 1.0f, 0.0f);
+	cube();
+}
 
-	glTranslatef(4.0f, 0.0f, -1.0f);
-
+void TestCubeRenderer::cube()
+{
 	glBegin(GL_QUADS);
-		glColor3f(1.0, 0.0, 0.0);
-		glVertex3f(-1.0f, 1.0f, 0.0f);
-		glColor3f(0.0, 1.0, 0.0);
-		glVertex3f(-1.0f, -1.0f, 0.0f);
-		glColor3f(0.0, 0.0, 1.0);
-		glVertex3f(1.0f, -1.0f, 0.0f);
-		glVertex3d(1.0f, 1.0f, 0.0f);
-	glEnd();
+			glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, -1.0f, 1.0f);
+			glVertex3f(1.0f, -1.0f, 1.0f);
+			glVertex3f(1.0f, 1.0f, 1.0f);
+
+			glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, -1.0f);
+			glVertex3f(-1.0f, -1.0f, -1.0f);
+			glVertex3f(1.0f, -1.0f, -1.0f);
+			glVertex3f(1.0f, 1.0f, -1.0f);
+
+			glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, -1.0f);
+			glVertex3f(-1.0f, -1.0f, -1.0f);
+			glVertex3f(-1.0f, -1.0f, 1.0f);
+
+			glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+			glVertex3f(1.0f, 1.0f, 1.0f);
+			glVertex3f(1.0f, 1.0f, -1.0f);
+			glVertex3f(1.0f, -1.0f, -1.0f);
+			glVertex3f(1.0f, -1.0f, 1.0f);
+
+			glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, 1.0f, -1.0f);
+			glVertex3f(1.0f, 1.0f, -1.0f);
+			glVertex3f(1.0f, 1.0f, 1.0f);
+
+			glColor4f(0.0f, 1.0f, 1.0f, 1.0f);
+			glVertex3f(-1.0f, -1.0f, 1.0f);
+			glVertex3f(-1.0f, -1.0f, -1.0f);
+			glVertex3f(1.0f, -1.0f, -1.0f);
+			glVertex3f(1.0f, -1.0f, 1.0f);
+
+		glEnd();
 }
 
 void TestCubeRenderer::close()

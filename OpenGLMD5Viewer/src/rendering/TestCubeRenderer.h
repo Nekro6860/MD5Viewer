@@ -24,6 +24,7 @@ public:
 	void init();
 	void draw();
 	void close();
+	void cube();
 };
 
 } /* namespace OpenGLMD5Viewer */
