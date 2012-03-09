@@ -89,7 +89,7 @@ first: all
 all: Makefile.Debug  $(DESTDIR_TARGET)
 
 $(DESTDIR_TARGET): ui_openglmd5viewer.h $(OBJECTS) 
-	$(LINK) $(LFLAGS) -o $(DESTDIR_TARGET) object_script.OpenGLMD5Viewer.Debug  $(LIBS)
+	$(LINK) $(LFLAGS) -o $(DESTDIR_TARGET) $(OBJECTS)  $(LIBS)
 
 
 qmake:  FORCE
