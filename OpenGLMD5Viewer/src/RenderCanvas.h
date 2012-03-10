@@ -29,6 +29,9 @@ protected:
 	void initializeGL();
 	void paintGL();
 	void resizeGL(int width, int height);
+	void mousePressEvent( QMouseEvent * );
+	void mouseMoveEvent( QMouseEvent * );
+	void mouseReleaseEvent( QMouseEvent * );
 
 public slots:
     virtual void timeOutSlot();
@@ -36,6 +39,9 @@ public slots:
 private:
     QTimer *t_Timer;
     Renderer * renderer;
+    bool leftMousePressed;
+    QPoint leftMouseInitialPos;
+    double cameraRotationSpeed;
 };
 
 } /* namespace OpenGLMD5Viewer */

@@ -8,6 +8,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <QtOpenGL>
+#include <iostream>
+using namespace std;
 
 #include "RenderCanvas.h"
 
@@ -27,6 +29,9 @@ RenderCanvas::RenderCanvas(int framesPerSecond, QWidget *parent) :
 	    t_Timer = new QTimer(this);
 	    connect(t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
 	    t_Timer->start(timerInterval);
+
+	    leftMousePressed = false; // Au départ, l'utilisateur ne clique pas
+	    cameraRotationSpeed = 0.005;
 }
 
 RenderCanvas::~RenderCanvas() {
@@ -70,6 +75,42 @@ void RenderCanvas::setCamera(float camX, float camY, float camZ, float targetX, 
 	glPopMatrix();
 	glPushMatrix();
 	gluLookAt(camX, camY, camZ, targetX, targetY, targetZ, 0, 1, 0);
+}
+
+// Quand l'utilisateur clique
+void RenderCanvas::mousePressEvent( QMouseEvent *e )
+{
+    if ( e->button() == Qt::LeftButton )
+    {
+    	leftMousePressed = TRUE;
+    	leftMouseInitialPos = e->pos();
+    }else{
+        return;
+    }
+}
+
+void RenderCanvas::mouseMoveEvent( QMouseEvent *e )
+{
+    if ( leftMousePressed )
+    {
+    	QPoint pnt = e->pos();
+//    	cout << pnt.x() << " ; " << pnt.y() << "\n";
+    	int diffx = pnt.x() - leftMouseInitialPos.x();
+    	float anglex = 3.14*cameraRotationSpeed*diffx;
+
+    	int diffy = pnt.y() - leftMouseInitialPos.y();
+    	float angley = 3.14*cameraRotationSpeed*diffy;
+
+    	renderer->camera->updatePosition(anglex, angley);
+    }else{
+        return;
+    }
+}
+
+void RenderCanvas::mouseReleaseEvent( QMouseEvent *e )
+{
+    if ( e->button() == Qt::LeftButton )
+        leftMousePressed = FALSE;
 }
 
 } /* namespace OpenGLMD5Viewer */

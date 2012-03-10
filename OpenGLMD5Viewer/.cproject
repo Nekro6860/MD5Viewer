@@ -14,6 +14,8 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 	</storageModule>
+	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
 	</storageModule>
@@ -21,7 +23,6 @@
 		<buildTargets>
 			<target name="Qt Release Build" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 				<buildCommand>mingw32-make</buildCommand>
-				<buildArguments/>
 				<buildTarget>release</buildTarget>
 				<stopOnError>false</stopOnError>
 				<useDefaultCommand>false</useDefaultCommand>
@@ -29,7 +30,6 @@
 			</target>
 			<target name="Qt Debug Build" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 				<buildCommand>mingw32-make</buildCommand>
-				<buildArguments/>
 				<buildTarget>debug</buildTarget>
 				<stopOnError>false</stopOnError>
 				<useDefaultCommand>false</useDefaultCommand>
@@ -37,8 +37,6 @@
 			</target>
 		</buildTargets>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
-	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="org.eclipse.cdt.core.pathentry">
 		<pathentry base-path="C:/devtools/qt/include" include="" kind="inc" path="" system="true"/>
 		<pathentry base-path="C:/devtools/qt/include" include="ActiveQt" kind="inc" path="" system="true"/>
@@ -67,6 +65,7 @@
 		<pathentry base-path="C:/devtools/qt/include" include="QtXml" kind="inc" path="" system="true"/>
 		<pathentry base-path="C:/devtools/qt/include" include="QtXmlPatterns" kind="inc" path="" system="true"/>
 		<pathentry include="C:/devtools/MinGW/include" kind="inc" path="" system="true"/>
+		<pathentry include="C:/devtools/MinGW/lib/gcc/mingw32/4.5.2/include/c++" kind="inc" path="" system="true"/>
 		<pathentry kind="src" path=""/>
 		<pathentry kind="out" path=""/>
 	</storageModule>
