@@ -7,6 +7,7 @@
 
 #include "Camera.h"
 #include <cmath>
+#include <iostream>
 using namespace std;
 
 namespace OpenGLMD5Viewer {
@@ -14,6 +15,8 @@ namespace OpenGLMD5Viewer {
 Camera::Camera() {
 	// TODO Auto-generated constructor stub
 	position = QVector3D(0, 0, 10);
+	nearest = 5;
+	furthest = 20;
 }
 
 Camera::~Camera() {
@@ -36,8 +39,27 @@ void Camera::updatePosition(float anglex, float angley)
 	position3.setZ(position2.y()*sin(angley) + position2.z()*cos(angley));
 
 	position = position3;
+}
 
+void Camera::zoomIn()
+{
+	cout << "zoomIn !\n";
+	if (position.length() > nearest)
+	{
+		float newLength = position.length() - 1;
+		position.normalize();
+		position = position*newLength;
+	}
+}
 
+void Camera::zoomOut()
+{
+	if (position.length() < furthest)
+	{
+		float newLength = position.length() + 1;
+		position.normalize();
+		position = position*newLength;
+	}
 }
 
 } /* namespace OpenGLMD5Viewer */

@@ -32,6 +32,7 @@ protected:
 	void mousePressEvent( QMouseEvent * );
 	void mouseMoveEvent( QMouseEvent * );
 	void mouseReleaseEvent( QMouseEvent * );
+	void wheelEvent ( QWheelEvent * );
 	void timeOut();
 
 private:

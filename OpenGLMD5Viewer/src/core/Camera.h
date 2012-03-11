@@ -18,9 +18,13 @@ public:
 	virtual ~Camera();
 	QVector3D getPosition();
 	void updatePosition(float anglex, float angley);
+	void zoomIn();
+	void zoomOut();
 
 private:
 	QVector3D position;
+	float nearest;
+	float furthest;
 };
 
 } /* namespace OpenGLMD5Viewer */
