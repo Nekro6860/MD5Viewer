@@ -7,7 +7,6 @@
 
 #include "Camera.h"
 #include <cmath>
-#include <iostream>
 using namespace std;
 
 namespace OpenGLMD5Viewer {
@@ -43,7 +42,6 @@ void Camera::updatePosition(float anglex, float angley)
 
 void Camera::zoomIn()
 {
-	cout << "zoomIn !\n";
 	if (position.length() > nearest)
 	{
 		float newLength = position.length() - 1;

@@ -6,11 +6,9 @@
  */
 
 #include "TestCubeRenderer.h"
-#include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <QtOpenGL>
-using namespace std;
 
 namespace OpenGLMD5Viewer {
 

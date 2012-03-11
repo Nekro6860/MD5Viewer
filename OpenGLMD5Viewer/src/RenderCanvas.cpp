@@ -8,8 +8,6 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <QtOpenGL>
-#include <iostream>
-using namespace std;
 
 #include "RenderCanvas.h"
 
