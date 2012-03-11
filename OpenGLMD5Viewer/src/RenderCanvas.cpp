@@ -16,7 +16,7 @@ namespace OpenGLMD5Viewer {
 RenderCanvas::RenderCanvas(int framesPerSecond, QWidget *parent) : RenderCanvasAbs(60, parent)
 {
 	    leftMousePressed = false; // Au départ, l'utilisateur ne clique pas
-	    cameraRotationSpeed = 0.00005;
+	    cameraRotationSpeed = 0.005;
 }
 
 RenderCanvas::~RenderCanvas() {
@@ -89,6 +89,7 @@ void RenderCanvas::mouseMoveEvent( QMouseEvent *e )
     	float angley = 3.14*cameraRotationSpeed*diffy;
 
     	renderer->camera->updatePosition(anglex, angley);
+    	leftMouseInitialPos = pnt;
     }else{
         return;
     }

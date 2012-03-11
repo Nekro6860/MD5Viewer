@@ -34,8 +34,8 @@ void Camera::updatePosition(float anglex, float angley)
 	position2.setZ(position.x()*sin(anglex) + position.z()*cos(anglex));
 
 	QVector3D position3 = position2;
-	position3.setY(position2.y()*cos(angley) - position2.z()*sin(angley));
-	position3.setZ(position2.y()*sin(angley) + position2.z()*cos(angley));
+	position3.setY(position2.y()*cos(angley) + position2.z()*sin(angley));
+	position3.setZ(-position2.y()*sin(angley) + position2.z()*cos(angley));
 
 	position = position3;
 }

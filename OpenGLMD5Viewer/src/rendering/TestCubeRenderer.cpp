@@ -13,7 +13,7 @@
 namespace OpenGLMD5Viewer {
 
 //float angle = 45;
-QVector3D cameraPosition = QVector3D(0, 0, -10);
+QVector3D cameraPosition = QVector3D(0, 0, 10);
 
 void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ) {
 	glMatrixMode(GL_PROJECTION);
@@ -37,23 +37,17 @@ void TestCubeRenderer::init()
 	gluPerspective(90, (double) 200 / 200, 1, 650);
 
 	/* init OpenGL */
-	glClearColor(6.0f, 6.0f, 6.0f, 1.0f);
+	glClearColor(2.0f, 2.0f, 2.0f, 0.2f);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_COLOR_MATERIAL);
 
 	/* init OpenGL light */
-	GLfloat lightpos[] = { -10.0f, 2.0f, 40.0f, 0.0f };
-	GLfloat diffuse_color[] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat specular_color[] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat ambiant_color[] = { 0.3, 0.3, 0.3, 1.0 };
+	GLfloat lightpos[] = { -5.0f, -5.0f, 5.0f, 1.0f };
 	//GLfloat ambiant_color[] = { 1.0, 0.8, 0.0, 1.0 };
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambiant_color);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_color);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, specular_color);
 
 	// initialisations relatives aux textures
 	glEnable(GL_BLEND);
@@ -68,13 +62,14 @@ void TestCubeRenderer::draw()
 
 	setCamera(cameraPosition.x(), cameraPosition.y(), cameraPosition.z(), 0, 0, 0);
 
-//	setCamera(0, 0, -10, 0, 0, 0);
+//	setCamera(0, 0, 10, 0, 0, 0);
 
 	glMatrixMode(GL_MODELVIEW);
 
 //	glRotatef(angle, 1.0f, 1.0f, 0.0f);
 
-	cube();
+//	cube();
+	pyramide();
 }
 
 void TestCubeRenderer::cube()
@@ -117,6 +112,39 @@ void TestCubeRenderer::cube()
 			glVertex3f(1.0f, -1.0f, 1.0f);
 
 		glEnd();
+}
+
+void TestCubeRenderer::pyramide()
+{
+	glBegin(GL_TRIANGLES);
+		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+		glVertex3f(0.0f, 0.5f, 0.0f);
+		glVertex3f(-1.0f, -0.5f, 1.0f);
+		glVertex3f(1.0f, -0.5f, 1.0f);
+
+		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+		glVertex3f(0.0f, 0.5f, 0.0f);
+		glVertex3f(1.0f, -0.5f, 1.0f);
+		glVertex3f(1.0f, -0.5f, -1.0f);
+
+		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+		glVertex3f(0.0f, 0.5f, 0.0f);
+		glVertex3f(1.0f, -0.5f, -1.0f);
+		glVertex3f(-1.0f, -0.5f, -1.0f);
+
+		glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+		glVertex3f(0.0f, 0.5f, 0.0f);
+		glVertex3f(-1.0f, -0.5f, -1.0f);
+		glVertex3f(-1.0f, -0.5f, 1.0f);
+	glEnd();
+
+	glBegin(GL_QUADS);
+		glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
+		glVertex3f(-1.0f, -0.5f, 1.0f);
+		glVertex3f(1.0f, -0.5f, 1.0f);
+		glVertex3f(1.0f, -0.5f, -1.0f);
+		glVertex3f(-1.0f, -0.5f, -1.0f);
+	glEnd();
 }
 
 void TestCubeRenderer::timeOut()

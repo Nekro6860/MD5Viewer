@@ -25,6 +25,7 @@ public:
 	void draw();
 	void close();
 	void cube();
+	void pyramide();
 	void timeOut();
 };
 
