@@ -13,7 +13,7 @@ namespace OpenGLMD5Viewer {
 
 Camera::Camera() {
 	// TODO Auto-generated constructor stub
-	position = QVector3D(0, 0, -10);
+	position = QVector3D(0, 0, 10);
 }
 
 Camera::~Camera() {
@@ -32,8 +32,8 @@ void Camera::updatePosition(float anglex, float angley)
 	position2.setZ(position.x()*sin(anglex) + position.z()*cos(anglex));
 
 	QVector3D position3 = position2;
-	position3.setY(position.y()*cos(angley) - position.z()*sin(angley));
-	position3.setZ(position.y()*sin(angley) + position.z()*cos(angley));
+	position3.setY(position2.y()*cos(angley) - position2.z()*sin(angley));
+	position3.setZ(position2.y()*sin(angley) + position2.z()*cos(angley));
 
 	position = position3;
 
