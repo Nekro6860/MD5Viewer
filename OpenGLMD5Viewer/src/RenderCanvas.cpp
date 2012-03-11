@@ -98,14 +98,12 @@ void RenderCanvas::mouseMoveEvent( QMouseEvent *e )
 
 void RenderCanvas::mouseReleaseEvent( QMouseEvent *e )
 {
-	cout << "Event Released !\n";
     if ( e->button() == Qt::LeftButton )
         leftMousePressed = FALSE;
 }
 
 void RenderCanvas::wheelEvent( QWheelEvent *e )
 {
-	cout << "Event Wheel !\n";
 	if (e->delta() > 0)
 		renderer->camera->zoomIn();
 	else if (e->delta() < 0)
