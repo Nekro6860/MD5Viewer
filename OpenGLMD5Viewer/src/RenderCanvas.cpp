@@ -16,7 +16,8 @@ namespace OpenGLMD5Viewer {
 RenderCanvas::RenderCanvas(int framesPerSecond, QWidget *parent) : RenderCanvasAbs(60, parent)
 {
 	    leftMousePressed = false; // Au départ, l'utilisateur ne clique pas
-	    cameraRotationSpeed = 0.005;
+	    rightMousePressed = false;
+	    rotationSpeed = 0.005;
 }
 
 RenderCanvas::~RenderCanvas() {
@@ -71,6 +72,10 @@ void RenderCanvas::mousePressEvent( QMouseEvent *e )
     {
     	leftMousePressed = TRUE;
     	leftMouseInitialPos = e->pos();
+    }else if ( e->button() == Qt::RightButton )
+    {
+    	rightMousePressed = TRUE;
+    	rightMouseInitialPos = e->pos();
     }else{
         return;
     }
@@ -81,15 +86,22 @@ void RenderCanvas::mouseMoveEvent( QMouseEvent *e )
     if ( leftMousePressed )
     {
     	QPoint pnt = e->pos();
-//    	cout << pnt.x() << " ; " << pnt.y() << "\n";
     	int diffx = pnt.x() - leftMouseInitialPos.x();
-    	float anglex = 3.14*cameraRotationSpeed*diffx;
+    	float anglex = 3.14*rotationSpeed*diffx;
 
     	int diffy = pnt.y() - leftMouseInitialPos.y();
-    	float angley = 3.14*cameraRotationSpeed*diffy;
+    	float angley = 3.14*rotationSpeed*diffy;
 
     	renderer->camera->updatePosition(anglex, angley);
     	leftMouseInitialPos = pnt;
+    }else if ( rightMousePressed )
+    {
+    	QPoint pnt = e->pos();
+		int diffx = pnt.x() - rightMouseInitialPos.x();
+		float anglex = 3.14*rotationSpeed*diffx;
+
+		renderer->light->updatePosition(anglex);
+		rightMouseInitialPos = pnt;
     }else{
         return;
     }
@@ -99,6 +111,8 @@ void RenderCanvas::mouseReleaseEvent( QMouseEvent *e )
 {
     if ( e->button() == Qt::LeftButton )
         leftMousePressed = FALSE;
+    else if ( e->button() == Qt::RightButton )
+    	rightMousePressed = FALSE;
 }
 
 void RenderCanvas::wheelEvent( QWheelEvent *e )

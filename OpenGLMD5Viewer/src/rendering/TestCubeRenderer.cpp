@@ -13,7 +13,8 @@
 namespace OpenGLMD5Viewer {
 
 //float angle = 45;
-QVector3D cameraPosition = QVector3D(0, 0, 10);
+QVector3D cameraPosition;
+QVector3D lightPosition;
 
 void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ) {
 	glMatrixMode(GL_PROJECTION);
@@ -25,6 +26,7 @@ void setCamera(float camX, float camY, float camZ, float targetX, float targetY,
 TestCubeRenderer::TestCubeRenderer() {
 	// TODO Auto-generated constructor stub
 	this->camera = new Camera();
+	this->light = new Light();
 }
 
 TestCubeRenderer::~TestCubeRenderer() {
@@ -37,21 +39,24 @@ void TestCubeRenderer::init()
 	gluPerspective(90, (double) 200 / 200, 1, 650);
 
 	/* init OpenGL */
-	glClearColor(2.0f, 2.0f, 2.0f, 0.2f);
+	glClearColor(2.0f, 2.0f, 2.0f, 1.0f);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_COLOR_MATERIAL);
 
 	/* init OpenGL light */
-	GLfloat lightpos[] = { -5.0f, -5.0f, 5.0f, 1.0f };
+//	lightPosition = this->light->getPosition();
+//	GLfloat lightpos[] = { lightPosition.x(), lightPosition.y(), lightPosition.z(), 1.0f };
 	//GLfloat ambiant_color[] = { 1.0, 0.8, 0.0, 1.0 };
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+//	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 
 	// initialisations relatives aux textures
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	cameraPosition = this->camera->getPosition();
 }
 
 void TestCubeRenderer::draw()
@@ -62,14 +67,15 @@ void TestCubeRenderer::draw()
 
 	setCamera(cameraPosition.x(), cameraPosition.y(), cameraPosition.z(), 0, 0, 0);
 
-//	setCamera(0, 0, 10, 0, 0, 0);
-
 	glMatrixMode(GL_MODELVIEW);
 
 //	glRotatef(angle, 1.0f, 1.0f, 0.0f);
 
 //	cube();
 	pyramide();
+
+	GLfloat lightpos[] = { lightPosition.x(), lightPosition.y(), lightPosition.z(), 1.0f };
+	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 }
 
 void TestCubeRenderer::cube()
@@ -149,6 +155,7 @@ void TestCubeRenderer::pyramide()
 
 void TestCubeRenderer::timeOut()
 {
+	lightPosition = this->light->getPosition();
 	cameraPosition = this->camera->getPosition();
 //	angle += 1;
 }

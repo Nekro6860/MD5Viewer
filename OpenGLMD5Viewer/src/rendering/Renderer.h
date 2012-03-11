@@ -9,6 +9,7 @@
 #define RENDERER_H_
 
 #include "../core/Camera.h"
+#include "../core/Light.h"
 
 namespace OpenGLMD5Viewer {
 
@@ -23,6 +24,7 @@ public:
 	virtual void close()=0;
 	virtual void timeOut()=0;
 	Camera * camera;
+	Light * light;
 };
 
 } /* namespace OpenGLMD5Viewer */

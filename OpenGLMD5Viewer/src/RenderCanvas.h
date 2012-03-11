@@ -39,7 +39,10 @@ private:
     Renderer * renderer;
     bool leftMousePressed;
     QPoint leftMouseInitialPos;
-    double cameraRotationSpeed;
+    bool rightMousePressed;
+	QPoint rightMouseInitialPos;
+    double rotationSpeed;
+
 };
 
 } /* namespace OpenGLMD5Viewer */
