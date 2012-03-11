@@ -13,6 +13,7 @@
 namespace OpenGLMD5Viewer {
 
 class Renderer {
+
 public:
 	Renderer();
 	virtual ~Renderer();
@@ -20,6 +21,7 @@ public:
 	virtual void init()=0;
 	virtual void draw()=0;
 	virtual void close()=0;
+	virtual void timeOut()=0;
 	Camera * camera;
 };
 

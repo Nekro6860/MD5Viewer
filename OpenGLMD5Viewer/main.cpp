@@ -2,6 +2,7 @@
 
 #include <QtGui>
 #include <QApplication>
+#include <iostream>
 
 #include "src/rendering/TestCubeRenderer.h"
 #include "src/rendering/Renderer.h"
@@ -15,5 +16,7 @@ int main(int argc, char *argv[])
     w.getDisplayer()->setRenderer(testRenderer);
 
     w.show();
+
+
     return a.exec();
 }

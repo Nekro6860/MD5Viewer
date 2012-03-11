@@ -1,0 +1,15 @@
+INPUT(
+./release\RenderCanvasAbs.o
+./release\TestCubeRenderer.o
+./release\Camera.o
+./release\Light.o
+./release\MD5Mesh.o
+./release\MD5Object.o
+./release\MD5Skeleton.o
+./release\RenderCanvas.o
+./release\Renderer.o
+./release\main.o
+./release\openglmd5viewer.o
+./release\moc_RenderCanvasAbs.o
+./release\moc_openglmd5viewer.o
+);

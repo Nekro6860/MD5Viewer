@@ -1,7 +1,10 @@
 TEMPLATE = app
 TARGET = OpenGLMD5Viewer
-QT += core gui opengl
-HEADERS += src/rendering/TestCubeRenderer.h \
+QT += core \
+    gui \
+    opengl
+HEADERS += src/RenderCanvasAbs.h \
+    src/rendering/TestCubeRenderer.h \
     src/core/Camera.h \
     src/core/Light.h \
     src/core/MD5/MD5Mesh.h \
@@ -10,7 +13,8 @@ HEADERS += src/rendering/TestCubeRenderer.h \
     src/RenderCanvas.h \
     src/rendering/Renderer.h \
     openglmd5viewer.h
-SOURCES += src/rendering/TestCubeRenderer.cpp \
+SOURCES += src/RenderCanvasAbs.cpp \
+    src/rendering/TestCubeRenderer.cpp \
     src/core/Camera.cpp \
     src/core/Light.cpp \
     src/core/MD5/MD5Mesh.cpp \

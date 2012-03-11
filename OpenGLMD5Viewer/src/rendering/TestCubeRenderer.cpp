@@ -7,11 +7,15 @@
 
 #include "TestCubeRenderer.h"
 #include <iostream>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <QtOpenGL>
 using namespace std;
 
 namespace OpenGLMD5Viewer {
 
-float angle = 45;
+//float angle = 45;
+QVector3D cameraPosition = QVector3D(0, 0, -10);
 
 void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ) {
 	glMatrixMode(GL_PROJECTION);
@@ -35,7 +39,7 @@ void TestCubeRenderer::init()
 	gluPerspective(90, (double) 200 / 200, 1, 650);
 
 	/* init OpenGL */
-	glClearColor(8.0f, 8.0f, 8.0f, 1.0f);
+	glClearColor(6.0f, 6.0f, 6.0f, 1.0f);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_COLOR_MATERIAL);
@@ -64,15 +68,14 @@ void TestCubeRenderer::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	QVector3D cameraPosition = camera->getPosition();
-	cout << cameraPosition.x() << ";" << cameraPosition.y() << ";" << cameraPosition.z() << "\n";
 	setCamera(cameraPosition.x(), cameraPosition.y(), cameraPosition.z(), 0, 0, 0);
 
+//	setCamera(0, 0, -10, 0, 0, 0);
+
 	glMatrixMode(GL_MODELVIEW);
-/*
-	glRotatef(angle, 1.0f, 1.0f, 0.0f);
-	angle += 1;
-*/
+
+//	glRotatef(angle, 1.0f, 1.0f, 0.0f);
+
 	cube();
 }
 
@@ -116,6 +119,12 @@ void TestCubeRenderer::cube()
 			glVertex3f(1.0f, -1.0f, 1.0f);
 
 		glEnd();
+}
+
+void TestCubeRenderer::timeOut()
+{
+	cameraPosition = this->camera->getPosition();
+//	angle += 1;
 }
 
 void TestCubeRenderer::close()

@@ -15,23 +15,10 @@ using namespace std;
 
 namespace OpenGLMD5Viewer {
 
-RenderCanvas::RenderCanvas(int framesPerSecond, QWidget *parent) :
-		QGLWidget(QGLFormat(QGL::SampleBuffers), parent) {
-
-		int timerInterval = 0;
-	    if(framesPerSecond == 0) {
-	    	timerInterval = 1000 / 60;
-	    }
-	    else
-	    {
-	    	timerInterval = 1000 / framesPerSecond;
-	    }
-	    t_Timer = new QTimer(this);
-	    connect(t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
-	    t_Timer->start(timerInterval);
-
+RenderCanvas::RenderCanvas(int framesPerSecond, QWidget *parent) : RenderCanvasAbs(60, parent)
+{
 	    leftMousePressed = false; // Au départ, l'utilisateur ne clique pas
-	    cameraRotationSpeed = 0.005;
+	    cameraRotationSpeed = 0.00005;
 }
 
 RenderCanvas::~RenderCanvas() {
@@ -66,8 +53,10 @@ void RenderCanvas::resizeGL(int width, int height) {
 	glLoadIdentity();
 }
 
-void RenderCanvas::timeOutSlot()
+void RenderCanvas::timeOut()
 {
+	renderer->timeOut();
+	updateGL();
 }
 
 void RenderCanvas::setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ) {
