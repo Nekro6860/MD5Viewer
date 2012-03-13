@@ -72,10 +72,11 @@ void TestCubeRenderer::draw()
 //	glRotatef(angle, 1.0f, 1.0f, 0.0f);
 
 //	cube();
-	pyramide();
 
 	GLfloat lightpos[] = { lightPosition.x(), lightPosition.y(), lightPosition.z(), 1.0f };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+
+	pyramide();
 }
 
 void TestCubeRenderer::cube()

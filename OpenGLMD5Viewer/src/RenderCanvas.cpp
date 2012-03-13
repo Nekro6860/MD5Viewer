@@ -90,9 +90,8 @@ void RenderCanvas::mouseMoveEvent( QMouseEvent *e )
     	float anglex = 3.14*rotationSpeed*diffx;
 
     	int diffy = pnt.y() - leftMouseInitialPos.y();
-    	float angley = 3.14*rotationSpeed*diffy;
-
-    	renderer->camera->updatePosition(anglex, angley);
+    	renderer->camera->updatePositionx(anglex);
+		renderer->camera->updatePositiony(diffy);
     	leftMouseInitialPos = pnt;
     }else if ( rightMousePressed )
     {
