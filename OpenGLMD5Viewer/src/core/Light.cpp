@@ -13,7 +13,7 @@ namespace OpenGLMD5Viewer {
 
 Light::Light() {
 	// TODO Auto-generated constructor stub
-	position = QVector3D(5, 5, 5);
+	position = QVector3D(0, 0, -2);
 }
 
 Light::~Light() {

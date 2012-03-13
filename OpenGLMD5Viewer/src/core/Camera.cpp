@@ -27,17 +27,26 @@ QVector3D Camera::getPosition()
 	return position;
 }
 
-void Camera::updatePosition(float anglex, float angley)
+void Camera::updatePositionx(float anglex)
 {
 	QVector3D position2 = position;
 	position2.setX(position.x()*cos(anglex) - position.z()*sin(anglex));
 	position2.setZ(position.x()*sin(anglex) + position.z()*cos(anglex));
 
-	QVector3D position3 = position2;
-	position3.setY(position2.y()*cos(angley) + position2.z()*sin(angley));
-	position3.setZ(-position2.y()*sin(angley) + position2.z()*cos(angley));
+	position = position2;
+}
 
-	position = position3;
+void Camera::updatePositiony(float diffy)
+{
+	float length = position.length();
+	if (diffy > 0)
+		position.setY(position.y() + 1);
+	else if (diffy < 0)
+		position.setY(position.y() - 1);
+	else
+		return;
+	position.normalize();
+	position = position*length;
 }
 
 void Camera::zoomIn()

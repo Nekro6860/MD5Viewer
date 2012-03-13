@@ -3,7 +3,14 @@ TARGET = OpenGLMD5Viewer
 QT += core \
     gui \
     opengl
-HEADERS += src/core/MD5/Md5Animation.h \
+HEADERS += src/core/MD5/Md5Mesh.h \
+    src/core/MD5/Md5Skeleton.h \
+    src/core/MD5/Md5Animation.h \
+    src/core/MD5/Md5Model.h \
+    src/core/MD5/Md5Object.h \
+    src/core/MD5/common.h \
+    src/core/utils/Mathlib.h \
+    src/core/MD5/Md5Animation.h \
     src/core/MD5/Md5Mesh.h \
     src/core/MD5/Md5Model.h \
     src/core/MD5/Md5Object.h \
@@ -17,7 +24,12 @@ HEADERS += src/core/MD5/Md5Animation.h \
     src/RenderCanvas.h \
     src/rendering/Renderer.h \
     openglmd5viewer.h
-SOURCES += src/core/MD5/Md5Animation.cpp \
+SOURCES += src/core/MD5/Md5Mesh.cpp \
+    src/core/MD5/Md5Object.cpp \
+    src/core/MD5/Md5Skeleton.cpp \
+    src/core/MD5/Md5Animation.cpp \
+    src/core/MD5/Md5Model.cpp \
+    src/core/MD5/Md5Animation.cpp \
     src/core/MD5/Md5Mesh.cpp \
     src/core/MD5/Md5Model.cpp \
     src/core/MD5/Md5Object.cpp \

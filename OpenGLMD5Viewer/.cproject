@@ -66,10 +66,6 @@
 		<pathentry base-path="C:/devtools/qt/include" include="QtXmlPatterns" kind="inc" path="" system="true"/>
 		<pathentry include="C:/devtools/MinGW/include" kind="inc" path="" system="true"/>
 		<pathentry include="C:/devtools/MinGW/lib/gcc/mingw32/4.5.2/include/c++" kind="inc" path="" system="true"/>
-		<pathentry include="C:/devtools/MinGW/lib/gcc/mingw32/4.5.2/include" kind="inc" path="" system="true"/>
-		<pathentry include="C:/devtools/MinGW/lib/gcc/mingw32/4.5.2/include/c++/backward" kind="inc" path="" system="true"/>
-		<pathentry include="C:/devtools/MinGW/lib/gcc/mingw32/4.5.2/include-fixed" kind="inc" path="" system="true"/>
-		<pathentry include="C:/devtools/MinGW/lib/gcc/mingw32/4.5.2/include/c++/mingw32" kind="inc" path="" system="true"/>
 		<pathentry kind="src" path=""/>
 		<pathentry kind="out" path=""/>
 	</storageModule>

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'RenderCanvasAbs.h'
 **
-** Created: Tue 13. Mar 14:37:42 2012
+** Created: Sun 11. Mar 01:36:35 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
