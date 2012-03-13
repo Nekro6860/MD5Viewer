@@ -34,8 +34,8 @@ int main(int argc, char *argv[])
 	  object->setAnim( "NULL" );
 	}
 
-	std::cout << "Number of joints : " << std::endl;
-	std::cout << model->getNumJoints() << std::endl << std::endl;
+	model->printfMeshNames();
+//	model->getMeshByName("origin")->printTriangles();
 
     // Fin de zone de test du core
 

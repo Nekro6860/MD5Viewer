@@ -1,0 +1,17 @@
+INPUT(
+./release\Md5Object.o
+./release\Md5Model.o
+./release\Md5Animation.o
+./release\Md5Mesh.o
+./release\Md5Skeleton.o
+./release\RenderCanvasAbs.o
+./release\TestCubeRenderer.o
+./release\Camera.o
+./release\Light.o
+./release\RenderCanvas.o
+./release\Renderer.o
+./release\main.o
+./release\openglmd5viewer.o
+./release\moc_RenderCanvasAbs.o
+./release\moc_openglmd5viewer.o
+);

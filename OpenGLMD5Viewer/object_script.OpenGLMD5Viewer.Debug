@@ -1,0 +1,17 @@
+INPUT(
+./debug\Md5Object.o
+./debug\Md5Model.o
+./debug\Md5Animation.o
+./debug\Md5Mesh.o
+./debug\Md5Skeleton.o
+./debug\RenderCanvasAbs.o
+./debug\TestCubeRenderer.o
+./debug\Camera.o
+./debug\Light.o
+./debug\RenderCanvas.o
+./debug\Renderer.o
+./debug\main.o
+./debug\openglmd5viewer.o
+./debug\moc_RenderCanvasAbs.o
+./debug\moc_openglmd5viewer.o
+);
