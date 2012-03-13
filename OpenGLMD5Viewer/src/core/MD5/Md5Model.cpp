@@ -1,6 +1,3 @@
-//#include "MD5ModelLoaderPCH.h"
-//#include "Helpers.h"
-
 #include "Md5Model.h"
 
 namespace OpenGLMD5Viewer {
@@ -313,12 +310,15 @@ Md5Mesh *Md5Model::getMeshByName( const string &name )
   return NULL;
 }
 
+void Md5Model::printfMeshNames()
+{
+	std::cout << "Mesh names :" << std::endl;
+	for(std::vector<Md5Mesh *>::iterator actualMesh = _meshes.begin(); actualMesh != _meshes.end(); actualMesh++)
+	{
+		Md5Mesh * temp = *actualMesh;
+		std::cout << temp->getName() << std::endl;
+	}
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// class Md5Animation implementation.
-//
-/////////////////////////////////////////////////////////////////////////////
-
+}
 
 } // namespace OpenGLMD5Viewer

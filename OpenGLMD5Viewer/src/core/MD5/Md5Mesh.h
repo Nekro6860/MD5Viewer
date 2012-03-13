@@ -68,6 +68,8 @@ class Md5Mesh
   bool noDraw( void ) const { return (_renderState == kNoDraw); }
   bool show( void ) const { return (_renderState == kShow); }
 
+  void printTriangles();
+
  private:
   // Internal functions
   void allocVertexArrays( void );

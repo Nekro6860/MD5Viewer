@@ -5,6 +5,8 @@
  *      Author: Administrator
  */
 
+#include <iostream>
+
 #include "Md5Mesh.h"
 #include "Md5Skeleton.h"
 
@@ -556,6 +558,15 @@ void Md5Mesh::freeVertexArrays( void )
 void Md5Mesh::loadTextures( void )
 {
   return;
+}
+
+void Md5Mesh::printTriangles()
+{
+	std::cout << "Mesh name : " << _name << std::endl;
+//	for()
+//	{
+//
+//	}
 }
 
 } /* namespace OpenGLMD5Viewer */

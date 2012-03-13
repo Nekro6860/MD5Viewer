@@ -1,6 +1,4 @@
 #include <iostream>
-//#include <vector>
-//#include <string>
 
 #include "common.h"
 #include "Md5Skeleton.h"
@@ -75,6 +73,10 @@ class Md5Model
 	}
   }
 
+  Md5Mesh *getMeshByName( const string &name );
+
+  void printfMeshNames();
+
  private:
   // Internal functions
   void computeBindPoseBoundingBox( void );
@@ -82,8 +84,6 @@ class Md5Model
   // Check if an animation is valid for this model,
   // i.e. anim's skeleton matches with model's skeleton
   bool validityCheck( Md5Animation *anim );
-
-  Md5Mesh *getMeshByName( const string &name );
 
  private:
   // Member variables

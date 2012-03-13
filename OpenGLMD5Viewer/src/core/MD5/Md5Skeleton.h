@@ -8,7 +8,6 @@
 #ifndef MD5SKELETON_H_
 #define MD5SKELETON_H_
 
-//#include "../utils/Mathlib.h"
 #include "common.h"
 
 namespace OpenGLMD5Viewer {
