@@ -8,12 +8,19 @@
 #ifndef LIGHT_H_
 #define LIGHT_H_
 
+#include <QVector3D>
+
 namespace OpenGLMD5Viewer {
 
 class Light {
 public:
 	Light();
 	virtual ~Light();
+	QVector3D getPosition();
+	void updatePosition(float anglex);
+
+private:
+	QVector3D position;
 };
 
 } /* namespace OpenGLMD5Viewer */

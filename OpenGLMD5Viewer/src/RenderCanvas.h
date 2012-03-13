@@ -11,13 +11,13 @@
 #include <QGLWidget>
 
 #include "rendering/Renderer.h"
+#include "RenderCanvasAbs.h"
 
 namespace OpenGLMD5Viewer {
 
-class RenderCanvas : public QGLWidget{
-
+class RenderCanvas : public RenderCanvasAbs {
 public:
-	RenderCanvas(int framesPerSecond, QWidget *parent = 0);
+	RenderCanvas(int framesPerSecond=60, QWidget *parent = 0);
 	virtual ~RenderCanvas();
 
 	void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ);
@@ -29,13 +29,20 @@ protected:
 	void initializeGL();
 	void paintGL();
 	void resizeGL(int width, int height);
-
-public slots:
-    virtual void timeOutSlot();
+	void mousePressEvent( QMouseEvent * );
+	void mouseMoveEvent( QMouseEvent * );
+	void mouseReleaseEvent( QMouseEvent * );
+	void wheelEvent ( QWheelEvent * );
+	void timeOut();
 
 private:
-    QTimer *t_Timer;
     Renderer * renderer;
+    bool leftMousePressed;
+    QPoint leftMouseInitialPos;
+    bool rightMousePressed;
+	QPoint rightMouseInitialPos;
+    double rotationSpeed;
+
 };
 
 } /* namespace OpenGLMD5Viewer */
