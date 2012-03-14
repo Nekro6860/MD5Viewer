@@ -6,22 +6,12 @@
  */
 
 #include "TestCubeRenderer.h"
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <QtOpenGL>
 
 namespace OpenGLMD5Viewer {
 
 //float angle = 45;
 QVector3D cameraPosition;
 QVector3D lightPosition;
-
-void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ) {
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glPushMatrix();
-	gluLookAt(camX, camY, camZ, targetX, targetY, targetZ, 0, 1, 0);
-}
 
 TestCubeRenderer::TestCubeRenderer() {
 	// TODO Auto-generated constructor stub

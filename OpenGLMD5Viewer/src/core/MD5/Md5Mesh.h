@@ -68,6 +68,31 @@ class Md5Mesh
   bool noDraw( void ) const { return (_renderState == kNoDraw); }
   bool show( void ) const { return (_renderState == kShow); }
 
+vector<Md5Vertex_t *> getVertexArray()
+{
+	return _verts;
+}
+
+  vector<Md5Triangle_t *> getTriangleArray()
+{
+	  return _tris;
+}
+
+  vector<Md5Weight_t *> getWeightArray()
+{
+	  return _weights;
+}
+
+vec3_t * getFinalVertexArray()
+{
+	return _vertexArray;
+}
+
+GLuint * getFinalVertexIndice()
+{
+	return _vertIndices;
+}
+
   void printTriangles();
 
  private:

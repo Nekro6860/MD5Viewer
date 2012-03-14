@@ -31,6 +31,16 @@ class Md5Model
 	return _numJoints;
   }
 
+  unsigned int getNumMeshes()
+  {
+	  return _numMeshes;
+  }
+
+  vector<Md5Mesh *> getMeshes()
+  {
+	  return _meshes;
+  }
+
   Md5Skeleton *getBaseSkeleton( void ) {
 	return &_baseSkeleton;
   }

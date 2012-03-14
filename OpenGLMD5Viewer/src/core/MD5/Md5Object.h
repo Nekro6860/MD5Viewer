@@ -46,6 +46,13 @@ class Md5Object
   void setModelViewMatrix( const MathUtils::Matrix4x4f &modelView ) {
 	_modelView = modelView;
   }
+  MathUtils::Matrix4x4f getModelViewMatrix() {
+  	return _modelView;
+  }
+
+  Md5Skeleton * getAnimatedSkeleton() {
+	  return _animatedSkeleton;
+  }
 
   void setRenderFlags( int flags ) {
 	_renderFlags = flags;

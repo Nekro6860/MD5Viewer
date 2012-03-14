@@ -1,8 +1,10 @@
 INPUT(
-./debug\Md5Object.o
-./debug\Md5Model.o
+./debug\Md5WireframeRenderer.o
+./debug\Md5SolidRenderer.o
 ./debug\Md5Animation.o
 ./debug\Md5Mesh.o
+./debug\Md5Model.o
+./debug\Md5Object.o
 ./debug\Md5Skeleton.o
 ./debug\RenderCanvasAbs.o
 ./debug\TestCubeRenderer.o

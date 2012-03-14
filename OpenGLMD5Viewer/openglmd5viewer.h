@@ -18,10 +18,33 @@ public:
 
     RenderCanvas * getDisplayer();
     void setDiplayer(RenderCanvas * d);
+    QString getCheminModele();
+    QString getCheminAnimation();
+    QString getCheminDiffuseMap();
+    QString getCheminSpecularMap();
+    QString getCheminBumpMap();
+    QString getSelectedView();
+
+protected slots:
+//	virtual void stop();
+	virtual void parcourirModele();
+	virtual void parcourirAnimation();
+	virtual void parcourirBumpMap();
+	virtual void parcourirDiffuseMap();
+	virtual void parcourirSpecularMap();
+	virtual void showHideSqueleton();
+	virtual void appliquerVue();
 
 private:
     Ui::OpenGLMD5ViewerClass ui;
     RenderCanvas *displayer;
+    QString cheminModele;
+	QString cheminAnimation;
+	QString cheminBumpMap;
+	QString cheminDiffuseMap;
+	QString cheminSpecularMap;
+	QLabel * currentView;
+	bool showSqueleton;
 };
 
 } // namespace OpenGLMD5Viewer

@@ -8,6 +8,12 @@
 #ifndef RENDERER_H_
 #define RENDERER_H_
 
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <QtOpenGL>
+
+
+#include "../core/MD5/common.h"
 #include "../core/Camera.h"
 #include "../core/Light.h"
 
@@ -25,6 +31,11 @@ public:
 	virtual void timeOut()=0;
 	Camera * camera;
 	Light * light;
+
+protected:
+	void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ);
+	QVector3D cameraPosition;
+	QVector3D lightPosition;
 };
 
 } /* namespace OpenGLMD5Viewer */

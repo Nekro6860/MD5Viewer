@@ -9,11 +9,13 @@
 #include <cmath>
 #include <iostream>
 
+using namespace std;
+
 namespace OpenGLMD5Viewer {
 
 Light::Light() {
 	// TODO Auto-generated constructor stub
-	position = QVector3D(5, 5, 5);
+	position = QVector3D(10, 2, 0);
 }
 
 Light::~Light() {

@@ -5,6 +5,8 @@
 #include <iostream>
 
 #include "src/rendering/TestCubeRenderer.h"
+#include "src/rendering/Md5SolidRenderer.h"
+#include "src/rendering/Md5WireframeRenderer.h"
 #include "src/rendering/Renderer.h"
 
 //#include "src/core/MD5/Md5Model.h"
@@ -15,7 +17,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     OpenGLMD5Viewer::OpenGLMD5Viewer w;
 
-    OpenGLMD5Viewer::Renderer * testRenderer = new OpenGLMD5Viewer::TestCubeRenderer();
+//    OpenGLMD5Viewer::Md5WireframeRenderer * testRenderer = new OpenGLMD5Viewer::Md5WireframeRenderer();
+    OpenGLMD5Viewer::Md5SolidRenderer * testRenderer = new OpenGLMD5Viewer::Md5SolidRenderer();
     w.getDisplayer()->setRenderer(testRenderer);
 
 
@@ -33,6 +36,8 @@ int main(int argc, char *argv[])
 	  object->setMd5Model( model );
 	  object->setAnim( "NULL" );
 	}
+
+	testRenderer->setTarget(object);
 
 	model->printfMeshNames();
 //	model->getMeshByName("origin")->printTriangles();

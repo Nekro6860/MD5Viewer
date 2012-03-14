@@ -103,6 +103,9 @@ bool Md5Mesh::load( std::ifstream &file )
 	  file >> tri->index[1];
 	  file >> tri->index[2];
 
+//	  std::cout << "loading tri.index[0] = " << tri->index[0] << std::endl;
+//	  std::cout << "loading tri.index[1] = " << tri->index[1] << std::endl;
+//	  std::cout << "loading tri.index[2] = " << tri->index[2] << std::endl << std::endl;
 	  _tris.push_back( tri );
 	}
 	else if( token == "weight" ) {

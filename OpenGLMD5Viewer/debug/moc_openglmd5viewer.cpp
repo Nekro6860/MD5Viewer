@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'openglmd5viewer.h'
 **
-** Created: Tue 13. Mar 14:37:44 2012
+** Created: Wed 14. Mar 07:52:56 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,18 +23,31 @@ static const uint qt_meta_data_OpenGLMD5Viewer__OpenGLMD5Viewer[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       0,    0, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
        0,       // signalCount
 
+ // slots: signature, parameters, type, tag, flags
+      34,   33,   33,   33, 0x09,
+      52,   33,   33,   33, 0x09,
+      73,   33,   33,   33, 0x09,
+      92,   33,   33,   33, 0x09,
+     114,   33,   33,   33, 0x09,
+     137,   33,   33,   33, 0x09,
+     157,   33,   33,   33, 0x09,
+
        0        // eod
 };
 
 static const char qt_meta_stringdata_OpenGLMD5Viewer__OpenGLMD5Viewer[] = {
-    "OpenGLMD5Viewer::OpenGLMD5Viewer\0"
+    "OpenGLMD5Viewer::OpenGLMD5Viewer\0\0"
+    "parcourirModele()\0parcourirAnimation()\0"
+    "parcourirBumpMap()\0parcourirDiffuseMap()\0"
+    "parcourirSpecularMap()\0showHideSqueleton()\0"
+    "appliquerVue()\0"
 };
 
 const QMetaObject OpenGLMD5Viewer::OpenGLMD5Viewer::staticMetaObject = {
@@ -64,6 +77,19 @@ int OpenGLMD5Viewer::OpenGLMD5Viewer::qt_metacall(QMetaObject::Call _c, int _id,
     _id = QMainWindow::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        switch (_id) {
+        case 0: parcourirModele(); break;
+        case 1: parcourirAnimation(); break;
+        case 2: parcourirBumpMap(); break;
+        case 3: parcourirDiffuseMap(); break;
+        case 4: parcourirSpecularMap(); break;
+        case 5: showHideSqueleton(); break;
+        case 6: appliquerVue(); break;
+        default: ;
+        }
+        _id -= 7;
+    }
     return _id;
 }
 QT_END_MOC_NAMESPACE

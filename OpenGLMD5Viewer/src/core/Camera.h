@@ -17,7 +17,8 @@ public:
 	Camera();
 	virtual ~Camera();
 	QVector3D getPosition();
-	void updatePosition(float anglex, float angley);
+	void updatePositionx(float anglex);
+	void updatePositiony(float angley);
 	void zoomIn();
 	void zoomOut();
 

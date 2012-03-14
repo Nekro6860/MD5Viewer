@@ -1,8 +1,10 @@
 INPUT(
-./release\Md5Object.o
-./release\Md5Model.o
+./release\Md5WireframeRenderer.o
+./release\Md5SolidRenderer.o
 ./release\Md5Animation.o
 ./release\Md5Mesh.o
+./release\Md5Model.o
+./release\Md5Object.o
 ./release\Md5Skeleton.o
 ./release\RenderCanvasAbs.o
 ./release\TestCubeRenderer.o
