@@ -2,52 +2,11 @@
 
 #include <QtGui>
 #include <QApplication>
-#include <iostream>
-
-#include "src/rendering/TestCubeRenderer.h"
-#include "src/rendering/Md5SolidRenderer.h"
-#include "src/rendering/Md5WireframeRenderer.h"
-#include "src/rendering/Renderer.h"
-
-//#include "src/core/MD5/Md5Model.h"
-#include "src/core/MD5/Md5Object.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     OpenGLMD5Viewer::OpenGLMD5Viewer w;
-
-    OpenGLMD5Viewer::Md5WireframeRenderer * testRenderer = new OpenGLMD5Viewer::Md5WireframeRenderer();
-//    OpenGLMD5Viewer::Md5SolidRenderer * testRenderer = new OpenGLMD5Viewer::Md5SolidRenderer();
-    w.getDisplayer()->setRenderer(testRenderer);
-
-
-
-    // Zone de test du core
-
-    string meshFile = "player.md5mesh";
-    OpenGLMD5Viewer::Md5Model *model = new OpenGLMD5Viewer::Md5Model;
-    OpenGLMD5Viewer::Md5Object *object;
-
-	// Load mesh model
-	if( model->loadModel( meshFile ) ) {
-		object = new OpenGLMD5Viewer::Md5Object;
-
-	  // Attach the model to object
-	  object->setMd5Model( model );
-	  object->setAnim( "NULL" );
-	}
-
-	w._md5Object = object;
-	testRenderer->setTarget(object);
-
-	model->printfMeshNames();
-//	model->getMeshByName("origin")->printTriangles();
-
-    // Fin de zone de test du core
-
     w.show();
-
-
     return a.exec();
 }

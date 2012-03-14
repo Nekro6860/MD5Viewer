@@ -10,39 +10,26 @@
 
 #include <QGLWidget>
 
-#include "rendering/Renderer.h"
-#include "RenderCanvasAbs.h"
-
 namespace OpenGLMD5Viewer {
 
-class RenderCanvas : public RenderCanvasAbs {
+class RenderCanvas : public QGLWidget{
+
 public:
-	RenderCanvas(int framesPerSecond=60, QWidget *parent = 0);
+	RenderCanvas(int framesPerSecond, QWidget *parent = 0);
 	virtual ~RenderCanvas();
 
 	void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ);
-
-	Renderer * getRenderer();
-	void setRenderer(Renderer * r);
 
 protected:
 	void initializeGL();
 	void paintGL();
 	void resizeGL(int width, int height);
-	void mousePressEvent( QMouseEvent * );
-	void mouseMoveEvent( QMouseEvent * );
-	void mouseReleaseEvent( QMouseEvent * );
-	void wheelEvent ( QWheelEvent * );
-	void timeOut();
+
+public slots:
+    virtual void timeOutSlot();
 
 private:
-    Renderer * renderer;
-    bool leftMousePressed;
-    QPoint leftMouseInitialPos;
-    bool rightMousePressed;
-	QPoint rightMouseInitialPos;
-    double rotationSpeed;
-
+    QTimer *t_Timer;
 };
 
 } /* namespace OpenGLMD5Viewer */
