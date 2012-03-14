@@ -17,9 +17,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     OpenGLMD5Viewer::OpenGLMD5Viewer w;
 
-//    OpenGLMD5Viewer::Md5WireframeRenderer * testRenderer = new OpenGLMD5Viewer::Md5WireframeRenderer();
-    OpenGLMD5Viewer::Md5SolidRenderer * testRenderer = new OpenGLMD5Viewer::Md5SolidRenderer();
+    OpenGLMD5Viewer::Md5WireframeRenderer * testRenderer = new OpenGLMD5Viewer::Md5WireframeRenderer();
+//    OpenGLMD5Viewer::Md5SolidRenderer * testRenderer = new OpenGLMD5Viewer::Md5SolidRenderer();
     w.getDisplayer()->setRenderer(testRenderer);
+
 
 
     // Zone de test du core
@@ -37,6 +38,7 @@ int main(int argc, char *argv[])
 	  object->setAnim( "NULL" );
 	}
 
+	w._md5Object = object;
 	testRenderer->setTarget(object);
 
 	model->printfMeshNames();

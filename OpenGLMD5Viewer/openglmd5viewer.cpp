@@ -1,6 +1,9 @@
 #include "openglmd5viewer.h"
 #include <QtGui>
 #include <iostream>
+#include "src/rendering/Md5SolidRenderer.h"
+#include "src/rendering/Md5WireframeRenderer.h"
+
 namespace OpenGLMD5Viewer{
 
 OpenGLMD5Viewer::OpenGLMD5Viewer(QWidget *parent)
@@ -8,6 +11,8 @@ OpenGLMD5Viewer::OpenGLMD5Viewer(QWidget *parent)
 {
 	ui.setupUi(this);
 	displayer = new RenderCanvas(50, ui.glCanvasWidget);
+//	displayer->getRenderer()->skeletonDisplay = false;
+//	displayer->getRenderer()->displayType = 0;
 	displayer->resize(ui.glCanvasWidget->width(), ui.glCanvasWidget->height());
 	cheminModele = "";
 	cheminAnimation = "";
@@ -102,25 +107,32 @@ void OpenGLMD5Viewer::showHideSqueleton(){
 	showSqueleton = !showSqueleton;
 	std::cout << ui.view->currentText().toStdString();
 	if(showSqueleton){
-		// TODO cas où on doit afficher le squelette
+		displayer->getRenderer()->skeletonDisplay = true;
 	}
 	else{
-		// TODO cas où on ne doit pas afficher le squelette
+		displayer->getRenderer()->skeletonDisplay = false;
 	}
 }
 
 void OpenGLMD5Viewer::appliquerVue(){
 	if(ui.view->currentIndex() == 0){
-		// TODO affichage fil de fer
+
+		displayer->getRenderer()->displayType = 0;
+		Md5WireframeRenderer * newRenderer = new Md5WireframeRenderer();
+		newRenderer->setTarget(_md5Object);
+		displayer->setRenderer(newRenderer);
 	}
 	else if(ui.view->currentIndex() == 1){
-		// TODO affichage solide
+		displayer->getRenderer()->displayType = 1;
+		Md5SolidRenderer * newRenderer = new Md5SolidRenderer();
+		newRenderer->setTarget(_md5Object);
+		displayer->setRenderer(newRenderer);
 	}
 	else if(ui.view->currentIndex() == 2){
-		// TODO affichage coloré
+		displayer->getRenderer()->displayType = 2;
 	}
 	else if(ui.view->currentIndex() == 3){
-		// TODO affichage coloré et détaillé
+		displayer->getRenderer()->displayType = 3;
 	}
 }
 

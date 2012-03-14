@@ -5,6 +5,7 @@
 #include "ui_openglmd5viewer.h"
 
 #include "src/RenderCanvas.h"
+#include "src/core/MD5/Md5Object.h"
 
 namespace OpenGLMD5Viewer{
 
@@ -24,6 +25,8 @@ public:
     QString getCheminSpecularMap();
     QString getCheminBumpMap();
     QString getSelectedView();
+
+    Md5Object * _md5Object;
 
 protected slots:
 //	virtual void stop();

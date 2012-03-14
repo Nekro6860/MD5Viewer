@@ -31,6 +31,8 @@ public:
 	virtual void timeOut()=0;
 	Camera * camera;
 	Light * light;
+	bool skeletonDisplay;
+	int displayType;
 
 protected:
 	void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ);

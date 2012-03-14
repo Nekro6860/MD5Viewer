@@ -345,7 +345,7 @@ void Md5SolidRenderer::renderMd5Object()
 				drawModel(target->getModelPtr());
 			  }
 
-			  if( target->getRenderFlags() & target->kDrawSkeleton ) {
+			  if( skeletonDisplay ) {
 				glDisable( GL_TEXTURE_2D );
 				glDisable( GL_LIGHTING );
 

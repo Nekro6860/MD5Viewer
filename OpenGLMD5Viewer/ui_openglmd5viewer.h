@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'openglmd5viewer.ui'
 **
-** Created: Wed 14. Mar 06:59:33 2012
+** Created: Wed 14. Mar 14:01:22 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
