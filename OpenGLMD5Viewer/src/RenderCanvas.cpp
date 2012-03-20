@@ -8,83 +8,40 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <QtOpenGL>
+#include <iostream>
 
 #include "RenderCanvas.h"
 
 namespace OpenGLMD5Viewer {
 
-RenderCanvas::RenderCanvas(int framesPerSecond, QWidget *parent) :
-		QGLWidget(QGLFormat(QGL::SampleBuffers), parent) {
-
-		int timerInterval = 0;
-	    if(framesPerSecond == 0) {
-	    	timerInterval = 1000 / 60;
-	    }
-	    else
-	    {
-	    	timerInterval = 1000 / framesPerSecond;
-	    }
-	    t_Timer = new QTimer(this);
-	    connect(t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
-	    t_Timer->start(timerInterval);
+RenderCanvas::RenderCanvas(int framesPerSecond, QWidget *parent) : RenderCanvasAbs(60, parent)
+{
+	    leftMousePressed = false; // Au départ, l'utilisateur ne clique pas
+	    rightMousePressed = false;
+	    middleMousePressed = false;
+	    rotationSpeed = 0.005;
 }
 
 RenderCanvas::~RenderCanvas() {
 	// TODO Auto-generated destructor stub
 }
 
+Renderer * RenderCanvas::getRenderer()
+{
+	return renderer;
+}
+
+void RenderCanvas::setRenderer(Renderer * r)
+{
+	renderer = r;
+}
+
 void RenderCanvas::initializeGL() {
-	glMatrixMode(GL_PROJECTION);
-		gluPerspective(90, (double) 200 / 200, 1, 650);
-
-		/* init OpenGL */
-		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-		glShadeModel(GL_SMOOTH);
-		glEnable(GL_DEPTH_TEST);
-
-		/* init OpenGL light */
-		GLfloat lightpos[] = { -10.0f, 2.0f, -40.0f, 0.0f };
-		GLfloat diffuse_color[] = { 1.0, 1.0, 1.0, 1.0 };
-		GLfloat specular_color[] = { 1.0, 1.0, 1.0, 1.0 };
-		GLfloat ambiant_color[] = { 0.3, 0.3, 0.3, 1.0 };
-		//GLfloat ambiant_color[] = { 1.0, 0.8, 0.0, 1.0 };
-		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
-		glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, ambiant_color);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_color);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, specular_color);
-
-		// initialisations relatives aux textures
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	renderer->init();
 }
 
 void RenderCanvas::paintGL() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glLoadIdentity();
-
-		setCamera(1, 1, -10, 0, 0, 0);
-
-		glMatrixMode(GL_MODELVIEW);
-
-		glBegin(GL_TRIANGLES);
-		glVertex3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-1.0f, -1.0f, 0.0f);
-		glVertex3f(1.0f, -1.0f, 0.0f);
-		glEnd();
-
-		glTranslatef(4.0f, 0.0f, -1.0f);
-
-		glBegin(GL_QUADS);
-		glColor3f(1.0, 0.0, 0.0);
-		glVertex3f(-1.0f, 1.0f, 0.0f);
-		glColor3f(0.0, 1.0, 0.0);
-		glVertex3f(-1.0f, -1.0f, 0.0f);
-		glColor3f(0.0, 0.0, 1.0);
-		glVertex3f(1.0f, -1.0f, 0.0f);
-		glVertex3d(1.0f, 1.0f, 0.0f);
-		glEnd();
+	renderer->draw();
 }
 
 void RenderCanvas::resizeGL(int width, int height) {
@@ -97,8 +54,10 @@ void RenderCanvas::resizeGL(int width, int height) {
 	glLoadIdentity();
 }
 
-void RenderCanvas::timeOutSlot()
+void RenderCanvas::timeOut()
 {
+	renderer->timeOut();
+	updateGL();
 }
 
 void RenderCanvas::setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ) {
@@ -106,6 +65,76 @@ void RenderCanvas::setCamera(float camX, float camY, float camZ, float targetX, 
 	glPopMatrix();
 	glPushMatrix();
 	gluLookAt(camX, camY, camZ, targetX, targetY, targetZ, 0, 1, 0);
+}
+
+// Quand l'utilisateur clique
+void RenderCanvas::mousePressEvent( QMouseEvent *e )
+{
+    if ( e->button() == Qt::LeftButton )
+    {
+    	leftMousePressed = TRUE;
+    	leftMouseInitialPos = e->pos();
+    }else if ( e->button() == Qt::RightButton )
+    {
+    	rightMousePressed = TRUE;
+    	rightMouseInitialPos = e->pos();
+    }else if ( e->button() == Qt::MiddleButton )
+	{
+		middleMousePressed = TRUE;
+		middleMouseInitialPos = e->pos();
+    }else{
+        return;
+    }
+}
+
+void RenderCanvas::mouseMoveEvent( QMouseEvent *e )
+{
+    if ( leftMousePressed )
+    {
+    	QPoint pnt = e->pos();
+    	int diffx = pnt.x() - leftMouseInitialPos.x();
+    	float anglex = 3.14*rotationSpeed*diffx;
+
+    	int diffy = pnt.y() - leftMouseInitialPos.y();
+    	renderer->camera->updatePositionx(anglex);
+		renderer->camera->updatePositiony(diffy);
+    	leftMouseInitialPos = pnt;
+    }else if ( rightMousePressed )
+    {
+    	QPoint pnt = e->pos();
+		int diffx = pnt.x() - rightMouseInitialPos.x();
+		float anglex = 3.14*rotationSpeed*diffx;
+
+		renderer->light->updatePosition(anglex);
+		rightMouseInitialPos = pnt;
+    }else if ( middleMousePressed )
+        {
+        	QPoint pnt = e->pos();
+    		int diffy = pnt.y() - middleMouseInitialPos.y();
+
+    		renderer->camera->updateTargetPosition(diffy);
+    		middleMouseInitialPos = pnt;
+    }else{
+        return;
+    }
+}
+
+void RenderCanvas::mouseReleaseEvent( QMouseEvent *e )
+{
+    if ( e->button() == Qt::LeftButton )
+        leftMousePressed = FALSE;
+    else if ( e->button() == Qt::RightButton )
+    	rightMousePressed = FALSE;
+    else if ( e->button() == Qt::MiddleButton )
+    	middleMousePressed = FALSE;
+}
+
+void RenderCanvas::wheelEvent( QWheelEvent *e )
+{
+	if (e->delta() > 0)
+		renderer->camera->zoomIn();
+	else if (e->delta() < 0)
+		renderer->camera->zoomOut();
 }
 
 } /* namespace OpenGLMD5Viewer */
