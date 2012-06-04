@@ -1,4 +1,5 @@
 INPUT(
+./debug\Md5iReader.o
 ./debug\Md5TexturedRenderer.o
 ./debug\Md5WireframeRenderer.o
 ./debug\Md5SolidRenderer.o

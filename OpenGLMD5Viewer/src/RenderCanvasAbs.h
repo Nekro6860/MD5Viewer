@@ -8,7 +8,8 @@
 #ifndef RENDERCANVASABS_H_
 #define RENDERCANVASABS_H_
 
-#include <qgl.h>
+#include <GL/glew.h>
+#include <QGLWidget>
 
 class QTimer;
 

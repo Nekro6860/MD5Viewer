@@ -3,7 +3,8 @@ TARGET = OpenGLMD5Viewer
 QT += core \
     gui \
     opengl
-HEADERS += src/rendering/Md5TexturedRenderer.h \
+HEADERS += src/core/MD5/Md5iReader.h \
+    src/rendering/Md5TexturedRenderer.h \
     src/rendering/Md5WireframeRenderer.h \
     src/rendering/Md5SolidRenderer.h \
     src/core/MD5/Md5Animation.h \
@@ -20,7 +21,8 @@ HEADERS += src/rendering/Md5TexturedRenderer.h \
     src/RenderCanvas.h \
     src/rendering/Renderer.h \
     openglmd5viewer.h
-SOURCES += src/rendering/Md5TexturedRenderer.cpp \
+SOURCES += src/core/MD5/Md5iReader.cpp \
+    src/rendering/Md5TexturedRenderer.cpp \
     src/rendering/Md5WireframeRenderer.cpp \
     src/rendering/Md5SolidRenderer.cpp \
     src/core/MD5/Md5Animation.cpp \
@@ -38,3 +40,8 @@ SOURCES += src/rendering/Md5TexturedRenderer.cpp \
     openglmd5viewer.cpp
 FORMS += openglmd5viewer.ui
 RESOURCES += 
+INCLUDEPATH += lib/Devil/include/IL \
+    C:/devtools/MinGW/include/GL \
+    C:/utils/Devil/include/IL
+LIBS += "C:/utils/Devil/lib/DevIL.lib" \
+    "C:/utils/glew/glew-1.7.0/bin/glew32.dll"

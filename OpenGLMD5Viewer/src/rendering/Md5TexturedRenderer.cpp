@@ -7,9 +7,259 @@
 
 #include <iostream>
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "Md5TexturedRenderer.h"
 
+
+
 namespace OpenGLMD5Viewer {
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+/* charge le code source d'un shader */
+static char* LoadSource(const char *filename)
+{
+    char *src = NULL;   /* code source de notre shader */
+    FILE *fp = NULL;    /* fichier */
+    long size;          /* taille du fichier */
+    long i;             /* compteur */
+
+    /* on ouvre le fichier */
+    fp = fopen(filename, "r");
+    /* on verifie si l'ouverture a echoue */
+    if(fp == NULL)
+    {
+        fprintf(stderr, "impossible d'ouvrir le fichier '%s'\n", filename);
+        return NULL;
+    }
+
+    /* on recupere la longueur du fichier */
+    fseek(fp, 0, SEEK_END);
+    size = ftell(fp);
+
+    /* on se replace au debut du fichier */
+    rewind(fp);
+
+    /* on alloue de la memoire pour y placer notre code source */
+    src = (char*)malloc(size+1); /* +1 pour le caractere de fin de chaine '\0' */
+    if(src == NULL)
+    {
+        fclose(fp);
+        fprintf(stderr, "erreur d'allocation de memoire!\n");
+        return NULL;
+    }
+
+    /* lecture du fichier */
+    for(i=0; i<size; i++)
+        src[i] = fgetc(fp);
+
+    /* on place le dernier caractere a '\0' */
+    src[size] = '\0';
+
+    fclose(fp);
+
+    return src;
+}
+
+GLuint LoadShader(GLenum type, const char *filename)
+{
+    GLuint shader = 0;
+    GLsizei logsize = 0;
+    GLint compile_status = GL_TRUE;
+    char *log = NULL;
+    char *src = NULL;
+
+    /* creation d'un shader de sommet */
+    shader = glCreateShader(type);
+    if(shader == 0)
+    {
+        fprintf(stderr, "impossible de creer le shader\n");
+        return 0;
+    }
+
+    /* chargement du code source */
+    src = LoadSource(filename);
+    printf ("\n\nCode source du shader charge :\n\n %s \n", src);
+    if(src == NULL)
+    {
+        /* theoriquement, la fonction LoadSource a deja affiche un message
+           d'erreur, nous nous contenterons de supprimer notre shader
+           et de retourner 0 */
+
+        glDeleteShader(shader);
+        return 0;
+    }
+
+    /* assignation du code source */
+    glShaderSource(shader, 1, (const GLchar**)&src, NULL);
+
+
+    /* compilation du shader */
+    glCompileShader(shader);
+
+    /* liberation de la memoire du code source */
+    free(src);
+    src = NULL;
+
+    /* verification du succes de la compilation */
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &compile_status);
+    if(compile_status != GL_TRUE)
+    {
+        /* erreur a la compilation recuperation du log d'erreur */
+        printf("\ncompile_status = %d\n", compile_status);
+        /* on recupere la taille du message d'erreur */
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logsize);
+
+        /* on alloue un esapce memoire dans lequel OpenGL ecrira le message */
+        log = (char*)malloc(logsize + 1);
+        if(log == NULL)
+        {
+            fprintf(stderr, "impossible d'allouer de la memoire!\n");
+            return 0;
+        }
+        /* initialisation du contenu */
+        memset(log, '\0', logsize + 1);
+
+        glGetShaderInfoLog(shader, logsize, &logsize, log);
+        fprintf(stderr, "impossible de compiler le shader '%s' :\n%s",
+                filename, log);
+
+        /* ne pas oublier de liberer la memoire et notre shader */
+        free(log);
+        glDeleteShader(shader);
+
+        return 0;
+    }
+
+    return shader;
+}
+
+
+GLuint LoadProgram(const char *vsname, const char *psname)
+{
+    GLuint prog = 0;
+    GLuint vs = 0, ps = 0;
+    GLint link_status = GL_TRUE;
+    GLint logsize = 0;
+    char *log = NULL;
+
+
+    /* verification des arguments */
+    if(vsname == NULL && psname == NULL)
+    {
+        fprintf(stderr, "creation d'un program demande, mais aucuns "
+                        "noms de fichiers source envoye, arret.\n");
+
+        return 0;
+    }
+
+
+    /* chargement des shaders */
+    if(vsname != NULL)
+    {
+        vs = LoadShader(GL_VERTEX_SHADER, vsname);
+        if(vs == 0)
+            return 0;
+    }
+    if(psname != NULL)
+    {
+        ps = LoadShader(GL_FRAGMENT_SHADER, psname);
+        if(ps == 0)
+        {
+            if(glIsShader(vs))
+                glDeleteShader(vs);
+            return 0;
+        }
+    }
+
+
+    /* creation du program */
+    prog = glCreateProgram();
+
+    /* on envoie nos shaders a notre program */
+    if(vs)
+        glAttachShader(prog, vs);
+    if(ps)
+        glAttachShader(prog, ps);
+
+    /* on lie le tout */
+    glLinkProgram(prog);
+
+    /* on verifie que tout s'est bien passe */
+    glGetProgramiv(prog, GL_LINK_STATUS, &link_status);
+    if(link_status != GL_TRUE)
+    {
+        glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logsize);
+        log = (char*)malloc(logsize + 1);
+        if(log == NULL)
+        {
+            glDeleteProgram(prog);
+            glDeleteShader(vs);
+            glDeleteShader(ps);
+
+            fprintf(stderr, "impossible d'allouer de la memoire!\n");
+            return 0;
+        }
+        memset(log, '\0', logsize + 1);
+        glGetProgramInfoLog(prog, logsize, &logsize, log);
+
+        fprintf(stderr, "impossible de lier le program :\n%s", log);
+
+        free(log);
+        glDeleteProgram(prog);
+        glDeleteShader(vs);
+        glDeleteShader(ps);
+
+        return 0;
+    }
+
+    /* les shaders sont dans le program maintenant, on en a plus besoin */
+    glDeleteShader(vs);
+    glDeleteShader(ps);
+
+    return prog;
+}
+
+
+
+#ifdef __cplusplus
+}
+#endif
+
+void bindGenericTexture()
+{
+	/* Creates a replacement texture and apply it */
+	GLubyte Texture[16] =
+	{
+	0,0,0,0, 0xFF,0xFF,0xFF,0xFF,
+	0xFF,0xFF,0xFF,0xFF, 0,0,0,0
+	};
+
+	GLuint Nom;
+
+	glClearColor(.5,.5,.5,0);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
+	glGenTextures(1,&Nom);
+	glBindTexture(GL_TEXTURE_2D,Nom);
+	glTexImage2D (
+		GL_TEXTURE_2D, 	//Type : texture 2D
+	0, 	//Mipmap : aucun
+	4, 	//Couleurs : 4
+	2, 	//Largeur : 2
+	2, 	//Hauteur : 2
+	0, 	//Largeur du bord : 0
+	GL_RGBA, 	//Format : RGBA
+	GL_UNSIGNED_BYTE, 	//Type des couleurs
+	Texture 	//Addresse de l'image
+	);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
 
 Md5TexturedRenderer::Md5TexturedRenderer() {
 	// TODO Auto-generated constructor stub
@@ -50,6 +300,32 @@ void Md5TexturedRenderer::init()
 	targetPosition = this->camera->getTargetPosition();
 
 	glEnable(GL_TEXTURE_2D);
+
+	/* Temporary texture loading */
+//	idTexture = Renderer::loadTexture("C:/Documents and Settings/Administrator/git/OpenGLMD5Viewer/OpenGLMD5Viewer/models/fatGuy/textures/fatty_d.tga");
+
+
+	/* GLEW initialization */
+	GLenum code;
+	code = glewInit();
+	if(code != GLEW_OK)
+	{
+		std::cout << "Cannot init glew" << std::endl;
+		return;
+	}
+
+	std::cout << "Glew initialized" << std::endl;
+
+	if( !glewGetExtension("GL_ARB_shading_language_100") || !glewGetExtension("GL_ARB_shader_objects") || !glewGetExtension("GL_ARB_vertex_shader") || !glewGetExtension("GL_ARB_fragment_shader"))
+	{
+	std::cout << "Opengl shaders extension not supported" << std::endl;
+	return;
+	}
+
+	basicTextureShader = 0;
+	basicTextureShader = LoadProgram("shaders/textureShader.vert", "shaders/textureShader.frag");
+	lightedTextureShader = 0;
+	lightedTextureShader = LoadProgram("shaders/lightedTextureShader.vert", "shaders/PhongTextureShader.frag");
 }
 
 void Md5TexturedRenderer::draw()
@@ -64,6 +340,10 @@ void Md5TexturedRenderer::draw()
 	renderMd5Object();
 
 	GLfloat lightpos[] = { lightPosition.x(), lightPosition.y(), lightPosition.z(), 1.0f };
+//	std::cout << "lightPosition :" << std::endl;
+//	std::cout << "x : " << lightPosition.x() << std::endl;
+//	std::cout << "y : " << lightPosition.y() << std::endl;
+//	std::cout << "z : " << lightPosition.z() << std::endl;
 	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 }
 
@@ -159,41 +439,73 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 //		}
 //	  }
 
-//	std::cout << "début de renderVertexArray" << std::endl;
-//	std::cout << "mesh name " << _mesh->getName() << std::endl;
+	/* Use shaders */
+	if(lightedTextureShader)
+	{
+		glUseProgram(lightedTextureShader);
+//		std::cout << "Basic texture shader activated" << std::endl;
+	}
+	else
+	{
+		std::cout << "Shader failed to activate" << std::endl;
+	}
+
 	vector<Md5Vertex_t *> vertexArray = _mesh->getVertexArray();
 	vector<Md5Weight_t *> weightArray = _mesh->getWeightArray();
 
-//	std::cout << "avant premier parcours des triangles" << std::endl;
-
-//	std::cout << "après premier parcours des triangles" << std::endl;
-
-//	std::cout << "_mesh->getTriangleArray().size() = " << _mesh->getTriangleArray().size() << std::endl;
-
 	vec3_t * finalVertexArray = _mesh->getFinalVertexArray();
+	vec2_t * finalTexCoordArray = _mesh->getFinalTexCoordArray();
+	vec3_t * finalNormalArray = _mesh->getFinalNormalArray();
 
-	for (int i = 0; i<vertexArray.size(); i++)
+//	std::cout << "before loadTexture" << std::endl;
+//	setIdTexture(loadTexture("C:/Documents and Settings/Administrator/workspace/OpenGLMD5Viewer/OpenGLMD5Viewer/models/fatGuy/textures/fatty_d.bmp"));
+//	std::cout << "after loadTexture, adresse : " << idTexture << std::endl;
+//	std::cout << "texture adress : " << idTexture << std::endl;
+//	if(idTexture!=NULL) std::cout << "texture id : " << *idTexture << std::endl;
+
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_LIGHTING);
+
+	GLuint idColorMap = _mesh->getDecalMap();
+	GLuint idSpecularMap = _mesh->getSpecularMap();
+
+	glActiveTexture(GL_TEXTURE0);
+	if(idColorMap) {
+		glBindTexture(GL_TEXTURE_2D, idColorMap); // the color map of the mesh becomes the actual openGl texture
+	}
+	else
 	{
-//		std::cout << "i = " << i << std::endl;
-//		std::cout << "finalVertexArray[i][0] = " << finalVertexArray[i][0] << std::endl;
-//		std::cout << "finalVertexArray[i][1] = " << finalVertexArray[i][1] << std::endl;
-//		std::cout << "finalVertexArray[i][2] = " << finalVertexArray[i][2] << std::endl << std::endl;
+		bindGenericTexture();
 	}
 
-//	std::cout << std::endl << std::endl << "sortie !" << std::endl << std::endl << std::endl << std::endl;
+	glActiveTexture(GL_TEXTURE1);
+	if(idSpecularMap)
+	{
+
+		glBindTexture(GL_TEXTURE_2D, idSpecularMap); // the normal map of the mesh becomes the actual openGl texture
+	}
+	else
+	{
+		bindGenericTexture();
+	}
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	/* Exchange information with the shader */
+//	std::cout << "in rendering function, idTexture = " << *idTexture << std::endl;
+	int shaderColorMapId = glGetUniformLocation(basicTextureShader, "colorMap"); // Get the id of the colorMap in the shader
+	if(shaderColorMapId != -1)
+	{
+		glUniform1i(shaderColorMapId, 0/**idTexture*/); // Send the id of the color texture to the corresponding uniform variable in the shader
+	}
+
 
 	for(vector<Md5Triangle_t *>::iterator actualTriangle = _mesh->getTriangleArray().begin(); actualTriangle != _mesh->getTriangleArray().end(); actualTriangle++)
 	{
 		Md5Triangle_t * temp = *actualTriangle;
-//		std::cout << "temp = " << temp << std::endl;
 		if(temp != NULL)
 		{
-//			glEnable(GL_TEXTURE_2D);
-
-//			std::cout << "idTexture before bind= " << *idTexture << std::endl;
-
-			glBindTexture(GL_TEXTURE_2D, *idTexture);
-
 //			std::cout << "idTexture = " << *idTexture << std::endl;
 
 			if(temp->index[0]< weightArray.size() && temp->index[1]< weightArray.size() && temp->index[2]< weightArray.size())
@@ -215,46 +527,29 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 //						std::cout << "weightArray[temp->index[2]]->pos._z" << weightArray[temp->index[2]]->pos._z << std::endl;
 //						std::cout << "--------------------------------------------------" << std::endl << std::endl;
 
-
-						glDisable(GL_LIGHTING);
 //						glColor3f(1.0f, 0.0f, 0.0f);
 
-						if(idTexture !=NULL)
-						{
-//							glColor3f(0.0f, 0.0f, 1.0f);
-							glBegin(GL_TRIANGLES);
-								glTexCoord2f(0.0f, 0.0f);		glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
-								glTexCoord2f(0.0f, 1.0f);		glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
-								glTexCoord2f(1.0f, 0.0f);		glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
-							glEnd();
-						}
-						else
-						{
-							glColor3f(0.0f, 1.0f, 0.0f);
-							glBegin(GL_TRIANGLES);
-								glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
-								glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
-								glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
-							glEnd();
+
+						glColor3f(0.0f, 0.0f, 1.0f);
+						glBegin(GL_TRIANGLES);
+
+						glNormal3f(finalNormalArray[temp->index[0]][0], finalNormalArray[temp->index[0]][1], finalNormalArray[temp->index[0]][2]);
+						glTexCoord2f(finalTexCoordArray[temp->index[0]][0], finalTexCoordArray[temp->index[0]][1]);
+						glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
+
+						glNormal3f(finalNormalArray[temp->index[1]][0], finalNormalArray[temp->index[1]][1], finalNormalArray[temp->index[1]][2]);
+						glTexCoord2f(finalTexCoordArray[temp->index[1]][0], finalTexCoordArray[temp->index[1]][1]);
+						glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
+
+						glNormal3f(finalNormalArray[temp->index[2]][0], finalNormalArray[temp->index[2]][1], finalNormalArray[temp->index[2]][2]);
+						glTexCoord2f(finalTexCoordArray[temp->index[2]][0], finalTexCoordArray[temp->index[2]][1]);
+						glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
+						glEnd();
 						}
 
-
-//						glBegin(GL_LINES);
-//						glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
-//						glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
-//
-//						glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
-//						glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
-//
-//						glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
-//						glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
-//						glEnd();
 					}
 		}
 
-
-	}
-//	std::cout << "fin de renderMeshVertexArray" << std::endl;
 }
 
 void Md5TexturedRenderer::drawModel(Md5Model * _model)
@@ -276,6 +571,9 @@ void Md5TexturedRenderer::drawModel(Md5Model * _model)
 
 void Md5TexturedRenderer::drawSkeleton(Md5Skeleton * _animatedSkeleton, const MathUtils::Matrix4x4f &modelView, bool labelJoints )
 {
+	/* Do not use any shaders */
+	glUseProgram(0);
+
 	unsigned int i;
 
 	  // Draw each joint
@@ -370,19 +668,21 @@ void Md5TexturedRenderer::renderMd5Object()
 			  glFrontFace( GL_CW );
 
 			  if( target->getRenderFlags() & target->kDrawModel ) {
+				  glEnable(GL_DEPTH_TEST);
 				drawModel(target->getModelPtr());
 			  }
 
 			  if( skeletonDisplay ) {
 				glDisable( GL_TEXTURE_2D );
 				glDisable( GL_LIGHTING );
+				glDisable(GL_DEPTH_TEST);
 
 				drawSkeleton(target->getAnimatedSkeleton(), target->getModelViewMatrix(), target->getRenderFlags() & target->kDrawJointLabels );
 			  }
 
 			  glDisable(GL_LIGHTING);
 			  glColor3f(1.0f, 0.5f, 0.0f);
-			  glPointSize(4.0f);
+			  glPointSize(40.0f);
 			  glBegin(GL_POINT);
 			  glVertex3f(lightPosition.x(), lightPosition.y(), lightPosition.z());
 			  glEnd();
@@ -393,7 +693,7 @@ void Md5TexturedRenderer::renderMd5Object()
 	}
 	else
 	{
-//		std::cerr << "Target model in solid renderer not found" << std::endl;
+		std::cerr << "Target model in textured renderer not found" << std::endl;
 	}
 //	std::cout << "fin renderMD5Object" << std::endl;
 

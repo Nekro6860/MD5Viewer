@@ -63,6 +63,11 @@ class Md5Mesh
   void setNormalMap( GLuint id ) { _normalMap = id; }
   void setHeightMap( GLuint id ) { _heightMap = id; }
 
+  GLuint getDecalMap() { return _decal; }
+  GLuint getSpecularMap() { return _specMap; }
+  GLuint getNormalMap() { return _normalMap; }
+  GLuint getHeightMap() { return _heightMap; }
+
   // Mesh render state
   bool hiden( void ) const { return (_renderState == kHide);  }
   bool noDraw( void ) const { return (_renderState == kNoDraw); }
@@ -91,6 +96,16 @@ vec3_t * getFinalVertexArray()
 GLuint * getFinalVertexIndice()
 {
 	return _vertIndices;
+}
+
+vec2_t * getFinalTexCoordArray()
+{
+	return _texCoordArray;
+}
+
+vec3_t * getFinalNormalArray()
+{
+	return _normalArray;
 }
 
   void printTriangles();

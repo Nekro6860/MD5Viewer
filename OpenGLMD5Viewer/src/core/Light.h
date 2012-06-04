@@ -17,7 +17,7 @@ public:
 	Light();
 	virtual ~Light();
 	QVector3D getPosition();
-	void updatePosition(float anglex);
+	void updatePosition(float diffx, float diffy);
 
 private:
 	QVector3D position;

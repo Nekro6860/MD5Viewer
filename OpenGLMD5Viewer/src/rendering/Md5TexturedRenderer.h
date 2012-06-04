@@ -32,6 +32,9 @@ private :
 	void renderMeshVertexArrays(Md5Mesh * _mesh);
 	void drawModel(Md5Model * _model);
 	void drawSkeleton(Md5Skeleton * _animatedSkeleton, const MathUtils::Matrix4x4f &modelView, bool labelJoints );
+
+	GLuint basicTextureShader;
+	GLuint lightedTextureShader;
 };
 
 } /* namespace OpenGLMD5Viewer */

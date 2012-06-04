@@ -5,14 +5,15 @@
  *      Author: Administrator
  */
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <QtOpenGL>
+
 #include <iostream>
 
+
 #include "RenderCanvas.h"
+#include <QtOpenGL>
 
 namespace OpenGLMD5Viewer {
+
 
 RenderCanvas::RenderCanvas(int framesPerSecond, QWidget *parent) : RenderCanvasAbs(60, parent)
 {
@@ -93,19 +94,20 @@ void RenderCanvas::mouseMoveEvent( QMouseEvent *e )
     {
     	QPoint pnt = e->pos();
     	int diffx = pnt.x() - leftMouseInitialPos.x();
-    	float anglex = 3.14*rotationSpeed*diffx;
-
     	int diffy = pnt.y() - leftMouseInitialPos.y();
-    	renderer->camera->updatePositionx(anglex);
-		renderer->camera->updatePositiony(diffy);
+
+//    	renderer->camera->updatePositionx(anglex);
+//		renderer->camera->updatePositiony(diffy);
+    	renderer->camera->updateAngles(diffx, diffy);
     	leftMouseInitialPos = pnt;
     }else if ( rightMousePressed )
     {
     	QPoint pnt = e->pos();
 		int diffx = pnt.x() - rightMouseInitialPos.x();
+		int diffy = pnt.y() - rightMouseInitialPos.y();
 		float anglex = 3.14*rotationSpeed*diffx;
 
-		renderer->light->updatePosition(anglex);
+		renderer->light->updatePosition(-anglex, -((float)diffy)/20);
 		rightMouseInitialPos = pnt;
     }else if ( middleMousePressed )
         {

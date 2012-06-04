@@ -8,12 +8,6 @@
 #ifndef RENDERER_H_
 #define RENDERER_H_
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <QtOpenGL>
-#include <GL/glext.h>
-
-
 #include "../core/MD5/common.h"
 #include "../core/Camera.h"
 #include "../core/Light.h"
@@ -36,14 +30,13 @@ public:
 	int displayType;
 	void setIdTexture(GLuint * id);
 	GLuint * getIdTexture();
-	GLuint * loadTexture(QString fileName);
+	static GLuint * loadTexture(string fileName);
 
 protected:
 	void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ);
 	QVector3D cameraPosition;
 	QVector3D lightPosition;
 	QVector3D targetPosition;
-	GLuint * idTexture;
 };
 
 } /* namespace OpenGLMD5Viewer */

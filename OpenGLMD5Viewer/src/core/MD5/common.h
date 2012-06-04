@@ -17,7 +17,8 @@
 #include <vector>
 #include <map>
 #include <fstream>
-#include <GL/gl.h>
+#include <string>
+#include <GL/glew.h>
 
 #include "../utils/Mathlib.h"
 

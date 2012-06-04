@@ -123,7 +123,10 @@ bool Md5Model::loadModel( const string &filename )
 	// Compute the bounding box in bind-pose
 	computeBindPoseBoundingBox();
 
-	std::cout << "* Md5Model Mesh: " << filename << " loaded" << std::endl;
+	std::cout << "_________________________________________" << std::endl;
+	std::cout << "Model loaded" << std::endl;
+	std::cout << "	path: " << filename << std::endl;
+	std::cout << "_________________________________________" << std::endl << std::endl;
 	return true;
   }
   catch( std::ios_base::failure &err ) {

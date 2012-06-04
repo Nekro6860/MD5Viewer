@@ -41,7 +41,7 @@ protected slots:
 private:
     Ui::OpenGLMD5ViewerClass ui;
     RenderCanvas *displayer;
-    QString cheminModele;
+    QString md5iFilePath;
 	QString cheminAnimation;
 	QString cheminBumpMap;
 	QString cheminDiffuseMap;

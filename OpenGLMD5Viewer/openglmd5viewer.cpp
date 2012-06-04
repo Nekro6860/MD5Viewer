@@ -4,6 +4,7 @@
 #include "src/rendering/Md5SolidRenderer.h"
 #include "src/rendering/Md5WireframeRenderer.h"
 #include "src/rendering/Md5TexturedRenderer.h"
+#include "src/core/MD5/Md5iReader.h"
 
 
 namespace OpenGLMD5Viewer{
@@ -16,7 +17,7 @@ OpenGLMD5Viewer::OpenGLMD5Viewer(QWidget *parent)
 //	displayer->getRenderer()->skeletonDisplay = false;
 //	displayer->getRenderer()->displayType = 0;
 	displayer->resize(ui.glCanvasWidget->width(), ui.glCanvasWidget->height());
-	cheminModele = "";
+	md5iFilePath = "";
 	cheminAnimation = "";
 	cheminBumpMap = "";
 	cheminDiffuseMap = "";
@@ -30,7 +31,6 @@ OpenGLMD5Viewer::OpenGLMD5Viewer(QWidget *parent)
 	connect(ui.parcourirSpecularMap, SIGNAL(clicked()), this, SLOT(parcourirSpecularMap()));
 	connect(ui.showSqueleton, SIGNAL(clicked()), this, SLOT(showHideSqueleton()));
 	connect(ui.appliquerVue, SIGNAL(clicked()), this, SLOT(appliquerVue()));
-
 	//	connect(ui.playPause, SIGNAL(clicked()), this, SLOT(playPause()));
 	//	connect(ui.stop, SIGNAL(clicked()), this, SLOT(stop()));
 
@@ -53,21 +53,24 @@ RenderCanvas * OpenGLMD5Viewer::getDisplayer()
 
 void OpenGLMD5Viewer::parcourirModele()
 {
-	cheminModele = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
-	if(cheminModele != NULL)
+	md5iFilePath = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
+	if(md5iFilePath != NULL)
 	{
-		Md5Model *model = new Md5Model();
+		Md5Model *model;
 		Md5Object *object;
 
 		// Load mesh model
-		if( model->loadModel( cheminModele.toStdString() ) ) {
-			object = new Md5Object();
+		model = new Md5Model();
+		model = Md5iReader::loadFromMd5i(md5iFilePath.toStdString());
+//		model->loadModel(md5FilePath.toStdString());
+		if(model) {
+		object = new Md5Object();
 
-		  // Attach the model to object
-		  object->setMd5Model( model );
-		  object->setAnim( "NULL" );
-		}
+		// Attach the model to object
+		object->setMd5Model( model );
+		object->setAnim( "NULL" );
 
+		/////
 		Md5WireframeRenderer * renderer = new Md5WireframeRenderer();
 		renderer->init();
 		displayer->setRenderer(renderer);
@@ -75,7 +78,9 @@ void OpenGLMD5Viewer::parcourirModele()
 
 		_md5Object = object;
 
-		ui.modelLocation->setText(cheminModele);
+		ui.modelLocation->setText(md5iFilePath);
+		}
+
 	}
 }
 
@@ -95,12 +100,10 @@ void OpenGLMD5Viewer::parcourirDiffuseMap()
 {
 	cheminDiffuseMap = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
 
-	Md5Model *model = new Md5Model();
-
 	Md5WireframeRenderer * renderer = new Md5WireframeRenderer();
 	renderer->init();
-	renderer->setIdTexture(renderer->loadTexture(cheminDiffuseMap));
-//	renderer->setIdTexture(renderer->loadTexture(L"\models\fatGuy\textures\fatty_d.tga"));
+//	renderer->setIdTexture(renderer->loadTexture(cheminDiffuseMap));
+//	renderer->loadTexture("C:/Documents and Settings/Administrator/workspace/OpenGLMD5Viewer/OpenGLMD5Viewer/models/fatGuy/textures/fatty_d.bmp");
 	displayer->setRenderer(renderer);
 	renderer->setTarget(_md5Object);
 
@@ -115,7 +118,7 @@ void OpenGLMD5Viewer::parcourirSpecularMap()
 }
 
 QString OpenGLMD5Viewer::getCheminModele(){
-	return cheminModele;
+	return md5iFilePath;
 }
 
 QString OpenGLMD5Viewer::getCheminDiffuseMap(){

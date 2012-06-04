@@ -48,6 +48,16 @@ void Md5WireframeRenderer::init()
 	cameraPosition = this->camera->getPosition();
 	lightPosition = this->light->getPosition();
 	targetPosition = this->camera->getTargetPosition();
+
+	/* Do not use shaders */
+	GLenum code;
+	code = glewInit();
+	if(code != GLEW_OK)
+	{
+		std::cout << "Cannot init glew" << std::endl;
+		return;
+	}
+	glUseProgram(0);
 }
 
 void Md5WireframeRenderer::draw()
@@ -254,6 +264,9 @@ void Md5WireframeRenderer::drawModel(Md5Model * _model)
 
 void Md5WireframeRenderer::drawSkeleton(Md5Skeleton * _animatedSkeleton, const MathUtils::Matrix4x4f &modelView, bool labelJoints )
 {
+	/* Do not use any shaders */
+		glUseProgram(0);
+
 	unsigned int i;
 
 	  // Draw each joint
@@ -349,10 +362,12 @@ void Md5WireframeRenderer::renderMd5Object()
 			  glFrontFace( GL_CW );
 
 			  if( target->getRenderFlags() & target->kDrawModel ) {
+				glEnable(GL_DEPTH_TEST);
 				drawModel(target->getModelPtr());
 			  }
 
 			  if( skeletonDisplay ) {
+				glDisable(GL_DEPTH_TEST);
 				glDisable( GL_TEXTURE_2D );
 				glDisable( GL_LIGHTING );
 

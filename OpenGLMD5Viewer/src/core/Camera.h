@@ -18,8 +18,7 @@ public:
 	virtual ~Camera();
 	QVector3D getPosition();
 	QVector3D getTargetPosition();
-	void updatePositionx(float anglex);
-	void updatePositiony(float angley);
+	void updateAngles(int diffX, int diffY);
 	void updateTargetPosition(float diffy);
 	void zoomIn();
 	void zoomOut();
@@ -29,6 +28,10 @@ private:
 	QVector3D targetPosition;
 	float nearest;
 	float furthest;
+	float distance;
+	float angleX;
+	float angleY;
+	void updatePosition();
 };
 
 } /* namespace OpenGLMD5Viewer */

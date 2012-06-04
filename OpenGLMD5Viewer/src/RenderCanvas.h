@@ -8,10 +8,13 @@
 #ifndef RENDERCANVAS_H_
 #define RENDERCANVAS_H_
 
-#include <QGLWidget>
 
-#include "rendering/Renderer.h"
 #include "RenderCanvasAbs.h"
+#include "rendering/Renderer.h"
+
+
+#include <GL/glew.h>
+#include <QGLWidget>
 
 namespace OpenGLMD5Viewer {
 

@@ -1,3 +1,6 @@
+#ifndef MD5MODEL_H_
+#define MD5MODEL_H_
+
 #include <iostream>
 
 #include "common.h"
@@ -109,3 +112,5 @@ class Md5Model
 };
 
 } // namespace OpenGLMD5Viewer
+
+#endif /* MD5MODEL_H_ */

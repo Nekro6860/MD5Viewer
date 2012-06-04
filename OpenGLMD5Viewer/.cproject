@@ -23,6 +23,7 @@
 		<buildTargets>
 			<target name="Qt Release Build" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 				<buildCommand>mingw32-make</buildCommand>
+				<buildArguments/>
 				<buildTarget>release</buildTarget>
 				<stopOnError>false</stopOnError>
 				<useDefaultCommand>false</useDefaultCommand>
@@ -30,6 +31,7 @@
 			</target>
 			<target name="Qt Debug Build" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 				<buildCommand>mingw32-make</buildCommand>
+				<buildArguments/>
 				<buildTarget>debug</buildTarget>
 				<stopOnError>false</stopOnError>
 				<useDefaultCommand>false</useDefaultCommand>
@@ -70,6 +72,7 @@
 		<pathentry include="C:/devtools/MinGW/lib/gcc/mingw32/4.5.2/include/c++/backward" kind="inc" path="" system="true"/>
 		<pathentry include="C:/devtools/MinGW/lib/gcc/mingw32/4.5.2/include-fixed" kind="inc" path="" system="true"/>
 		<pathentry include="C:/devtools/MinGW/lib/gcc/mingw32/4.5.2/include/c++/mingw32" kind="inc" path="" system="true"/>
+		<pathentry include="C:/utils/Devil/include/IL" kind="inc" path="" system="true"/>
 		<pathentry kind="src" path=""/>
 		<pathentry kind="out" path=""/>
 	</storageModule>
