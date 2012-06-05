@@ -284,10 +284,14 @@ void Md5TexturedRenderer::init()
 	/* init OpenGL light */
 //	lightPosition = this->light->getPosition();
 //	GLfloat lightpos[] = { lightPosition.x(), lightPosition.y(), lightPosition.z(), 1.0f };
-	//GLfloat ambiant_color[] = { 1.0, 0.8, 0.0, 1.0 };
+	GLfloat ambient_color[] = { 0.5, 0.5, 0.5, 1.0 };
+	GLfloat diffuse_color[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat specular_color[] = { 1.0, 1.0, 1.0, 1.0 };
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-//	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_color);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_color);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specular_color);
 
 	// initialisations relatives aux textures
 	glEnable(GL_BLEND);
@@ -295,9 +299,9 @@ void Md5TexturedRenderer::init()
 
 	this->camera = new Camera();
 	this->light = new Light();
-	cameraPosition = this->camera->getPosition();
-	lightPosition = this->light->getPosition();
-	targetPosition = this->camera->getTargetPosition();
+//	cameraPosition = this->camera->getPosition();
+//	lightPosition = this->light->getPosition();
+//	targetPosition = this->camera->getTargetPosition();
 
 	glEnable(GL_TEXTURE_2D);
 
@@ -333,25 +337,24 @@ void Md5TexturedRenderer::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
+	QVector3D cameraPosition = this->camera->getPosition();
+	QVector3D targetPosition = this->camera->getTargetPosition();
+
 	setCamera(cameraPosition.x(), cameraPosition.y(), cameraPosition.z(),
 					targetPosition.x(), targetPosition.y(), targetPosition.z());
 	glMatrixMode(GL_MODELVIEW);
 
-	renderMd5Object();
-
-	GLfloat lightpos[] = { lightPosition.x(), lightPosition.y(), lightPosition.z(), 1.0f };
-//	std::cout << "lightPosition :" << std::endl;
-//	std::cout << "x : " << lightPosition.x() << std::endl;
-//	std::cout << "y : " << lightPosition.y() << std::endl;
-//	std::cout << "z : " << lightPosition.z() << std::endl;
+	GLfloat lightpos[] = { light->getPosition().x(), light->getPosition().y(), light->getPosition().z(), 1.0f};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+
+	renderMd5Object();
 }
 
 void Md5TexturedRenderer::timeOut()
 {
-	lightPosition = this->light->getPosition();
-	cameraPosition = this->camera->getPosition();
-	targetPosition = this->camera->getTargetPosition();
+//	lightPosition = this->light->getPosition();
+//	cameraPosition = this->camera->getPosition();
+//	targetPosition = this->camera->getTargetPosition();
 }
 
 void Md5TexturedRenderer::close()
@@ -468,6 +471,7 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 
 	GLuint idColorMap = _mesh->getDecalMap();
 	GLuint idSpecularMap = _mesh->getSpecularMap();
+	GLuint idNormalMap = _mesh->getNormalMap();
 
 	glActiveTexture(GL_TEXTURE0);
 	if(idColorMap) {
@@ -488,17 +492,39 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 	{
 		bindGenericTexture();
 	}
+	glActiveTexture(GL_TEXTURE2);
+	if(idNormalMap)
+	{
+
+		glBindTexture(GL_TEXTURE_2D, idNormalMap); // the normal map of the mesh becomes the actual openGl texture
+	}
+	else
+	{
+		bindGenericTexture();
+	}
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	/* Exchange information with the shader */
 //	std::cout << "in rendering function, idTexture = " << *idTexture << std::endl;
-	int shaderColorMapId = glGetUniformLocation(basicTextureShader, "colorMap"); // Get the id of the colorMap in the shader
+	int shaderEyePosId = glGetUniformLocation(lightedTextureShader, "eyePos"); // Get the id of the colorMap in the shader
+	if(shaderEyePosId != -1)
+	{
+		glUniform3f(shaderEyePosId, camera->getPosition().x(), camera->getPosition().y(), camera->getPosition().z());
+	}
+
+	int shaderColorMapId = glGetUniformLocation(lightedTextureShader, "colorMap"); // Get the id of the colorMap in the shader
 	if(shaderColorMapId != -1)
 	{
-		glUniform1i(shaderColorMapId, 0/**idTexture*/); // Send the id of the color texture to the corresponding uniform variable in the shader
+		glUniform1i(shaderColorMapId, 0); // Send the id of the color texture to the corresponding uniform variable in the shader
 	}
+
+	int shaderSpecularMapId = glGetUniformLocation(lightedTextureShader, "specularMap"); // Get the id of the colorMap in the shader
+		if(shaderSpecularMapId != -1)
+		{
+			glUniform1i(shaderSpecularMapId, 1); // Send the id of the color texture to the corresponding uniform variable in the shader
+		}
 
 
 	for(vector<Md5Triangle_t *>::iterator actualTriangle = _mesh->getTriangleArray().begin(); actualTriangle != _mesh->getTriangleArray().end(); actualTriangle++)
@@ -681,10 +707,11 @@ void Md5TexturedRenderer::renderMd5Object()
 			  }
 
 			  glDisable(GL_LIGHTING);
+			  glDisable(GL_DEPTH_TEST);
 			  glColor3f(1.0f, 0.5f, 0.0f);
 			  glPointSize(40.0f);
 			  glBegin(GL_POINT);
-			  glVertex3f(lightPosition.x(), lightPosition.y(), lightPosition.z());
+			  glVertex3f(light->getPosition().x(), light->getPosition().y(), light->getPosition().z());
 			  glEnd();
 			  glEnable(GL_LIGHTING);
 

@@ -45,9 +45,9 @@ void Md5WireframeRenderer::init()
 
 	this->camera = new Camera();
 	this->light = new Light();
-	cameraPosition = this->camera->getPosition();
-	lightPosition = this->light->getPosition();
-	targetPosition = this->camera->getTargetPosition();
+//	cameraPosition = this->camera->getPosition();
+//	lightPosition = this->light->getPosition();
+//	targetPosition = this->camera->getTargetPosition();
 
 	/* Do not use shaders */
 	GLenum code;
@@ -65,6 +65,9 @@ void Md5WireframeRenderer::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
+	QVector3D cameraPosition = this->camera->getPosition();
+	QVector3D targetPosition = this->camera->getTargetPosition();
+
 	setCamera(cameraPosition.x(), cameraPosition.y(), cameraPosition.z(),
 					targetPosition.x(), targetPosition.y(), targetPosition.z());
 
@@ -72,15 +75,15 @@ void Md5WireframeRenderer::draw()
 
 	renderMd5Object();
 
-	GLfloat lightpos[] = { lightPosition.x(), lightPosition.y(), lightPosition.z(), 1.0f };
+	GLfloat lightpos[] = { light->getPosition().x(), light->getPosition().y(), light->getPosition().z(), 1.0f };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 }
 
 void Md5WireframeRenderer::timeOut()
 {
-	lightPosition = this->light->getPosition();
-	cameraPosition = this->camera->getPosition();
-	targetPosition = this->camera->getTargetPosition();
+//	lightPosition = this->light->getPosition();
+//	cameraPosition = this->camera->getPosition();
+//	targetPosition = this->camera->getTargetPosition();
 }
 
 void Md5WireframeRenderer::close()

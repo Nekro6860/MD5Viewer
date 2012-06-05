@@ -1,0 +1,19 @@
+model zfat.md5mesh
+
+mesh fatty colorMap textures/fatty_d.tga
+mesh fatty specMap textures/fatty_s.tga
+mesh fatty normalMap textures/fatty_local.tga
+mesh fatty heightMap textures/fatty_h.tga
+
+mesh monkeywrench colorMap textures/monkeywrench.tga
+mesh monkeywrench normalMap textures/monkeywrench_local.tga
+
+mesh fattydamage colorMap textures/fatty_d.tga
+mesh fattydamage specMap textures/fatty_s.tga
+mesh fattydamage normalMap textures/fatty_local.tga
+mesh fattydamage heightMap textures/fatty_h.tga
+
+mesh skeleton01 colorMap textures/skeleton01_d.tga
+mesh skeleton01 specMap textures/skeleton01_s.tga
+mesh skeleton01 normalMap textures/skeleton01_local.tga
+mesh skeleton01 heightMap textures/skeleton01_h.tga

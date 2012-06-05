@@ -16,11 +16,16 @@ class Light {
 public:
 	Light();
 	virtual ~Light();
-	QVector3D getPosition();
+	QVector3D getPosition(){return position;}
+	QVector3D getDiffuse(){return diffuse;}
+	QVector3D getSpecular(){return specular;}
+
 	void updatePosition(float diffx, float diffy);
 
 private:
 	QVector3D position;
+	QVector3D diffuse;
+	QVector3D specular;
 };
 
 } /* namespace OpenGLMD5Viewer */

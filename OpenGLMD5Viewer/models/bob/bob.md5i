@@ -1,0 +1,26 @@
+model boblampclean.md5mesh
+
+mesh f:\md5viewer\cubemapdemo_v3\CubeMapDemo_v3\data\bob\guard1_body.tga colorMap guard1_body.tga
+
+mesh f:\md5viewer\cubemapdemo_v3\CubeMapDemo_v3\data\bob\guard1_face.tga colorMap guard1_face.tga
+
+mesh f:\md5viewer\cubemapdemo_v3\CubeMapDemo_v3\data\bob\guard1_helmet.tga colorMap guard1_helmet.tga
+
+mesh f:\md5viewer\cubemapdemo_v3\CubeMapDemo_v3\data\bob\iron_grill.tga colorMap iron_grill.tga
+
+mesh f:\md5viewer\cubemapdemo_v3\CubeMapDemo_v3\data\bob\iron_grill.tga colorMap round_grill.tga
+
+mesh f:\md5viewer\cubemapdemo_v3\CubeMapDemo_v3\data\bob\guard1_body.tga colorMap guard1_body.tga
+
+mesh monkeywrench colorMap textures/monkeywrench.tga
+mesh monkeywrench normalMap textures/monkeywrench_local.tga
+
+mesh fattydamage colorMap textures/fatty_d.tga
+mesh fattydamage specMap textures/fatty_s.tga
+mesh fattydamage normalMap textures/fatty_local.tga
+mesh fattydamage heightMap textures/fatty_h.tga
+
+mesh skeleton01 colorMap textures/skeleton01_d.tga
+mesh skeleton01 specMap textures/skeleton01_s.tga
+mesh skeleton01 normalMap textures/skeleton01_local.tga
+mesh skeleton01 heightMap textures/skeleton01_h.tga

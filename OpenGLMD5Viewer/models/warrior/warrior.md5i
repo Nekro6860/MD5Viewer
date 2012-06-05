@@ -1,0 +1,6 @@
+model player.md5mesh
+
+mesh playerhead colorMap textures/playerhead.tga
+mesh body colorMap textures/body.tga
+mesh body2 colorMap textures/body.tga
+mesh arm2 colorMap textures/arm2.tga

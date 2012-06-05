@@ -15,16 +15,13 @@ namespace OpenGLMD5Viewer {
 
 Light::Light() {
 	// TODO Auto-generated constructor stub
-	position = QVector3D(2, 5, 0);
+	position = QVector3D(5, 5, 0);
+	diffuse = QVector3D(1.0, 1.0, 1.0);
+	specular = QVector3D(1.0, 1.0, 1.0);
 }
 
 Light::~Light() {
 	// TODO Auto-generated destructor stub
-}
-
-QVector3D Light::getPosition()
-{
-	return position;
 }
 
 void Light::updatePosition(float diffx, float diffy)
