@@ -108,6 +108,11 @@ vec3_t * getFinalNormalArray()
 	return _normalArray;
 }
 
+vec3_t * getFinalTangentArray()
+{
+	return _tangentArray;
+}
+
   void printTriangles();
 
  private:

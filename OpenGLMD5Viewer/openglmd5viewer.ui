@@ -22,10 +22,10 @@
    <widget class="QWidget" name="glCanvasWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>50</y>
-      <width>421</width>
-      <height>501</height>
+      <x>310</x>
+      <y>10</y>
+      <width>471</width>
+      <height>571</height>
      </rect>
     </property>
     <property name="font">
@@ -34,11 +34,11 @@
      </font>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="display_label">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>20</y>
+      <x>10</x>
+      <y>180</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -49,7 +49,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Affichage :</string>
+     <string>Display :</string>
     </property>
     <property name="openExternalLinks">
      <bool>false</bool>
@@ -58,8 +58,8 @@
    <widget class="QComboBox" name="view">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>20</y>
+      <x>80</x>
+      <y>180</y>
       <width>141</width>
       <height>21</height>
      </rect>
@@ -91,8 +91,8 @@
    <widget class="QCheckBox" name="showSqueleton">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>18</y>
+      <x>10</x>
+      <y>340</y>
       <width>121</width>
       <height>23</height>
      </rect>
@@ -101,14 +101,14 @@
      <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
     </property>
     <property name="text">
-     <string>Afficher squelette</string>
+     <string>display skeleton</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="model_label">
     <property name="geometry">
      <rect>
-      <x>58</x>
-      <y>210</y>
+      <x>10</x>
+      <y>60</y>
       <width>61</width>
       <height>16</height>
      </rect>
@@ -119,17 +119,17 @@
      </font>
     </property>
     <property name="text">
-     <string>Modèle :</string>
+     <string>Model :</string>
     </property>
     <property name="openExternalLinks">
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="animation_label">
     <property name="geometry">
      <rect>
-      <x>42</x>
-      <y>240</y>
+      <x>10</x>
+      <y>100</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -149,9 +149,9 @@
    <widget class="QLineEdit" name="modelLocation">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>210</y>
-      <width>201</width>
+      <x>80</x>
+      <y>60</y>
+      <width>181</width>
       <height>20</height>
      </rect>
     </property>
@@ -167,9 +167,9 @@
    <widget class="QLineEdit" name="animationLocation">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>240</y>
-      <width>201</width>
+      <x>80</x>
+      <y>100</y>
+      <width>181</width>
       <height>20</height>
      </rect>
     </property>
@@ -182,110 +182,11 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLineEdit" name="HspecularMapLocation">
     <property name="geometry">
      <rect>
-      <x>31</x>
-      <y>270</y>
-      <width>81</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Diffuse map :</string>
-    </property>
-    <property name="openExternalLinks">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>38</x>
-      <y>300</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Bump map :</string>
-    </property>
-    <property name="openExternalLinks">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>330</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Specular map :</string>
-    </property>
-    <property name="openExternalLinks">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="diffuseMapLocation">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>270</y>
-      <width>201</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="bumpMapLocation">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>300</y>
-      <width>201</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="specularMapLocation">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>330</y>
+      <x>10</x>
+      <y>540</y>
       <width>201</width>
       <height>20</height>
      </rect>
@@ -302,8 +203,8 @@
    <widget class="QPushButton" name="parcourirBumpMap">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>300</y>
+      <x>240</x>
+      <y>520</y>
       <width>21</width>
       <height>21</height>
      </rect>
@@ -312,11 +213,11 @@
      <string>...</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="parcourirDiffuseMap">
+   <widget class="QPushButton" name="parcourirDiffuseMapH">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>270</y>
+      <x>240</x>
+      <y>490</y>
       <width>21</width>
       <height>21</height>
      </rect>
@@ -328,8 +229,8 @@
    <widget class="QPushButton" name="parcourirAnimation">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>240</y>
+      <x>270</x>
+      <y>100</y>
       <width>21</width>
       <height>21</height>
      </rect>
@@ -341,8 +242,8 @@
    <widget class="QPushButton" name="parcourirModele">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>210</y>
+      <x>270</x>
+      <y>60</y>
       <width>21</width>
       <height>21</height>
      </rect>
@@ -354,8 +255,8 @@
    <widget class="QPushButton" name="parcourirSpecularMap">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>330</y>
+      <x>240</x>
+      <y>550</y>
       <width>21</width>
       <height>21</height>
      </rect>
@@ -367,8 +268,8 @@
    <widget class="QPushButton" name="appliquerVue">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>19</y>
+      <x>230</x>
+      <y>180</y>
       <width>71</width>
       <height>23</height>
      </rect>
@@ -378,6 +279,55 @@
     </property>
     <property name="text">
      <string>Appliquer</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Options_label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>320</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Options :</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="useSpecMap_checkBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>380</y>
+      <width>131</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>use specular map</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="useNormalMap_checkBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>400</y>
+      <width>161</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>use normal map</string>
     </property>
    </widget>
   </widget>

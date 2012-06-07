@@ -31,12 +31,17 @@ public:
 	void setIdTexture(GLuint * id);
 	GLuint * getIdTexture();
 	static GLuint * loadTexture(string fileName);
+	void setUseSpecularMap(bool v){useSpecularMap = v;}
+	void setUseNormalMap(bool v){useNormalMap = v;}
 
 protected:
 	void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ);
 	QVector3D cameraPosition;
 	QVector3D lightPosition;
 	QVector3D targetPosition;
+
+	bool useSpecularMap;
+	bool useNormalMap;
 };
 
 } /* namespace OpenGLMD5Viewer */

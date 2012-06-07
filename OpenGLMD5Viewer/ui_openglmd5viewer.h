@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'openglmd5viewer.ui'
 **
-** Created: Mon 4. Jun 12:09:17 2012
+** Created: Thu 7. Jun 21:45:16 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -39,25 +39,23 @@ public:
     QAction *actionStop;
     QWidget *centralwidget;
     QWidget *glCanvasWidget;
-    QLabel *label;
+    QLabel *display_label;
     QComboBox *view;
     QCheckBox *showSqueleton;
-    QLabel *label_2;
-    QLabel *label_3;
+    QLabel *model_label;
+    QLabel *animation_label;
     QLineEdit *modelLocation;
     QLineEdit *animationLocation;
-    QLabel *label_4;
-    QLabel *label_5;
-    QLabel *label_6;
-    QLineEdit *diffuseMapLocation;
-    QLineEdit *bumpMapLocation;
-    QLineEdit *specularMapLocation;
+    QLineEdit *HspecularMapLocation;
     QPushButton *parcourirBumpMap;
-    QPushButton *parcourirDiffuseMap;
+    QPushButton *parcourirDiffuseMapH;
     QPushButton *parcourirAnimation;
     QPushButton *parcourirModele;
     QPushButton *parcourirSpecularMap;
     QPushButton *appliquerVue;
+    QLabel *Options_label;
+    QCheckBox *useSpecMap_checkBox;
+    QCheckBox *useNormalMap_checkBox;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *OpenGLMD5ViewerClass)
@@ -88,92 +86,78 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         glCanvasWidget = new QWidget(centralwidget);
         glCanvasWidget->setObjectName(QString::fromUtf8("glCanvasWidget"));
-        glCanvasWidget->setGeometry(QRect(360, 50, 421, 501));
+        glCanvasWidget->setGeometry(QRect(310, 10, 471, 571));
         QFont font1;
         font1.setPointSize(10);
         glCanvasWidget->setFont(font1);
-        label = new QLabel(centralwidget);
-        label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(360, 20, 71, 16));
-        label->setFont(font1);
-        label->setOpenExternalLinks(false);
+        display_label = new QLabel(centralwidget);
+        display_label->setObjectName(QString::fromUtf8("display_label"));
+        display_label->setGeometry(QRect(10, 180, 71, 16));
+        display_label->setFont(font1);
+        display_label->setOpenExternalLinks(false);
         view = new QComboBox(centralwidget);
         view->setObjectName(QString::fromUtf8("view"));
-        view->setGeometry(QRect(430, 20, 141, 21));
+        view->setGeometry(QRect(80, 180, 141, 21));
         view->setStyleSheet(QString::fromUtf8("font: 10pt \"MS Shell Dlg 2\";"));
         showSqueleton = new QCheckBox(centralwidget);
         showSqueleton->setObjectName(QString::fromUtf8("showSqueleton"));
-        showSqueleton->setGeometry(QRect(660, 18, 121, 23));
+        showSqueleton->setGeometry(QRect(10, 340, 121, 23));
         showSqueleton->setStyleSheet(QString::fromUtf8("font: 10pt \"MS Shell Dlg 2\";"));
-        label_2 = new QLabel(centralwidget);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setGeometry(QRect(58, 210, 61, 16));
-        label_2->setFont(font1);
-        label_2->setOpenExternalLinks(false);
-        label_3 = new QLabel(centralwidget);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
-        label_3->setGeometry(QRect(42, 240, 71, 16));
-        label_3->setFont(font1);
-        label_3->setOpenExternalLinks(false);
+        model_label = new QLabel(centralwidget);
+        model_label->setObjectName(QString::fromUtf8("model_label"));
+        model_label->setGeometry(QRect(10, 60, 61, 16));
+        model_label->setFont(font1);
+        model_label->setOpenExternalLinks(false);
+        animation_label = new QLabel(centralwidget);
+        animation_label->setObjectName(QString::fromUtf8("animation_label"));
+        animation_label->setGeometry(QRect(10, 100, 71, 16));
+        animation_label->setFont(font1);
+        animation_label->setOpenExternalLinks(false);
         modelLocation = new QLineEdit(centralwidget);
         modelLocation->setObjectName(QString::fromUtf8("modelLocation"));
-        modelLocation->setGeometry(QRect(120, 210, 201, 20));
+        modelLocation->setGeometry(QRect(80, 60, 181, 20));
         modelLocation->setFont(font1);
         modelLocation->setReadOnly(true);
         animationLocation = new QLineEdit(centralwidget);
         animationLocation->setObjectName(QString::fromUtf8("animationLocation"));
-        animationLocation->setGeometry(QRect(120, 240, 201, 20));
+        animationLocation->setGeometry(QRect(80, 100, 181, 20));
         animationLocation->setFont(font1);
         animationLocation->setReadOnly(true);
-        label_4 = new QLabel(centralwidget);
-        label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setGeometry(QRect(31, 270, 81, 16));
-        label_4->setFont(font1);
-        label_4->setOpenExternalLinks(false);
-        label_5 = new QLabel(centralwidget);
-        label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setGeometry(QRect(38, 300, 71, 16));
-        label_5->setFont(font1);
-        label_5->setOpenExternalLinks(false);
-        label_6 = new QLabel(centralwidget);
-        label_6->setObjectName(QString::fromUtf8("label_6"));
-        label_6->setGeometry(QRect(20, 330, 91, 16));
-        label_6->setFont(font1);
-        label_6->setOpenExternalLinks(false);
-        diffuseMapLocation = new QLineEdit(centralwidget);
-        diffuseMapLocation->setObjectName(QString::fromUtf8("diffuseMapLocation"));
-        diffuseMapLocation->setGeometry(QRect(120, 270, 201, 20));
-        diffuseMapLocation->setFont(font1);
-        diffuseMapLocation->setReadOnly(true);
-        bumpMapLocation = new QLineEdit(centralwidget);
-        bumpMapLocation->setObjectName(QString::fromUtf8("bumpMapLocation"));
-        bumpMapLocation->setGeometry(QRect(120, 300, 201, 20));
-        bumpMapLocation->setFont(font1);
-        bumpMapLocation->setReadOnly(true);
-        specularMapLocation = new QLineEdit(centralwidget);
-        specularMapLocation->setObjectName(QString::fromUtf8("specularMapLocation"));
-        specularMapLocation->setGeometry(QRect(120, 330, 201, 20));
-        specularMapLocation->setFont(font1);
-        specularMapLocation->setReadOnly(true);
+        HspecularMapLocation = new QLineEdit(centralwidget);
+        HspecularMapLocation->setObjectName(QString::fromUtf8("HspecularMapLocation"));
+        HspecularMapLocation->setGeometry(QRect(10, 540, 201, 20));
+        HspecularMapLocation->setFont(font1);
+        HspecularMapLocation->setReadOnly(true);
         parcourirBumpMap = new QPushButton(centralwidget);
         parcourirBumpMap->setObjectName(QString::fromUtf8("parcourirBumpMap"));
-        parcourirBumpMap->setGeometry(QRect(330, 300, 21, 21));
-        parcourirDiffuseMap = new QPushButton(centralwidget);
-        parcourirDiffuseMap->setObjectName(QString::fromUtf8("parcourirDiffuseMap"));
-        parcourirDiffuseMap->setGeometry(QRect(330, 270, 21, 21));
+        parcourirBumpMap->setGeometry(QRect(240, 520, 21, 21));
+        parcourirDiffuseMapH = new QPushButton(centralwidget);
+        parcourirDiffuseMapH->setObjectName(QString::fromUtf8("parcourirDiffuseMapH"));
+        parcourirDiffuseMapH->setGeometry(QRect(240, 490, 21, 21));
         parcourirAnimation = new QPushButton(centralwidget);
         parcourirAnimation->setObjectName(QString::fromUtf8("parcourirAnimation"));
-        parcourirAnimation->setGeometry(QRect(330, 240, 21, 21));
+        parcourirAnimation->setGeometry(QRect(270, 100, 21, 21));
         parcourirModele = new QPushButton(centralwidget);
         parcourirModele->setObjectName(QString::fromUtf8("parcourirModele"));
-        parcourirModele->setGeometry(QRect(330, 210, 21, 21));
+        parcourirModele->setGeometry(QRect(270, 60, 21, 21));
         parcourirSpecularMap = new QPushButton(centralwidget);
         parcourirSpecularMap->setObjectName(QString::fromUtf8("parcourirSpecularMap"));
-        parcourirSpecularMap->setGeometry(QRect(330, 330, 21, 21));
+        parcourirSpecularMap->setGeometry(QRect(240, 550, 21, 21));
         appliquerVue = new QPushButton(centralwidget);
         appliquerVue->setObjectName(QString::fromUtf8("appliquerVue"));
-        appliquerVue->setGeometry(QRect(580, 19, 71, 23));
+        appliquerVue->setGeometry(QRect(230, 180, 71, 23));
         appliquerVue->setStyleSheet(QString::fromUtf8("font: 10pt \"MS Shell Dlg 2\";"));
+        Options_label = new QLabel(centralwidget);
+        Options_label->setObjectName(QString::fromUtf8("Options_label"));
+        Options_label->setGeometry(QRect(10, 320, 81, 16));
+        useSpecMap_checkBox = new QCheckBox(centralwidget);
+        useSpecMap_checkBox->setObjectName(QString::fromUtf8("useSpecMap_checkBox"));
+        useSpecMap_checkBox->setGeometry(QRect(10, 380, 131, 17));
+        useSpecMap_checkBox->setFont(font1);
+        useNormalMap_checkBox = new QCheckBox(centralwidget);
+        useNormalMap_checkBox->setObjectName(QString::fromUtf8("useNormalMap_checkBox"));
+        useNormalMap_checkBox->setGeometry(QRect(10, 400, 161, 17));
+        useNormalMap_checkBox->setFont(font1);
         OpenGLMD5ViewerClass->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(OpenGLMD5ViewerClass);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -195,7 +179,7 @@ public:
         actionQuitter->setText(QApplication::translate("OpenGLMD5ViewerClass", "quitter", 0, QApplication::UnicodeUTF8));
         actionPlay_pause->setText(QApplication::translate("OpenGLMD5ViewerClass", "play/pause", 0, QApplication::UnicodeUTF8));
         actionStop->setText(QApplication::translate("OpenGLMD5ViewerClass", "stop", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("OpenGLMD5ViewerClass", "Affichage :", 0, QApplication::UnicodeUTF8));
+        display_label->setText(QApplication::translate("OpenGLMD5ViewerClass", "Display :", 0, QApplication::UnicodeUTF8));
         view->clear();
         view->insertItems(0, QStringList()
          << QApplication::translate("OpenGLMD5ViewerClass", "Fil de fer", 0, QApplication::UnicodeUTF8)
@@ -203,18 +187,18 @@ public:
          << QApplication::translate("OpenGLMD5ViewerClass", "Color\303\251", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("OpenGLMD5ViewerClass", "Color\303\251 et d\303\251taill\303\251", 0, QApplication::UnicodeUTF8)
         );
-        showSqueleton->setText(QApplication::translate("OpenGLMD5ViewerClass", "Afficher squelette", 0, QApplication::UnicodeUTF8));
-        label_2->setText(QApplication::translate("OpenGLMD5ViewerClass", "Mod\303\250le :", 0, QApplication::UnicodeUTF8));
-        label_3->setText(QApplication::translate("OpenGLMD5ViewerClass", "Animation :", 0, QApplication::UnicodeUTF8));
-        label_4->setText(QApplication::translate("OpenGLMD5ViewerClass", "Diffuse map :", 0, QApplication::UnicodeUTF8));
-        label_5->setText(QApplication::translate("OpenGLMD5ViewerClass", "Bump map :", 0, QApplication::UnicodeUTF8));
-        label_6->setText(QApplication::translate("OpenGLMD5ViewerClass", "Specular map :", 0, QApplication::UnicodeUTF8));
+        showSqueleton->setText(QApplication::translate("OpenGLMD5ViewerClass", "display skeleton", 0, QApplication::UnicodeUTF8));
+        model_label->setText(QApplication::translate("OpenGLMD5ViewerClass", "Model :", 0, QApplication::UnicodeUTF8));
+        animation_label->setText(QApplication::translate("OpenGLMD5ViewerClass", "Animation :", 0, QApplication::UnicodeUTF8));
         parcourirBumpMap->setText(QApplication::translate("OpenGLMD5ViewerClass", "...", 0, QApplication::UnicodeUTF8));
-        parcourirDiffuseMap->setText(QApplication::translate("OpenGLMD5ViewerClass", "...", 0, QApplication::UnicodeUTF8));
+        parcourirDiffuseMapH->setText(QApplication::translate("OpenGLMD5ViewerClass", "...", 0, QApplication::UnicodeUTF8));
         parcourirAnimation->setText(QApplication::translate("OpenGLMD5ViewerClass", "...", 0, QApplication::UnicodeUTF8));
         parcourirModele->setText(QApplication::translate("OpenGLMD5ViewerClass", "...", 0, QApplication::UnicodeUTF8));
         parcourirSpecularMap->setText(QApplication::translate("OpenGLMD5ViewerClass", "...", 0, QApplication::UnicodeUTF8));
         appliquerVue->setText(QApplication::translate("OpenGLMD5ViewerClass", "Appliquer", 0, QApplication::UnicodeUTF8));
+        Options_label->setText(QApplication::translate("OpenGLMD5ViewerClass", "Options :", 0, QApplication::UnicodeUTF8));
+        useSpecMap_checkBox->setText(QApplication::translate("OpenGLMD5ViewerClass", "use specular map", 0, QApplication::UnicodeUTF8));
+        useNormalMap_checkBox->setText(QApplication::translate("OpenGLMD5ViewerClass", "use normal map", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

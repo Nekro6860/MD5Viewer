@@ -21,9 +21,6 @@ public:
     void setDiplayer(RenderCanvas * d);
     QString getCheminModele();
     QString getCheminAnimation();
-    QString getCheminDiffuseMap();
-    QString getCheminSpecularMap();
-    QString getCheminBumpMap();
     QString getSelectedView();
 
     Md5Object * _md5Object;
@@ -32,20 +29,16 @@ protected slots:
 //	virtual void stop();
 	virtual void parcourirModele();
 	virtual void parcourirAnimation();
-	virtual void parcourirBumpMap();
-	virtual void parcourirDiffuseMap();
-	virtual void parcourirSpecularMap();
 	virtual void showHideSqueleton();
 	virtual void appliquerVue();
+	virtual void useSpecularMap();
+	virtual void useNormalMap();
 
 private:
     Ui::OpenGLMD5ViewerClass ui;
     RenderCanvas *displayer;
     QString md5iFilePath;
 	QString cheminAnimation;
-	QString cheminBumpMap;
-	QString cheminDiffuseMap;
-	QString cheminSpecularMap;
 	QLabel * currentView;
 	bool showSqueleton;
 };

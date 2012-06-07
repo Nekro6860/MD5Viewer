@@ -19,18 +19,14 @@ OpenGLMD5Viewer::OpenGLMD5Viewer(QWidget *parent)
 	displayer->resize(ui.glCanvasWidget->width(), ui.glCanvasWidget->height());
 	md5iFilePath = "";
 	cheminAnimation = "";
-	cheminBumpMap = "";
-	cheminDiffuseMap = "";
-	cheminSpecularMap = "";
 	showSqueleton = false;
 	currentView = new QLabel("");
 	connect(ui.parcourirModele, SIGNAL(clicked()), this, SLOT(parcourirModele()));
 	connect(ui.parcourirAnimation, SIGNAL(clicked()), this, SLOT(parcourirAnimation()));
-	connect(ui.parcourirBumpMap, SIGNAL(clicked()), this, SLOT(parcourirBumpMap()));
-	connect(ui.parcourirDiffuseMap, SIGNAL(clicked()), this, SLOT(parcourirDiffuseMap()));
-	connect(ui.parcourirSpecularMap, SIGNAL(clicked()), this, SLOT(parcourirSpecularMap()));
 	connect(ui.showSqueleton, SIGNAL(clicked()), this, SLOT(showHideSqueleton()));
 	connect(ui.appliquerVue, SIGNAL(clicked()), this, SLOT(appliquerVue()));
+	connect(ui.useSpecMap_checkBox, SIGNAL(clicked()), this, SLOT(useSpecularMap()));
+	connect(ui.useNormalMap_checkBox, SIGNAL(clicked()), this, SLOT(useNormalMap()));
 	//	connect(ui.playPause, SIGNAL(clicked()), this, SLOT(playPause()));
 	//	connect(ui.stop, SIGNAL(clicked()), this, SLOT(stop()));
 
@@ -90,51 +86,12 @@ void OpenGLMD5Viewer::parcourirAnimation()
 	ui.animationLocation->setText(cheminAnimation);
 }
 
-void OpenGLMD5Viewer::parcourirBumpMap()
-{
-	cheminBumpMap = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
-	ui.bumpMapLocation->setText(cheminBumpMap);
-}
-
-void OpenGLMD5Viewer::parcourirDiffuseMap()
-{
-	cheminDiffuseMap = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
-
-	Md5WireframeRenderer * renderer = new Md5WireframeRenderer();
-	renderer->init();
-//	renderer->setIdTexture(renderer->loadTexture(cheminDiffuseMap));
-//	renderer->loadTexture("C:/Documents and Settings/Administrator/workspace/OpenGLMD5Viewer/OpenGLMD5Viewer/models/fatGuy/textures/fatty_d.bmp");
-	displayer->setRenderer(renderer);
-	renderer->setTarget(_md5Object);
-
-	ui.diffuseMapLocation->setText(cheminDiffuseMap);
-
-}
-
-void OpenGLMD5Viewer::parcourirSpecularMap()
-{
-	cheminSpecularMap = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
-	ui.specularMapLocation->setText(cheminSpecularMap);
-}
-
 QString OpenGLMD5Viewer::getCheminModele(){
 	return md5iFilePath;
 }
 
-QString OpenGLMD5Viewer::getCheminDiffuseMap(){
-	return cheminDiffuseMap;
-}
-
-QString OpenGLMD5Viewer::getCheminSpecularMap(){
-	return cheminSpecularMap;
-}
-
 QString OpenGLMD5Viewer::getCheminAnimation(){
 	return cheminAnimation;
-}
-
-QString OpenGLMD5Viewer::getCheminBumpMap(){
-	return cheminBumpMap;
 }
 
 QString OpenGLMD5Viewer::getSelectedView(){
@@ -176,6 +133,16 @@ void OpenGLMD5Viewer::appliquerVue(){
 	else if(ui.view->currentIndex() == 3){
 		displayer->getRenderer()->displayType = 3;
 	}
+}
+
+void OpenGLMD5Viewer::useSpecularMap()
+{
+	this->displayer->getRenderer()->setUseSpecularMap(ui.useSpecMap_checkBox->isChecked());
+}
+
+void OpenGLMD5Viewer::useNormalMap()
+{
+	this->displayer->getRenderer()->setUseNormalMap(ui.useNormalMap_checkBox->isChecked());
 }
 
 //void OpenGLMD5Viewer::stop()

@@ -14,7 +14,6 @@
 #include "Md5TexturedRenderer.h"
 
 
-
 namespace OpenGLMD5Viewer {
 
 #ifdef __cplusplus
@@ -328,8 +327,12 @@ void Md5TexturedRenderer::init()
 
 	basicTextureShader = 0;
 	basicTextureShader = LoadProgram("shaders/textureShader.vert", "shaders/textureShader.frag");
-	lightedTextureShader = 0;
-	lightedTextureShader = LoadProgram("shaders/lightedTextureShader.vert", "shaders/PhongTextureShader.frag");
+	PhongCSShader = 0;
+	PhongCSShader = LoadProgram("shaders/lightedTextureShader.vert", "shaders/PhongCSShader.frag");
+	PhongCNShader = 0;
+	PhongCNShader = LoadProgram("shaders/lightedTextureShader.vert", "shaders/PhongCNShader.frag");
+	PhongCSNShader = 0;
+	PhongCSNShader = LoadProgram("shaders/lightedTextureShader.vert", "shaders/PhongCSNShader.frag");
 }
 
 void Md5TexturedRenderer::draw()
@@ -443,9 +446,9 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 //	  }
 
 	/* Use shaders */
-	if(lightedTextureShader)
+	if(PhongCNShader)
 	{
-		glUseProgram(lightedTextureShader);
+		glUseProgram(PhongCNShader);
 //		std::cout << "Basic texture shader activated" << std::endl;
 	}
 	else
@@ -459,6 +462,7 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 	vec3_t * finalVertexArray = _mesh->getFinalVertexArray();
 	vec2_t * finalTexCoordArray = _mesh->getFinalTexCoordArray();
 	vec3_t * finalNormalArray = _mesh->getFinalNormalArray();
+	vec3_t * finalTangentArray = _mesh->getFinalTangentArray();
 
 //	std::cout << "before loadTexture" << std::endl;
 //	setIdTexture(loadTexture("C:/Documents and Settings/Administrator/workspace/OpenGLMD5Viewer/OpenGLMD5Viewer/models/fatGuy/textures/fatty_d.bmp"));
@@ -473,6 +477,7 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 	GLuint idSpecularMap = _mesh->getSpecularMap();
 	GLuint idNormalMap = _mesh->getNormalMap();
 
+	/* Binding all the available textures to opengl */
 	glActiveTexture(GL_TEXTURE0);
 	if(idColorMap) {
 		glBindTexture(GL_TEXTURE_2D, idColorMap); // the color map of the mesh becomes the actual openGl texture
@@ -506,25 +511,62 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
+
+	/* Choose the right shader, according to the maps available */
+	GLuint choosedShader = 0;
+	if(idColorMap && idNormalMap && useNormalMap && idSpecularMap && useSpecularMap)
+	{
+		glUseProgram(PhongCSNShader);
+		choosedShader = PhongCSNShader;
+	}
+	else
+	{
+		if(idColorMap && idNormalMap && useNormalMap)
+		{
+			glUseProgram(PhongCNShader);
+			choosedShader = PhongCNShader;
+		}
+		else
+		{
+			if(idColorMap && idSpecularMap && useSpecularMap)
+			{
+				glUseProgram(PhongCSShader);
+				choosedShader = PhongCSShader;
+			}
+			else
+			{
+				glUseProgram(basicTextureShader);
+				choosedShader = basicTextureShader;
+			}
+		}
+	}
+
 	/* Exchange information with the shader */
-//	std::cout << "in rendering function, idTexture = " << *idTexture << std::endl;
-	int shaderEyePosId = glGetUniformLocation(lightedTextureShader, "eyePos"); // Get the id of the colorMap in the shader
+	int shaderEyePosId = glGetUniformLocation(choosedShader, "eyePos"); // Get the id of the colorMap in the shader
 	if(shaderEyePosId != -1)
 	{
 		glUniform3f(shaderEyePosId, camera->getPosition().x(), camera->getPosition().y(), camera->getPosition().z());
 	}
 
-	int shaderColorMapId = glGetUniformLocation(lightedTextureShader, "colorMap"); // Get the id of the colorMap in the shader
+	int shaderColorMapId = glGetUniformLocation(choosedShader, "colorMap"); // Get the id of the colorMap in the shader
 	if(shaderColorMapId != -1)
 	{
 		glUniform1i(shaderColorMapId, 0); // Send the id of the color texture to the corresponding uniform variable in the shader
 	}
 
-	int shaderSpecularMapId = glGetUniformLocation(lightedTextureShader, "specularMap"); // Get the id of the colorMap in the shader
-		if(shaderSpecularMapId != -1)
-		{
-			glUniform1i(shaderSpecularMapId, 1); // Send the id of the color texture to the corresponding uniform variable in the shader
-		}
+	int shaderSpecularMapId = glGetUniformLocation(choosedShader, "specularMap"); // Get the id of the colorMap in the shader
+	if(shaderSpecularMapId != -1)
+	{
+		glUniform1i(shaderSpecularMapId, 1); // Send the id of the color texture to the corresponding uniform variable in the shader
+	}
+
+	int shaderNormalMapId = glGetUniformLocation(choosedShader, "normalMap"); // Get the id of the colorMap in the shader
+	if(shaderNormalMapId != -1)
+	{
+		glUniform1i(shaderNormalMapId, 2); // Send the id of the color texture to the corresponding uniform variable in the shader
+	}
+
+	int shaderTangentId = glGetUniformLocation(choosedShader, "tangent");
 
 
 	for(vector<Md5Triangle_t *>::iterator actualTriangle = _mesh->getTriangleArray().begin(); actualTriangle != _mesh->getTriangleArray().end(); actualTriangle++)
@@ -557,19 +599,20 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 
 
 						glColor3f(0.0f, 0.0f, 1.0f);
+						if(shaderTangentId != -1) glUniform3fv(shaderTangentId, 1, finalTangentArray[temp->index[0]]);
 						glBegin(GL_TRIANGLES);
 
-						glNormal3f(finalNormalArray[temp->index[0]][0], finalNormalArray[temp->index[0]][1], finalNormalArray[temp->index[0]][2]);
-						glTexCoord2f(finalTexCoordArray[temp->index[0]][0], finalTexCoordArray[temp->index[0]][1]);
-						glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
+						glNormal3fv(finalNormalArray[temp->index[0]]);
+						glTexCoord2fv(finalTexCoordArray[temp->index[0]]);
+						glVertex3fv(finalVertexArray[temp->index[0]]);
 
-						glNormal3f(finalNormalArray[temp->index[1]][0], finalNormalArray[temp->index[1]][1], finalNormalArray[temp->index[1]][2]);
-						glTexCoord2f(finalTexCoordArray[temp->index[1]][0], finalTexCoordArray[temp->index[1]][1]);
-						glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
+						glNormal3fv(finalNormalArray[temp->index[1]]);
+						glTexCoord2fv(finalTexCoordArray[temp->index[1]]);
+						glVertex3fv(finalVertexArray[temp->index[1]]);
 
-						glNormal3f(finalNormalArray[temp->index[2]][0], finalNormalArray[temp->index[2]][1], finalNormalArray[temp->index[2]][2]);
-						glTexCoord2f(finalTexCoordArray[temp->index[2]][0], finalTexCoordArray[temp->index[2]][1]);
-						glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
+						glNormal3fv(finalNormalArray[temp->index[2]]);
+						glTexCoord2fv(finalTexCoordArray[temp->index[2]]);
+						glVertex3fv(finalVertexArray[temp->index[2]]);
 						glEnd();
 						}
 

@@ -34,7 +34,9 @@ private :
 	void drawSkeleton(Md5Skeleton * _animatedSkeleton, const MathUtils::Matrix4x4f &modelView, bool labelJoints );
 
 	GLuint basicTextureShader;
-	GLuint lightedTextureShader;
+	GLuint PhongCSShader;
+	GLuint PhongCNShader;
+	GLuint PhongCSNShader;
 };
 
 } /* namespace OpenGLMD5Viewer */
