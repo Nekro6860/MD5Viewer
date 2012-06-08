@@ -32,7 +32,6 @@ void main(void)
 		vec4 Ispec = gl_FrontLightProduct[0].diffuse * specBase * pow(max(dot(R,E),0.0),10.0);
 		Ispec = clamp(Ispec, 0.0, 1.0);
 
-//		gl_FragColor = vec4(E, 1.0);
-		gl_FragColor = base * (Iambient + Idiff + 3*Ispec);
+		gl_FragColor = base * (Iambient + Idiff + 4*Ispec);
 		gl_FragColor.a = 1.0;		
 } // commentaire inutile mais obligatoire, sinon le code refusera de compiler

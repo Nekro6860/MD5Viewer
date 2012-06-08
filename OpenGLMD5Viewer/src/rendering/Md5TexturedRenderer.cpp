@@ -326,7 +326,7 @@ void Md5TexturedRenderer::init()
 	}
 
 	basicTextureShader = 0;
-	basicTextureShader = LoadProgram("shaders/textureShader.vert", "shaders/textureShader.frag");
+	basicTextureShader = LoadProgram("shaders/lightedTextureShader.vert", "shaders/textureShader.frag");
 	PhongCSShader = 0;
 	PhongCSShader = LoadProgram("shaders/lightedTextureShader.vert", "shaders/PhongCSShader.frag");
 	PhongCNShader = 0;

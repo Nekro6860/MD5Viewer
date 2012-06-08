@@ -9,6 +9,7 @@ varying vec3 v;
 uniform sampler2D colorMap;
 uniform sampler2D normalMap;
 uniform vec3 tangent;
+uniform vec3 eyePos;
 
 void main(void)
 
@@ -23,7 +24,8 @@ void main(void)
 		vec3 finalNormal = tbnMatrix*normalBase;
 		
 		vec3 L = normalize(gl_LightSource[0].position.xyz - v);
-		vec3 R = normalize(reflect(-L,N));
+		vec3 R = normalize(reflect(-L,finalNormal));
+		vec3 E = normalize(eyePos - v);
 				
 		//calculate Ambient Term:
 		vec4 Iambient = gl_FrontLightProduct[0].ambient;
@@ -32,8 +34,12 @@ void main(void)
 		//calculate Diffuse Term:
 		vec4 Idiff = gl_FrontLightProduct[0].diffuse * max(dot(finalNormal,L), 0.0);  
 		Idiff = clamp(Idiff, 0.0, 1.0);
+		
+		// calculate Specular Term:
+		// TODO carefull, for now on the diffuse color is also the specular color, correct it someday
+		vec4 Ispec = gl_FrontLightProduct[0].diffuse * 0.2 * pow(max(dot(R,E),0.0),10.0);
+		Ispec = clamp(Ispec, 0.0, 1.0);
 
-		gl_FragColor = base * (Iambient + Idiff);
-//		gl_FragColor = vec4(finalNormal, 1.0);
+		gl_FragColor = base * (Iambient + Idiff + 4*Ispec);
 		gl_FragColor.a = 1.0;		
 } // commentaire inutile mais obligatoire, sinon le code refusera de compiler
