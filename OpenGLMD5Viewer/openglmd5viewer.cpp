@@ -10,26 +10,26 @@
 namespace OpenGLMD5Viewer{
 
 OpenGLMD5Viewer::OpenGLMD5Viewer(QWidget *parent)
-    : QMainWindow(parent)
+    : QWidget(parent)
 {
 	ui.setupUi(this);
 	displayer = new RenderCanvas(50, ui.glCanvasWidget);
-//	displayer->getRenderer()->skeletonDisplay = false;
-//	displayer->getRenderer()->displayType = 0;
 	displayer->resize(ui.glCanvasWidget->width(), ui.glCanvasWidget->height());
 	md5iFilePath = "";
-	cheminAnimation = "";
+	animationPath = "";
 	showSqueleton = false;
 	currentView = new QLabel("");
-	connect(ui.parcourirModele, SIGNAL(clicked()), this, SLOT(parcourirModele()));
-	connect(ui.parcourirAnimation, SIGNAL(clicked()), this, SLOT(parcourirAnimation()));
+	connect(ui.browseMd5iFiles, SIGNAL(clicked()), this, SLOT(browseMd5iFiles()));
+	connect(ui.browseAnimations, SIGNAL(clicked()), this, SLOT(browseAnimations()));
 	connect(ui.showSqueleton, SIGNAL(clicked()), this, SLOT(showHideSqueleton()));
-	connect(ui.appliquerVue, SIGNAL(clicked()), this, SLOT(appliquerVue()));
+	connect(ui.view, SIGNAL(currentIndexChanged(int)), this, SLOT(appliquerVue(int)));
+	connect(ui.loadedAnimations_comboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeAnimation(QString)));
 	connect(ui.useSpecMap_checkBox, SIGNAL(clicked()), this, SLOT(useSpecularMap()));
 	connect(ui.useNormalMap_checkBox, SIGNAL(clicked()), this, SLOT(useNormalMap()));
+	connect(ui.frameRate_horizontalSlider, SIGNAL(sliderReleased ()), this, SLOT(changeFrameRate()));
+
 	//	connect(ui.playPause, SIGNAL(clicked()), this, SLOT(playPause()));
 	//	connect(ui.stop, SIGNAL(clicked()), this, SLOT(stop()));
-
 }
 
 OpenGLMD5Viewer::~OpenGLMD5Viewer()
@@ -47,9 +47,9 @@ RenderCanvas * OpenGLMD5Viewer::getDisplayer()
 	return displayer;
 }
 
-void OpenGLMD5Viewer::parcourirModele()
+void OpenGLMD5Viewer::browseMd5iFiles()
 {
-	md5iFilePath = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
+	md5iFilePath = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.md5i)"));
 	if(md5iFilePath != NULL)
 	{
 		Md5Model *model;
@@ -75,23 +75,37 @@ void OpenGLMD5Viewer::parcourirModele()
 		_md5Object = object;
 
 		ui.modelLocation->setText(md5iFilePath);
+		ui.view->setCurrentIndex(0);
 		}
 
 	}
 }
 
-void OpenGLMD5Viewer::parcourirAnimation()
+void OpenGLMD5Viewer::browseAnimations()
 {
-	cheminAnimation = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
-	ui.animationLocation->setText(cheminAnimation);
+	animationPath = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.md5anim)"));
+	ui.animationLocation->setText(animationPath);
+
+	if(animationPath != NULL)
+	{
+		Md5Object * tempTarget = displayer->getRenderer()->getTarget();
+		if(tempTarget)
+		{
+			if(tempTarget->getModelPtr()->addAnim(animationPath.toStdString()))
+			{
+				string addedAnimName = tempTarget->getModelPtr()->getLastAddedAnim()->getName();
+				ui.loadedAnimations_comboBox->addItem(QString(addedAnimName.c_str()));
+			}
+		}
+	}
 }
 
-QString OpenGLMD5Viewer::getCheminModele(){
+QString OpenGLMD5Viewer::getMd5iFilePath(){
 	return md5iFilePath;
 }
 
-QString OpenGLMD5Viewer::getCheminAnimation(){
-	return cheminAnimation;
+QString OpenGLMD5Viewer::getAnimationPath(){
+	return animationPath;
 }
 
 QString OpenGLMD5Viewer::getSelectedView(){
@@ -108,8 +122,9 @@ void OpenGLMD5Viewer::showHideSqueleton(){
 	}
 }
 
-void OpenGLMD5Viewer::appliquerVue(){
+void OpenGLMD5Viewer::appliquerVue(int index){
 	if(ui.view->currentIndex() == 0){
+//	if(index == 0){
 		Md5WireframeRenderer * renderer = new Md5WireframeRenderer();
 		renderer->init();
 		displayer->setRenderer(renderer);
@@ -117,6 +132,7 @@ void OpenGLMD5Viewer::appliquerVue(){
 		displayer->getRenderer()->displayType = 0;
 	}
 	else if(ui.view->currentIndex() == 1){
+//		if(index == 1){
 		Md5SolidRenderer * renderer = new Md5SolidRenderer();
 		renderer->init();
 		displayer->setRenderer(renderer);
@@ -124,6 +140,7 @@ void OpenGLMD5Viewer::appliquerVue(){
 		displayer->getRenderer()->displayType = 1;
 	}
 	else if(ui.view->currentIndex() == 2){
+//		if(index == 2){
 		Md5TexturedRenderer * renderer = new Md5TexturedRenderer();
 		renderer->init();
 		displayer->setRenderer(renderer);
@@ -131,8 +148,14 @@ void OpenGLMD5Viewer::appliquerVue(){
 		displayer->getRenderer()->displayType = 2;
 	}
 	else if(ui.view->currentIndex() == 3){
+//		if(index == 3){
 		displayer->getRenderer()->displayType = 3;
 	}
+}
+
+void OpenGLMD5Viewer::changeAnimation(QString name)
+{
+	displayer->getRenderer()->getTarget()->setAnim(name.toStdString());
 }
 
 void OpenGLMD5Viewer::useSpecularMap()
@@ -143,6 +166,18 @@ void OpenGLMD5Viewer::useSpecularMap()
 void OpenGLMD5Viewer::useNormalMap()
 {
 	this->displayer->getRenderer()->setUseNormalMap(ui.useNormalMap_checkBox->isChecked());
+}
+
+void OpenGLMD5Viewer::changeFrameRate()
+{
+	int sliderValue = ui.frameRate_horizontalSlider->value();
+	Md5Animation * currentAnim = displayer->getRenderer()->getTarget()->getCurrAnim();
+	if(currentAnim)
+	{
+		currentAnim->setFrameRate(2*sliderValue);
+		std::cout << "sliderValue : " << sliderValue << std::endl;
+		std::cout << "frameRate : " << currentAnim->getFrameRate() << std::endl;
+	}
 }
 
 //void OpenGLMD5Viewer::stop()

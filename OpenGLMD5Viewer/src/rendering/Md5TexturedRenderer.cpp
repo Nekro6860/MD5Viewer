@@ -261,7 +261,7 @@ void bindGenericTexture()
 }
 
 Md5TexturedRenderer::Md5TexturedRenderer() {
-	// TODO Auto-generated constructor stub
+	target = NULL;
 
 }
 
@@ -363,16 +363,6 @@ void Md5TexturedRenderer::timeOut()
 void Md5TexturedRenderer::close()
 {
 
-}
-
-void Md5TexturedRenderer::setTarget(Md5Object *t)
-{
-	target = t;
-}
-
-Md5Object * Md5TexturedRenderer::getTarget()
-{
-	return target;
 }
 
 void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)

@@ -23,11 +23,7 @@ public:
 	void close();
 	void timeOut();
 
-	void setTarget(Md5Object *t);
-	Md5Object * getTarget();
-
 private :
-	Md5Object *target;
 	void renderMd5Object();
 	void renderMeshVertexArrays(Md5Mesh * _mesh);
 	void drawModel(Md5Model * _model);

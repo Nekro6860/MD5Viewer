@@ -1,4 +1,5 @@
 INPUT(
+./debug\openglmd5viewer.o
 ./debug\Md5iReader.o
 ./debug\Md5TexturedRenderer.o
 ./debug\Md5WireframeRenderer.o
@@ -15,7 +16,6 @@ INPUT(
 ./debug\RenderCanvas.o
 ./debug\Renderer.o
 ./debug\main.o
-./debug\openglmd5viewer.o
-./debug\moc_RenderCanvasAbs.o
 ./debug\moc_openglmd5viewer.o
+./debug\moc_RenderCanvasAbs.o
 );

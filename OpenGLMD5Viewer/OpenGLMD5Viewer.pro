@@ -3,7 +3,8 @@ TARGET = OpenGLMD5Viewer
 QT += core \
     gui \
     opengl
-HEADERS += src/core/MD5/Md5iReader.h \
+HEADERS += openglmd5viewer.h \
+    src/core/MD5/Md5iReader.h \
     src/rendering/Md5TexturedRenderer.h \
     src/rendering/Md5WireframeRenderer.h \
     src/rendering/Md5SolidRenderer.h \
@@ -19,9 +20,9 @@ HEADERS += src/core/MD5/Md5iReader.h \
     src/core/Camera.h \
     src/core/Light.h \
     src/RenderCanvas.h \
-    src/rendering/Renderer.h \
-    openglmd5viewer.h
-SOURCES += src/core/MD5/Md5iReader.cpp \
+    src/rendering/Renderer.h
+SOURCES += openglmd5viewer.cpp \
+    src/core/MD5/Md5iReader.cpp \
     src/rendering/Md5TexturedRenderer.cpp \
     src/rendering/Md5WireframeRenderer.cpp \
     src/rendering/Md5SolidRenderer.cpp \
@@ -36,8 +37,7 @@ SOURCES += src/core/MD5/Md5iReader.cpp \
     src/core/Light.cpp \
     src/RenderCanvas.cpp \
     src/rendering/Renderer.cpp \
-    main.cpp \
-    openglmd5viewer.cpp
+    main.cpp
 FORMS += openglmd5viewer.ui
 RESOURCES += 
 INCLUDEPATH += lib/Devil/include/IL \

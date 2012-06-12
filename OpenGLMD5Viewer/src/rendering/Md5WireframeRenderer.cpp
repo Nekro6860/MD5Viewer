@@ -12,7 +12,7 @@
 namespace OpenGLMD5Viewer {
 
 Md5WireframeRenderer::Md5WireframeRenderer() {
-	// TODO Auto-generated constructor stub
+	target = NULL;
 
 }
 
@@ -77,6 +77,7 @@ void Md5WireframeRenderer::draw()
 
 	GLfloat lightpos[] = { light->getPosition().x(), light->getPosition().y(), light->getPosition().z(), 1.0f };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+
 }
 
 void Md5WireframeRenderer::timeOut()
@@ -89,16 +90,6 @@ void Md5WireframeRenderer::timeOut()
 void Md5WireframeRenderer::close()
 {
 
-}
-
-void Md5WireframeRenderer::setTarget(Md5Object *t)
-{
-	target = t;
-}
-
-Md5Object * Md5WireframeRenderer::getTarget()
-{
-	return target;
 }
 
 void Md5WireframeRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
@@ -342,9 +333,8 @@ void Md5WireframeRenderer::drawSkeleton(Md5Skeleton * _animatedSkeleton, const M
 void Md5WireframeRenderer::renderMd5Object()
 {
 //	std::cout << "début renderMD5Object" << std::endl;
-	if(target != NULL)
+	if(target && target->getModelPtr())
 	{
-
 		int flags = Md5Object::kDrawModel;
 		bool bAnimate = true;
 		double dt = 0.001;

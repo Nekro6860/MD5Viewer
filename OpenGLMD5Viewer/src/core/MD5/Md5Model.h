@@ -29,6 +29,7 @@ class Md5Model
 
   bool addAnim( const string &filename );
   Md5Animation *getAnim( const string &name );
+  Md5Animation *getLastAddedAnim(){ return lastAddedAnimation;}
 
   unsigned int getNumJoints( void ) {
 	return _numJoints;
@@ -89,6 +90,7 @@ class Md5Model
   Md5Mesh *getMeshByName( const string &name );
 
   void printfMeshNames();
+  void printAnimationNames();
 
  private:
   // Internal functions
@@ -109,6 +111,8 @@ class Md5Model
   AnimMap _animList;
 
   BoundingBox_t _bindPoseBox;
+
+  Md5Animation *lastAddedAnimation;
 };
 
 } // namespace OpenGLMD5Viewer

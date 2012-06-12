@@ -11,6 +11,7 @@
 #include "../core/MD5/common.h"
 #include "../core/Camera.h"
 #include "../core/Light.h"
+#include "../core/MD5/Md5Object.h"
 
 namespace OpenGLMD5Viewer {
 
@@ -24,6 +25,8 @@ public:
 	virtual void draw()=0;
 	virtual void close()=0;
 	virtual void timeOut()=0;
+	void setTarget(Md5Object *t){target = t;}
+	Md5Object * getTarget(){return target;}
 	Camera * camera;
 	Light * light;
 	bool skeletonDisplay;
@@ -35,6 +38,7 @@ public:
 	void setUseNormalMap(bool v){useNormalMap = v;}
 
 protected:
+	Md5Object *target;
 	void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ);
 	QVector3D cameraPosition;
 	QVector3D lightPosition;

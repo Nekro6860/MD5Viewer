@@ -38,11 +38,17 @@ void RenderCanvas::setRenderer(Renderer * r)
 }
 
 void RenderCanvas::initializeGL() {
-	renderer->init();
+	if(renderer)
+	{
+		renderer->init();
+	}
 }
 
 void RenderCanvas::paintGL() {
-	renderer->draw();
+	if(renderer)
+	{
+		renderer->draw();
+	}
 }
 
 void RenderCanvas::resizeGL(int width, int height) {
@@ -57,7 +63,9 @@ void RenderCanvas::resizeGL(int width, int height) {
 
 void RenderCanvas::timeOut()
 {
-	renderer->timeOut();
+	if(renderer){
+		renderer->timeOut();
+	}
 	updateGL();
 }
 

@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     OpenGLMD5Viewer::Md5WireframeRenderer * testRenderer = new OpenGLMD5Viewer::Md5WireframeRenderer();
 //    OpenGLMD5Viewer::Md5SolidRenderer * testRenderer = new OpenGLMD5Viewer::Md5SolidRenderer();
     w.getDisplayer()->setRenderer(testRenderer);
+//    w.getDisplayer()->setRenderer(NULL);
 
     w.show();
 

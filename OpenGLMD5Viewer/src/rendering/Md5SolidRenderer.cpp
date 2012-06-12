@@ -12,8 +12,7 @@
 namespace OpenGLMD5Viewer {
 
 Md5SolidRenderer::Md5SolidRenderer() {
-	// TODO Auto-generated constructor stub
-
+	target = NULL;
 }
 
 Md5SolidRenderer::~Md5SolidRenderer() {

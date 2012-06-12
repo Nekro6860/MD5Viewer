@@ -188,6 +188,7 @@ bool Md5Model::addAnim( const string &filename )
 
 	// Insert the new animation
 	_animList.insert( AnimMap::value_type( name, pAnim ) );
+	lastAddedAnimation = pAnim;
   }
   else {
 	// Failled to load the animation file, free memory
@@ -322,6 +323,15 @@ void Md5Model::printfMeshNames()
 		std::cout << temp->getName() << std::endl;
 	}
 
+}
+
+void Md5Model::printAnimationNames()
+{
+	std::cout << "Animation names :" << std::endl;
+	for(AnimMap::iterator actualAnim = _animList.begin(); actualAnim != _animList.end(); actualAnim++)
+		{
+			std::cout << (*actualAnim).first << std::endl;
+		}
 }
 
 } // namespace OpenGLMD5Viewer

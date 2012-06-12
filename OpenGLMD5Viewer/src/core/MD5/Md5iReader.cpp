@@ -50,12 +50,13 @@ Md5Model * Md5iReader::loadFromMd5i(string md5iFilePath)
 			if(model->loadModel(md5ModelFilePath))
 			{
 				model->printfMeshNames();
+				std::cout << std::endl << std::endl;
 				while(fileContent.good())
 				{
 					std::getline(fileContent, line);
 					if(std::string::npos != line.find("mesh"))
 					{
-						std::cout << "mesh found !" << std::endl;
+//						std::cout << "mesh found !" << std::endl;
 						line.erase(0, line.find_first_not_of(' ', 4));
 
 						tempMeshName = line.substr(0, line.find_first_of(' ', 0)); // Extracting the name of the mesh with which the texture path will be associated
@@ -75,27 +76,27 @@ Md5Model * Md5iReader::loadFromMd5i(string md5iFilePath)
 						if(actualMesh)
 						{
 							tempMapPath = tempGlobalPath + tempMapPath;
-							std::cout << "tempMapPath : " << tempMapPath << std::endl;
+//							std::cout << "tempMapPath : " << tempMapPath << std::endl;
 
 							if(std::string::npos != tempMapName.find("colorMap"))
 							{
 								actualMesh->setDecalMap(*Renderer::loadTexture(tempMapPath));
-								std::cout << "decal id : " << actualMesh->getDecalMap() << std::endl;
+//								std::cout << "decal id : " << actualMesh->getDecalMap() << std::endl;
 							}
 							if(std::string::npos != tempMapName.find("specMap"))
 							{
 								actualMesh->setSpecularMap(*Renderer::loadTexture(tempMapPath));
-								std::cout << "specular id : " << actualMesh->getSpecularMap() << std::endl;
+//								std::cout << "specular id : " << actualMesh->getSpecularMap() << std::endl;
 							}
 							if(std::string::npos != tempMapName.find("normalMap"))
 							{
 								actualMesh->setNormalMap(*Renderer::loadTexture(tempMapPath));
-								std::cout << "normal id : " << actualMesh->getNormalMap() << std::endl;
+//								std::cout << "normal id : " << actualMesh->getNormalMap() << std::endl;
 							}
 							if(std::string::npos != tempMapName.find("heightMap"))
 							{
 								actualMesh->setHeightMap(*Renderer::loadTexture(tempMapPath));
-								std::cout << "height id : " << actualMesh->getHeightMap() << std::endl;
+//								std::cout << "height id : " << actualMesh->getHeightMap() << std::endl;
 							}
 
 						}
@@ -124,23 +125,6 @@ Md5Model * Md5iReader::loadFromMd5i(string md5iFilePath)
 
 
 	return NULL;
-}
-
-void Md5iReader::printMeshesNamesFromMd5(string md5FilePath)
-{
-	Md5Model * model = new Md5Model;
-	model->loadModel(md5FilePath);
-
-	if(model)
-	{
-		model->printfMeshNames();
-	}
-	else
-	{
-		std::cerr << "Could not load model : " << md5FilePath << std::endl;
-	}
-
-	delete model;
 }
 
 } /* namespace OpenGLMD5Viewer */

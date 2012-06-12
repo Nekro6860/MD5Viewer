@@ -39,7 +39,7 @@ void main(void)
 		
 		// calculate Specular Term:
 		// TODO carefull, for now on the diffuse color is also the specular color, correct it someday
-		vec4 Ispec = gl_FrontLightProduct[0].diffuse * specBase * pow(max(dot(R,E),0.0),5.0);
+		vec4 Ispec = gl_FrontLightProduct[0].diffuse * specBase * pow(max(dot(R,E),0.0),10.0);
 		Ispec = clamp(Ispec, 0.0, 1.0);
 
 		gl_FragColor = base * (Iambient + Idiff + 4*Ispec);

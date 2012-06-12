@@ -195,6 +195,7 @@ bool Md5Animation::load( const string &filename )
 	_name = szfile.substr( start + 1, end - start - 8 );
 
 	std::cout << "* ModelAnimation: " << filename << " loaded" << std::endl;
+
 	return true;
   }
   catch( std::ios_base::failure &err ) {

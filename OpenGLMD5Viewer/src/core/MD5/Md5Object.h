@@ -75,6 +75,10 @@ class Md5Object
 	}
   }
 
+  Md5Animation * getCurrAnim( void ) const {
+  	  return _currAnim;
+  }
+
   const OBBox_t &getBoundingBox( void ) const {
 	return _bbox;
   }

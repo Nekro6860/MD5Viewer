@@ -43,6 +43,10 @@ class Md5Animation
 	return _frameRate;
   }
 
+  void setFrameRate( unsigned int f) {
+  	_frameRate = f;
+    }
+
   Md5Skeleton *getFrame( unsigned int frame ) {
 //	assert( frame < _numFrames );
 	  if(frame < _numFrames)

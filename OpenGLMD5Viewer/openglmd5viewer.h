@@ -9,7 +9,7 @@
 
 namespace OpenGLMD5Viewer{
 
-class OpenGLMD5Viewer : public QMainWindow
+class OpenGLMD5Viewer : public QWidget
 {
     Q_OBJECT
 
@@ -19,26 +19,28 @@ public:
 
     RenderCanvas * getDisplayer();
     void setDiplayer(RenderCanvas * d);
-    QString getCheminModele();
-    QString getCheminAnimation();
+    QString getMd5iFilePath();
+    QString getAnimationPath();
     QString getSelectedView();
 
     Md5Object * _md5Object;
 
 protected slots:
 //	virtual void stop();
-	virtual void parcourirModele();
-	virtual void parcourirAnimation();
+	virtual void browseMd5iFiles();
+	virtual void browseAnimations();
 	virtual void showHideSqueleton();
-	virtual void appliquerVue();
+	virtual void appliquerVue(int);
+	virtual void changeAnimation(QString);
 	virtual void useSpecularMap();
 	virtual void useNormalMap();
+	virtual void changeFrameRate();
 
 private:
     Ui::OpenGLMD5ViewerClass ui;
     RenderCanvas *displayer;
     QString md5iFilePath;
-	QString cheminAnimation;
+	QString animationPath;
 	QLabel * currentView;
 	bool showSqueleton;
 };
