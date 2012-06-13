@@ -171,12 +171,12 @@ void OpenGLMD5Viewer::useNormalMap()
 void OpenGLMD5Viewer::changeFrameRate()
 {
 	int sliderValue = ui.frameRate_horizontalSlider->value();
+	Md5Object * md5Object = displayer->getRenderer()->getTarget();
 	Md5Animation * currentAnim = displayer->getRenderer()->getTarget()->getCurrAnim();
 	if(currentAnim)
 	{
-		currentAnim->setFrameRate(2*sliderValue);
-		std::cout << "sliderValue : " << sliderValue << std::endl;
-		std::cout << "frameRate : " << currentAnim->getFrameRate() << std::endl;
+		currentAnim->setFrameRate(3*sliderValue);
+		md5Object->setAnim(currentAnim->getName());
 	}
 }
 
