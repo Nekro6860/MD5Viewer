@@ -8,24 +8,23 @@
 #ifndef LIGHT_H_
 #define LIGHT_H_
 
-#include <QVector3D>
-
+#include "MD5/common.h"
 namespace OpenGLMD5Viewer {
 
 class Light {
 public:
 	Light();
 	virtual ~Light();
-	QVector3D getPosition(){return position;}
-	QVector3D getDiffuse(){return diffuse;}
-	QVector3D getSpecular(){return specular;}
+	vec3_t * getPosition(){return &position;}
+	vec3_t * getDiffuse(){return &diffuse;}
+	vec3_t * getSpecular(){return &specular;}
 
 	void updatePosition(float diffx, float diffy);
 
 private:
-	QVector3D position;
-	QVector3D diffuse;
-	QVector3D specular;
+	vec3_t position;
+	vec3_t diffuse;
+	vec3_t specular;
 };
 
 } /* namespace OpenGLMD5Viewer */

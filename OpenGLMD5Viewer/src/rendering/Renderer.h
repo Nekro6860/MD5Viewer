@@ -40,9 +40,9 @@ public:
 protected:
 	Md5Object *target;
 	void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ);
-	QVector3D cameraPosition;
-	QVector3D lightPosition;
-	QVector3D targetPosition;
+	vec3_t cameraPosition;
+	vec3_t lightPosition;
+	vec3_t targetPosition;
 
 	bool useSpecularMap;
 	bool useNormalMap;

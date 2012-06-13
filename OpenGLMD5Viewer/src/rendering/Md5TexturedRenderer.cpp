@@ -281,8 +281,6 @@ void Md5TexturedRenderer::init()
 	glEnable(GL_COLOR_MATERIAL);
 
 	/* init OpenGL light */
-//	lightPosition = this->light->getPosition();
-//	GLfloat lightpos[] = { lightPosition.x(), lightPosition.y(), lightPosition.z(), 1.0f };
 	GLfloat ambient_color[] = { 0.5, 0.5, 0.5, 1.0 };
 	GLfloat diffuse_color[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat specular_color[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -298,15 +296,8 @@ void Md5TexturedRenderer::init()
 
 	this->camera = new Camera();
 	this->light = new Light();
-//	cameraPosition = this->camera->getPosition();
-//	lightPosition = this->light->getPosition();
-//	targetPosition = this->camera->getTargetPosition();
 
 	glEnable(GL_TEXTURE_2D);
-
-	/* Temporary texture loading */
-//	idTexture = Renderer::loadTexture("C:/Documents and Settings/Administrator/git/OpenGLMD5Viewer/OpenGLMD5Viewer/models/fatGuy/textures/fatty_d.tga");
-
 
 	/* GLEW initialization */
 	GLenum code;
@@ -340,14 +331,14 @@ void Md5TexturedRenderer::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	QVector3D cameraPosition = this->camera->getPosition();
-	QVector3D targetPosition = this->camera->getTargetPosition();
+	vec3_t * cameraPosition = this->camera->getPosition();
+	vec3_t * targetPosition = this->camera->getTargetPosition();
 
-	setCamera(cameraPosition.x(), cameraPosition.y(), cameraPosition.z(),
-					targetPosition.x(), targetPosition.y(), targetPosition.z());
+	setCamera((*cameraPosition)[0], (*cameraPosition)[1], (*cameraPosition)[2],
+			(*targetPosition)[0], (*targetPosition)[1], (*targetPosition)[2]);
 	glMatrixMode(GL_MODELVIEW);
 
-	GLfloat lightpos[] = { light->getPosition().x(), light->getPosition().y(), light->getPosition().z(), 1.0f};
+	GLfloat lightpos[] = { (*light->getPosition())[0], (*light->getPosition())[1], (*light->getPosition())[2], 1.0f};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 
 	renderMd5Object();
@@ -355,9 +346,7 @@ void Md5TexturedRenderer::draw()
 
 void Md5TexturedRenderer::timeOut()
 {
-//	lightPosition = this->light->getPosition();
-//	cameraPosition = this->camera->getPosition();
-//	targetPosition = this->camera->getTargetPosition();
+
 }
 
 void Md5TexturedRenderer::close()
@@ -367,74 +356,6 @@ void Md5TexturedRenderer::close()
 
 void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 {
-//	GLint tangentLoc = -1;
-//	  bool useShader = bShaders && glslSupported && lightProg && _normalMap;
-
-//	  if( useShader ) {
-//		if( GLEW_VERSION_2_0 ) {
-//		  // Enable shader
-//		  glUseProgram( lightProg );
-//		  GLint texLoc, parallaxLoc;
-//
-//		  // Set uniform parameters
-//		  texLoc = glGetUniformLocation( lightProg, "decalMap" );
-//		  glUniform1i( texLoc, 0 );
-//
-//		  texLoc = glGetUniformLocation( lightProg, "glossMap" );
-//		  glUniform1i( texLoc, 1 );
-//
-//		  texLoc = glGetUniformLocation( lightProg, "normalMap" );
-//		  glUniform1i( texLoc, 2 );
-//
-//		  texLoc = glGetUniformLocation( lightProg, "heightMap" );
-//		  glUniform1i( texLoc, 3 );
-//
-//		  parallaxLoc = glGetUniformLocation( lightProg, "parallaxMapping" );
-//		  glUniform1i( parallaxLoc, bParallax );
-//
-//		  // Get attribute location
-//		  tangentLoc = glGetAttribLocation( lightProg, "tangent" );
-//
-//		  if( tangentLoc != -1 ) {
-//			glEnableVertexAttribArray( tangentLoc );
-//
-//			// Upload tangents
-//			glVertexAttribPointer( tangentLoc, 3, GL_FLOAT, GL_FALSE, 0, _tangentArray );
-//		  }
-//		}
-//		else if( GLEW_VERSION_1_5 ) {
-//		  // Enable shader
-//		  glUseProgramObjectARB( lightProg );
-//		  GLint texLoc, parallaxLoc;
-//
-//		  // Set uniform parameters
-//		  texLoc = glGetUniformLocationARB( lightProg, "decalMap" );
-//		  glUniform1iARB( texLoc, 0 );
-//
-//		  texLoc = glGetUniformLocationARB( lightProg, "glossMap" );
-//		  glUniform1iARB( texLoc, 1 );
-//
-//		  texLoc = glGetUniformLocationARB( lightProg, "normalMap" );
-//		  glUniform1iARB( texLoc, 2 );
-//
-//		  texLoc = glGetUniformLocationARB( lightProg, "heightMap" );
-//		  glUniform1iARB( texLoc, 3 );
-//
-//		  parallaxLoc = glGetUniformLocationARB( lightProg, "parallaxMapping" );
-//		  glUniform1iARB( parallaxLoc, bParallax );
-//
-//		  // Get attribute location
-//		  tangentLoc = glGetAttribLocationARB( lightProg, "tangent" );
-//
-//		  if( tangentLoc != -1 ) {
-//			glEnableVertexAttribArrayARB( tangentLoc );
-//
-//			// Upload tangents
-//			glVertexAttribPointerARB( tangentLoc, 3, GL_FLOAT, GL_FALSE, 0, _tangentArray );
-//		  }
-//		}
-//	  }
-
 	/* Use shaders */
 	if(PhongCNShader)
 	{
@@ -453,12 +374,6 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 	vec2_t * finalTexCoordArray = _mesh->getFinalTexCoordArray();
 	vec3_t * finalNormalArray = _mesh->getFinalNormalArray();
 	vec3_t * finalTangentArray = _mesh->getFinalTangentArray();
-
-//	std::cout << "before loadTexture" << std::endl;
-//	setIdTexture(loadTexture("C:/Documents and Settings/Administrator/workspace/OpenGLMD5Viewer/OpenGLMD5Viewer/models/fatGuy/textures/fatty_d.bmp"));
-//	std::cout << "after loadTexture, adresse : " << idTexture << std::endl;
-//	std::cout << "texture adress : " << idTexture << std::endl;
-//	if(idTexture!=NULL) std::cout << "texture id : " << *idTexture << std::endl;
 
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
@@ -535,7 +450,7 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 	int shaderEyePosId = glGetUniformLocation(choosedShader, "eyePos"); // Get the id of the colorMap in the shader
 	if(shaderEyePosId != -1)
 	{
-		glUniform3f(shaderEyePosId, camera->getPosition().x(), camera->getPosition().y(), camera->getPosition().z());
+		glUniform3f(shaderEyePosId, (*camera->getPosition())[0], (*camera->getPosition())[1], (*camera->getPosition())[2]);
 	}
 
 	int shaderColorMapId = glGetUniformLocation(choosedShader, "colorMap"); // Get the id of the colorMap in the shader
@@ -564,30 +479,8 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 		Md5Triangle_t * temp = *actualTriangle;
 		if(temp != NULL)
 		{
-//			std::cout << "idTexture = " << *idTexture << std::endl;
-
 			if(temp->index[0]< weightArray.size() && temp->index[1]< weightArray.size() && temp->index[2]< weightArray.size())
 					{
-//						std::cout << "actualTriangle.index[0] = " << temp->index[0] << std::endl;
-//						std::cout << "actualTriangle.index[1] = " << temp->index[1] << std::endl;
-//						std::cout << "actualTriangle.index[2] = " << temp->index[2] << std::endl << std::endl;
-//
-//						std::cout << "weightArray[temp->index[0]]->pos._x" << weightArray[temp->index[0]]->pos._x << std::endl;
-//						std::cout << "weightArray[temp->index[0]]->pos._y" << weightArray[temp->index[0]]->pos._y << std::endl;
-//						std::cout << "weightArray[temp->index[0]]->pos._z" << weightArray[temp->index[0]]->pos._z << std::endl << std::endl;
-//
-//						std::cout << "weightArray[temp->index[1]]->pos._x" << weightArray[temp->index[1]]->pos._x << std::endl;
-//						std::cout << "weightArray[temp->index[1]]->pos._y" << weightArray[temp->index[1]]->pos._y << std::endl;
-//						std::cout << "weightArray[temp->index[1]]->pos._z" << weightArray[temp->index[1]]->pos._z << std::endl << std::endl;
-//
-//						std::cout << "weightArray[temp->index[2]]->pos._x" << weightArray[temp->index[2]]->pos._x << std::endl;
-//						std::cout << "weightArray[temp->index[2]]->pos._y" << weightArray[temp->index[2]]->pos._y << std::endl;
-//						std::cout << "weightArray[temp->index[2]]->pos._z" << weightArray[temp->index[2]]->pos._z << std::endl;
-//						std::cout << "--------------------------------------------------" << std::endl << std::endl;
-
-//						glColor3f(1.0f, 0.0f, 0.0f);
-
-
 						glColor3f(0.0f, 0.0f, 1.0f);
 						if(shaderTangentId != -1) glUniform3fv(shaderTangentId, 1, finalTangentArray[temp->index[0]]);
 						glBegin(GL_TRIANGLES);
@@ -605,27 +498,17 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 						glVertex3fv(finalVertexArray[temp->index[2]]);
 						glEnd();
 						}
-
 					}
 		}
-
 }
 
 void Md5TexturedRenderer::drawModel(Md5Model * _model)
 {
-//	std::cout << "début drawModel" << std::endl;
 	for( unsigned int i = 0; i < _model->getNumMeshes(); ++i ) {
-//		std::cout << "début de boucle : " << i << " sur " << _model->getNumMeshes() << std::endl;
 		if( _model->getMeshes()[i]->show() ) {
 		  renderMeshVertexArrays(_model->getMeshes()[i]);
-//		  std::cout << "fin de boucle" << std::endl << std::endl;
 		}
 	  }
-//	std::cout << "fin drawModel" << std::endl;
-
-//	if( _model->getMeshes()[5]->show() ) {
-//			  renderMeshVertexArrays(_model->getMeshes()[0]);
-//	}
 }
 
 void Md5TexturedRenderer::drawSkeleton(Md5Skeleton * _animatedSkeleton, const MathUtils::Matrix4x4f &modelView, bool labelJoints )
@@ -719,9 +602,7 @@ void Md5TexturedRenderer::renderMd5Object()
 		glPushMatrix();
 		float size = 0.1f;
 		glScalef(size, size, size);
-//		  glTranslatef( 0.0f, -60.0f, 0.0f );
 		  glRotatef( -90.0, 1.0, 0.0, 0.0 );
-		  //glRotatef( -90.0, 0.0, 0.0, 1.0 );
 
 			glPushAttrib( GL_POLYGON_BIT | GL_ENABLE_BIT );
 			  glFrontFace( GL_CW );
@@ -744,7 +625,7 @@ void Md5TexturedRenderer::renderMd5Object()
 			  glColor3f(1.0f, 0.5f, 0.0f);
 			  glPointSize(40.0f);
 			  glBegin(GL_POINT);
-			  glVertex3f(light->getPosition().x(), light->getPosition().y(), light->getPosition().z());
+			  glVertex3f((*light->getPosition())[0], (*light->getPosition())[1], (*light->getPosition())[2]);
 			  glEnd();
 			  glEnable(GL_LIGHTING);
 
@@ -755,8 +636,6 @@ void Md5TexturedRenderer::renderMd5Object()
 	{
 		std::cerr << "Target model in textured renderer not found" << std::endl;
 	}
-//	std::cout << "fin renderMD5Object" << std::endl;
-
 }
 
 } /* namespace OpenGLMD5Viewer */

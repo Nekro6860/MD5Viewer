@@ -31,12 +31,8 @@ void Md5SolidRenderer::init()
 	glEnable(GL_COLOR_MATERIAL);
 
 	/* init OpenGL light */
-//	lightPosition = this->light->getPosition();
-//	GLfloat lightpos[] = { lightPosition.x(), lightPosition.y(), lightPosition.z(), 1.0f };
-	//GLfloat ambiant_color[] = { 1.0, 0.8, 0.0, 1.0 };
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-//	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 
 	// initialisations relatives aux textures
 	glEnable(GL_BLEND);
@@ -44,9 +40,6 @@ void Md5SolidRenderer::init()
 
 	this->camera = new Camera();
 	this->light = new Light();
-//	cameraPosition = this->camera->getPosition();
-//	lightPosition = this->light->getPosition();
-//	targetPosition = this->camera->getTargetPosition();
 
 	/* Do not use shaders */
 	GLenum code;
@@ -64,24 +57,22 @@ void Md5SolidRenderer::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	QVector3D cameraPosition = this->camera->getPosition();
-	QVector3D targetPosition = this->camera->getTargetPosition();
+	vec3_t * cameraPosition = this->camera->getPosition();
+	vec3_t * targetPosition = this->camera->getTargetPosition();
 
-	setCamera(cameraPosition.x(), cameraPosition.y(), cameraPosition.z(),
-					targetPosition.x(), targetPosition.y(), targetPosition.z());
+	setCamera((*cameraPosition)[0], (*cameraPosition)[1], (*cameraPosition)[2],
+	(*targetPosition)[0], (*targetPosition)[1], (*targetPosition)[2]);
 	glMatrixMode(GL_MODELVIEW);
 
 	renderMd5Object();
 
-	GLfloat lightpos[] = { light->getPosition().x(), light->getPosition().y(), light->getPosition().z(), 1.0f };
+	GLfloat lightpos[] = { (*light->getPosition())[0], (*light->getPosition())[1], (*light->getPosition())[2], 1.0f};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 }
 
 void Md5SolidRenderer::timeOut()
 {
-//	lightPosition = this->light->getPosition();
-//	cameraPosition = this->camera->getPosition();
-//	targetPosition = this->camera->getTargetPosition();
+
 }
 
 void Md5SolidRenderer::close()
@@ -101,162 +92,35 @@ Md5Object * Md5SolidRenderer::getTarget()
 
 void Md5SolidRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 {
-//	GLint tangentLoc = -1;
-//	  bool useShader = bShaders && glslSupported && lightProg && _normalMap;
-
-//	  if( useShader ) {
-//		if( GLEW_VERSION_2_0 ) {
-//		  // Enable shader
-//		  glUseProgram( lightProg );
-//		  GLint texLoc, parallaxLoc;
-//
-//		  // Set uniform parameters
-//		  texLoc = glGetUniformLocation( lightProg, "decalMap" );
-//		  glUniform1i( texLoc, 0 );
-//
-//		  texLoc = glGetUniformLocation( lightProg, "glossMap" );
-//		  glUniform1i( texLoc, 1 );
-//
-//		  texLoc = glGetUniformLocation( lightProg, "normalMap" );
-//		  glUniform1i( texLoc, 2 );
-//
-//		  texLoc = glGetUniformLocation( lightProg, "heightMap" );
-//		  glUniform1i( texLoc, 3 );
-//
-//		  parallaxLoc = glGetUniformLocation( lightProg, "parallaxMapping" );
-//		  glUniform1i( parallaxLoc, bParallax );
-//
-//		  // Get attribute location
-//		  tangentLoc = glGetAttribLocation( lightProg, "tangent" );
-//
-//		  if( tangentLoc != -1 ) {
-//			glEnableVertexAttribArray( tangentLoc );
-//
-//			// Upload tangents
-//			glVertexAttribPointer( tangentLoc, 3, GL_FLOAT, GL_FALSE, 0, _tangentArray );
-//		  }
-//		}
-//		else if( GLEW_VERSION_1_5 ) {
-//		  // Enable shader
-//		  glUseProgramObjectARB( lightProg );
-//		  GLint texLoc, parallaxLoc;
-//
-//		  // Set uniform parameters
-//		  texLoc = glGetUniformLocationARB( lightProg, "decalMap" );
-//		  glUniform1iARB( texLoc, 0 );
-//
-//		  texLoc = glGetUniformLocationARB( lightProg, "glossMap" );
-//		  glUniform1iARB( texLoc, 1 );
-//
-//		  texLoc = glGetUniformLocationARB( lightProg, "normalMap" );
-//		  glUniform1iARB( texLoc, 2 );
-//
-//		  texLoc = glGetUniformLocationARB( lightProg, "heightMap" );
-//		  glUniform1iARB( texLoc, 3 );
-//
-//		  parallaxLoc = glGetUniformLocationARB( lightProg, "parallaxMapping" );
-//		  glUniform1iARB( parallaxLoc, bParallax );
-//
-//		  // Get attribute location
-//		  tangentLoc = glGetAttribLocationARB( lightProg, "tangent" );
-//
-//		  if( tangentLoc != -1 ) {
-//			glEnableVertexAttribArrayARB( tangentLoc );
-//
-//			// Upload tangents
-//			glVertexAttribPointerARB( tangentLoc, 3, GL_FLOAT, GL_FALSE, 0, _tangentArray );
-//		  }
-//		}
-//	  }
-
-//	std::cout << "début de renderVertexArray" << std::endl;
-//	std::cout << "mesh name " << _mesh->getName() << std::endl;
 	vector<Md5Vertex_t *> vertexArray = _mesh->getVertexArray();
 	vector<Md5Weight_t *> weightArray = _mesh->getWeightArray();
-
-//	std::cout << "avant premier parcours des triangles" << std::endl;
-
-//	std::cout << "après premier parcours des triangles" << std::endl;
-
-//	std::cout << "_mesh->getTriangleArray().size() = " << _mesh->getTriangleArray().size() << std::endl;
-
 	vec3_t * finalVertexArray = _mesh->getFinalVertexArray();
-
-	for (int i = 0; i<vertexArray.size(); i++)
-	{
-//		std::cout << "i = " << i << std::endl;
-//		std::cout << "finalVertexArray[i][0] = " << finalVertexArray[i][0] << std::endl;
-//		std::cout << "finalVertexArray[i][1] = " << finalVertexArray[i][1] << std::endl;
-//		std::cout << "finalVertexArray[i][2] = " << finalVertexArray[i][2] << std::endl << std::endl;
-	}
-
-//	std::cout << std::endl << std::endl << "sortie !" << std::endl << std::endl << std::endl << std::endl;
 
 	for(vector<Md5Triangle_t *>::iterator actualTriangle = _mesh->getTriangleArray().begin(); actualTriangle != _mesh->getTriangleArray().end(); actualTriangle++)
 	{
 		Md5Triangle_t * temp = *actualTriangle;
-//		std::cout << "temp = " << temp << std::endl;
 		if(temp != NULL)
 		{
 			if(temp->index[0]< weightArray.size() && temp->index[1]< weightArray.size() && temp->index[2]< weightArray.size())
 					{
-//						std::cout << "actualTriangle.index[0] = " << temp->index[0] << std::endl;
-//						std::cout << "actualTriangle.index[1] = " << temp->index[1] << std::endl;
-//						std::cout << "actualTriangle.index[2] = " << temp->index[2] << std::endl << std::endl;
-//
-//						std::cout << "weightArray[temp->index[0]]->pos._x" << weightArray[temp->index[0]]->pos._x << std::endl;
-//						std::cout << "weightArray[temp->index[0]]->pos._y" << weightArray[temp->index[0]]->pos._y << std::endl;
-//						std::cout << "weightArray[temp->index[0]]->pos._z" << weightArray[temp->index[0]]->pos._z << std::endl << std::endl;
-//
-//						std::cout << "weightArray[temp->index[1]]->pos._x" << weightArray[temp->index[1]]->pos._x << std::endl;
-//						std::cout << "weightArray[temp->index[1]]->pos._y" << weightArray[temp->index[1]]->pos._y << std::endl;
-//						std::cout << "weightArray[temp->index[1]]->pos._z" << weightArray[temp->index[1]]->pos._z << std::endl << std::endl;
-//
-//						std::cout << "weightArray[temp->index[2]]->pos._x" << weightArray[temp->index[2]]->pos._x << std::endl;
-//						std::cout << "weightArray[temp->index[2]]->pos._y" << weightArray[temp->index[2]]->pos._y << std::endl;
-//						std::cout << "weightArray[temp->index[2]]->pos._z" << weightArray[temp->index[2]]->pos._z << std::endl;
-//						std::cout << "--------------------------------------------------" << std::endl << std::endl;
-
 						glColor3f(0.4f, 0.4f, 0.4f);
 						glBegin(GL_TRIANGLES);
 						glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
 						glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
 						glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
 						glEnd();
-
-//						glBegin(GL_LINES);
-//						glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
-//						glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
-//
-//						glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
-//						glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
-//
-//						glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
-//						glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
-//						glEnd();
 					}
 		}
-
-
 	}
-//	std::cout << "fin de renderMeshVertexArray" << std::endl;
 }
 
 void Md5SolidRenderer::drawModel(Md5Model * _model)
 {
-//	std::cout << "début drawModel" << std::endl;
 	for( unsigned int i = 0; i < _model->getNumMeshes(); ++i ) {
-//		std::cout << "début de boucle : " << i << " sur " << _model->getNumMeshes() << std::endl;
 		if( _model->getMeshes()[i]->show() ) {
 		  renderMeshVertexArrays(_model->getMeshes()[i]);
-//		  std::cout << "fin de boucle" << std::endl << std::endl;
 		}
 	  }
-//	std::cout << "fin drawModel" << std::endl;
-
-//	if( _model->getMeshes()[5]->show() ) {
-//			  renderMeshVertexArrays(_model->getMeshes()[0]);
-//	}
 }
 
 void Md5SolidRenderer::drawSkeleton(Md5Skeleton * _animatedSkeleton, const MathUtils::Matrix4x4f &modelView, bool labelJoints )
@@ -350,9 +214,7 @@ void Md5SolidRenderer::renderMd5Object()
 		glPushMatrix();
 		float size = 0.1f;
 		glScalef(size, size, size);
-//		  glTranslatef( 0.0f, -60.0f, 0.0f );
 		  glRotatef( -90.0, 1.0, 0.0, 0.0 );
-		  //glRotatef( -90.0, 0.0, 0.0, 1.0 );
 
 			glPushAttrib( GL_POLYGON_BIT | GL_ENABLE_BIT );
 			  glFrontFace( GL_CW );
@@ -374,7 +236,7 @@ void Md5SolidRenderer::renderMd5Object()
 			  glColor3f(1.0f, 0.5f, 0.0f);
 			  glPointSize(4.0f);
 			  glBegin(GL_POINT);
-			  glVertex3f(light->getPosition().x(), light->getPosition().y(), light->getPosition().z());
+			  glVertex3f((*light->getPosition())[0], (*light->getPosition())[1], (*light->getPosition())[2]);
 			  glEnd();
 			  glEnable(GL_LIGHTING);
 
@@ -383,10 +245,7 @@ void Md5SolidRenderer::renderMd5Object()
 	}
 	else
 	{
-//		std::cerr << "Target model in solid renderer not found" << std::endl;
 	}
-//	std::cout << "fin renderMD5Object" << std::endl;
-
 }
 
 } /* namespace OpenGLMD5Viewer */

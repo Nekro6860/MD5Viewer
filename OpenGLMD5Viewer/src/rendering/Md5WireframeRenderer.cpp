@@ -65,17 +65,17 @@ void Md5WireframeRenderer::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	QVector3D cameraPosition = this->camera->getPosition();
-	QVector3D targetPosition = this->camera->getTargetPosition();
+	vec3_t * cameraPosition = this->camera->getPosition();
+	vec3_t * targetPosition = this->camera->getTargetPosition();
 
-	setCamera(cameraPosition.x(), cameraPosition.y(), cameraPosition.z(),
-					targetPosition.x(), targetPosition.y(), targetPosition.z());
+	setCamera((*cameraPosition)[0], (*cameraPosition)[1], (*cameraPosition)[2],
+	(*targetPosition)[0], (*targetPosition)[1], (*targetPosition)[2]);
 
 	glMatrixMode(GL_MODELVIEW);
 
 	renderMd5Object();
 
-	GLfloat lightpos[] = { light->getPosition().x(), light->getPosition().y(), light->getPosition().z(), 1.0f };
+	GLfloat lightpos[] = { (*light->getPosition())[0], (*light->getPosition())[1], (*light->getPosition())[2], 1.0f};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 
 }
@@ -241,19 +241,11 @@ void Md5WireframeRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 
 void Md5WireframeRenderer::drawModel(Md5Model * _model)
 {
-//	std::cout << "début drawModel" << std::endl;
 	for( unsigned int i = 0; i < _model->getNumMeshes(); ++i ) {
-//		std::cout << "début de boucle : " << i << " sur " << _model->getNumMeshes() << std::endl;
 		if( _model->getMeshes()[i]->show() ) {
 		  renderMeshVertexArrays(_model->getMeshes()[i]);
-//		  std::cout << "fin de boucle" << std::endl << std::endl;
 		}
 	  }
-//	std::cout << "fin drawModel" << std::endl;
-
-//	if( _model->getMeshes()[5]->show() ) {
-//			  renderMeshVertexArrays(_model->getMeshes()[0]);
-//	}
 }
 
 void Md5WireframeRenderer::drawSkeleton(Md5Skeleton * _animatedSkeleton, const MathUtils::Matrix4x4f &modelView, bool labelJoints )
@@ -347,9 +339,7 @@ void Md5WireframeRenderer::renderMd5Object()
 		glPushMatrix();
 		float size = 0.1f;
 		glScalef(size, size, size);
-//		  glTranslatef( 0.0f, -60.0f, 0.0f );
 		  glRotatef( -90.0, 1.0, 0.0, 0.0 );
-		  //glRotatef( -90.0, 0.0, 0.0, 1.0 );
 
 			glPushAttrib( GL_POLYGON_BIT | GL_ENABLE_BIT );
 			  glFrontFace( GL_CW );
@@ -371,9 +361,7 @@ void Md5WireframeRenderer::renderMd5Object()
 	}
 	else
 	{
-//		std::cerr << "Target model in solid renderer not found" << std::endl;
 	}
-//	std::cout << "fin renderMD5Object" << std::endl;
 
 }
 

@@ -8,7 +8,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#include <QVector3D>
+#include "MD5/common.h"
 
 namespace OpenGLMD5Viewer {
 
@@ -16,16 +16,16 @@ class Camera {
 public:
 	Camera();
 	virtual ~Camera();
-	QVector3D getPosition();
-	QVector3D getTargetPosition();
+	vec3_t * getPosition();
+	vec3_t * getTargetPosition();
 	void updateAngles(int diffX, int diffY);
 	void updateTargetPosition(float diffy);
 	void zoomIn();
 	void zoomOut();
 
 private:
-	QVector3D position;
-	QVector3D targetPosition;
+	vec3_t position;
+	vec3_t targetPosition;
 	float nearest;
 	float furthest;
 	float distance;

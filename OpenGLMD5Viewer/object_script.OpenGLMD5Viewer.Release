@@ -10,7 +10,6 @@ INPUT(
 ./release\Md5Object.o
 ./release\Md5Skeleton.o
 ./release\RenderCanvasAbs.o
-./release\TestCubeRenderer.o
 ./release\Camera.o
 ./release\Light.o
 ./release\RenderCanvas.o

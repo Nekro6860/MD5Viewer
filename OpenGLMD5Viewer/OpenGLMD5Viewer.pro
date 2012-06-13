@@ -16,7 +16,6 @@ HEADERS += openglmd5viewer.h \
     src/core/MD5/common.h \
     src/core/utils/Mathlib.h \
     src/RenderCanvasAbs.h \
-    src/rendering/TestCubeRenderer.h \
     src/core/Camera.h \
     src/core/Light.h \
     src/RenderCanvas.h \
@@ -32,7 +31,6 @@ SOURCES += openglmd5viewer.cpp \
     src/core/MD5/Md5Object.cpp \
     src/core/MD5/Md5Skeleton.cpp \
     src/RenderCanvasAbs.cpp \
-    src/rendering/TestCubeRenderer.cpp \
     src/core/Camera.cpp \
     src/core/Light.cpp \
     src/RenderCanvas.cpp \

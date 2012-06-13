@@ -15,9 +15,9 @@ namespace OpenGLMD5Viewer {
 
 Light::Light() {
 	// TODO Auto-generated constructor stub
-	position = QVector3D(0, 5, 20);
-	diffuse = QVector3D(1.0, 1.0, 1.0);
-	specular = QVector3D(1.0, 1.0, 1.0);
+	position = {0.0f, 5.0f, 20.0f};
+	diffuse = {1.0f, 1.0f, 1.0f};
+	specular = {1.0f, 1.0f, 1.0f};
 }
 
 Light::~Light() {
@@ -26,12 +26,12 @@ Light::~Light() {
 
 void Light::updatePosition(float diffx, float diffy)
 {
-	QVector3D position2 = position;
-	position2.setX(position.x()*cos(diffx) - position.z()*sin(diffx));
-	position2.setZ(position.x()*sin(diffx) + position.z()*cos(diffx));
-	position2.setY(position.y() + diffy);
+	vec3_t position2 = {position[0], position[1], position[2]};
+	position2[0] = position[0]*cos(diffx) - position[2]*sin(diffx);
+	position2[2] = position[0]*sin(diffx) + position[2]*cos(diffx);
+	position2[1] = position[1] + diffy;
 
-	position = position2;
+	position = {position2[0], position2[1], position2[2]};
 }
 
 } /* namespace OpenGLMD5Viewer */

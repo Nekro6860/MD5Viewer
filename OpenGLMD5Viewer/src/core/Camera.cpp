@@ -17,8 +17,8 @@ namespace OpenGLMD5Viewer {
 
 Camera::Camera() {
 	// TODO Auto-generated constructor stub
-	position = QVector3D(0, 0, 20);
-	targetPosition = QVector3D(0, 0, 0);
+	position = {0.0f, 0.0f, 20.0f};
+	targetPosition = {0.0f, 0.0f, 0.0f};
 	nearest = 0;
 	furthest = 100;
 	distance = 20;
@@ -30,37 +30,15 @@ Camera::~Camera() {
 	// TODO Auto-generated destructor stub
 }
 
-QVector3D Camera::getPosition()
+vec3_t * Camera::getPosition()
 {
-	return position;
+	return &position;
 }
 
-QVector3D Camera::getTargetPosition()
+vec3_t * Camera::getTargetPosition()
 {
-	return targetPosition;
+	return &targetPosition;
 }
-
-//void Camera::updatePositionx(float anglex)
-//{
-//	QVector3D position2 = position;
-//	position2.setX(position.x()*cos(anglex) - position.z()*sin(anglex));
-//	position2.setZ(position.x()*sin(anglex) + position.z()*cos(anglex));
-//
-//	position = position2;
-//}
-//
-//void Camera::updatePositiony(float diffy)
-//{
-//	float length = position.length();
-//	if (diffy > 0)
-//		position.setY(position.y() + 1);
-//	else if (diffy < 0)
-//		position.setY(position.y() - 1);
-//	else
-//		return;
-//	position.normalize();
-//	position = position*length;
-//}
 
 void Camera::updateAngles(int diffX, int diffY)
 {
@@ -77,9 +55,9 @@ void Camera::updateAngles(int diffX, int diffY)
 void Camera::updateTargetPosition(float diffy)
 {
 	if (diffy > 0)
-		targetPosition.setY(targetPosition.y() + 0.2);
+		targetPosition[1] = targetPosition[1] + 0.2;
 	else if (diffy < 0)
-		targetPosition.setY(targetPosition.y() - 0.2);
+		targetPosition[1] = targetPosition[1] - 0.2;
 	else
 		return;
 }
@@ -104,16 +82,15 @@ void Camera::zoomOut()
 
 void Camera::updatePosition()
 {
-	position.setZ(cos(angleX) * cos(angleY) * distance);
-	position.setY(sin(angleY) * distance);
-//	position.setX(-sqrt(float(distance*distance - position.z()*position.z() - position.y()*position.y())));
+	position[2] = cos(angleX) * cos(angleY) * distance;
+	position[1] = sin(angleY) * distance;
 	if(angleX>M_PI)
 	{
-		position.setX(sqrt(float(distance*distance - position.z()*position.z() - position.y()*position.y())));
+		position[0] = sqrt(float(distance*distance - position[2]*position[2] - position[1]*position[1]));
 	}
 	else
 	{
-		position.setX(-sqrt(float(distance*distance - position.z()*position.z() - position.y()*position.y())));
+		position[0] = -sqrt(float(distance*distance - position[2]*position[2] - position[1]*position[1]));
 	}
 
 }
