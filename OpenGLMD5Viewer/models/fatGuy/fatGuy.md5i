@@ -17,3 +17,6 @@ mesh skeleton01 colorMap textures/skeleton01_d.tga
 mesh skeleton01 specMap textures/skeleton01_s.tga
 mesh skeleton01 normalMap textures/skeleton01_local.tga
 mesh skeleton01 heightMap textures/skeleton01_h.tga
+
+hide skeleton01
+hide fatty

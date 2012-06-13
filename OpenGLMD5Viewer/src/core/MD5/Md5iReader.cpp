@@ -56,7 +56,6 @@ Md5Model * Md5iReader::loadFromMd5i(string md5iFilePath)
 					std::getline(fileContent, line);
 					if(std::string::npos != line.find("mesh"))
 					{
-//						std::cout << "mesh found !" << std::endl;
 						line.erase(0, line.find_first_not_of(' ', 4));
 
 						tempMeshName = line.substr(0, line.find_first_of(' ', 0)); // Extracting the name of the mesh with which the texture path will be associated
@@ -105,6 +104,25 @@ Md5Model * Md5iReader::loadFromMd5i(string md5iFilePath)
 							std::cerr << "the mesh " << tempMeshName << " does not exist in model " << md5ModelFilePath << std::endl;
 						}
 					}
+
+					if(std::string::npos != line.find("hide"))
+					{
+						line.erase(0, line.find_first_not_of(' ', 4));
+						tempMeshName = line;
+						if(tempMeshName != "")
+						{
+							actualMesh = model->getMeshByName(tempMeshName); // Trying to find the corresponding mesh in the model
+							if(actualMesh)
+							{
+								actualMesh->setState(Md5Mesh::kHide);
+							}
+							else
+							{
+								std::cerr << "the mesh " << tempMeshName << " does not exist in model " << md5ModelFilePath << std::endl;
+							}
+						}
+
+					}
 				}
 				return model;
 			}
@@ -123,6 +141,7 @@ Md5Model * Md5iReader::loadFromMd5i(string md5iFilePath)
 	}
 	else std::cerr << "Unable to open file " << md5iFilePath << std::endl;
 
+	fileContent.close();
 
 	return NULL;
 }
