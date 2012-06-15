@@ -52,6 +52,19 @@ bool Md5Mesh::load( std::ifstream &file )
 	return false;
   }
 
+
+  Md5Triangle_t *fakeTri = new Md5Triangle_t;
+  fakeTri->index[0] = 0;
+  fakeTri->index[1] = 0;
+  fakeTri->index[2] = 0;
+  _tris.push_back(fakeTri);
+
+  fakeTri = new Md5Triangle_t;
+  fakeTri->index[0] = 0;
+  fakeTri->index[1] = 0;
+  fakeTri->index[2] = 0;
+  _tris.push_back(fakeTri);
+
   do {
 	// Read first token line from file
 	file >> token;
@@ -62,8 +75,6 @@ bool Md5Mesh::load( std::ifstream &file )
 	  // Remove quote marks from the shader string
 	  _shader = _shader.substr( _shader.find_first_of( "\"" ) + 1,
 								_shader.find_last_of( "\"" ) - 1 );
-
-	  loadTextures();
 
 	  // Get mesh name from shader string
 	  _name = _shader.c_str() + _shader.find_last_of( "/" ) + 1;
@@ -103,9 +114,11 @@ bool Md5Mesh::load( std::ifstream &file )
 	  file >> tri->index[1];
 	  file >> tri->index[2];
 
+//	  std::cout << " mesh name : " << _name << std::endl;
 //	  std::cout << "loading tri.index[0] = " << tri->index[0] << std::endl;
 //	  std::cout << "loading tri.index[1] = " << tri->index[1] << std::endl;
 //	  std::cout << "loading tri.index[2] = " << tri->index[2] << std::endl << std::endl;
+
 	  _tris.push_back( tri );
 	}
 	else if( token == "weight" ) {
@@ -549,18 +562,6 @@ void Md5Mesh::freeVertexArrays( void )
 	delete [] _vertIndices;
 	_vertIndices = NULL;
   }
-}
-
-
-// --------------------------------------------------------------------------
-// Md5Mesh::loadTextures
-//
-// Load mesh's textures.
-// --------------------------------------------------------------------------
-
-void Md5Mesh::loadTextures( void )
-{
-  return;
 }
 
 void Md5Mesh::printTriangles()

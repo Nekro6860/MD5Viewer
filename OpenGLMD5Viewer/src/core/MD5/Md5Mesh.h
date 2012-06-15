@@ -120,8 +120,6 @@ vec3_t * getFinalTangentArray()
   void allocVertexArrays( void );
   void freeVertexArrays( void );
 
-  void loadTextures( void );
-
  private:
   // Member variables
   string _name;

@@ -473,33 +473,47 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 
 	int shaderTangentId = glGetUniformLocation(choosedShader, "tangent");
 
-
-	for(vector<Md5Triangle_t *>::iterator actualTriangle = _mesh->getTriangleArray().begin(); actualTriangle != _mesh->getTriangleArray().end(); actualTriangle++)
+	int passCount = 0;
+	int drawCount = 0;
+	for(vector<Md5Triangle_t *>::iterator actualTriangle = _mesh->getTriangleArray().begin(); actualTriangle != _mesh->getTriangleArray().end(); ++actualTriangle)
 	{
+		passCount++;
+
 		Md5Triangle_t * temp = *actualTriangle;
 		if(temp != NULL)
 		{
-			if(temp->index[0]< weightArray.size() && temp->index[1]< weightArray.size() && temp->index[2]< weightArray.size())
+
+			if(temp->index[0]<= vertexArray.size() && temp->index[1]<= vertexArray.size() && temp->index[2]<= vertexArray.size())
 					{
-						glColor3f(0.0f, 0.0f, 1.0f);
-						if(shaderTangentId != -1) glUniform3fv(shaderTangentId, 1, finalTangentArray[temp->index[0]]);
-						glBegin(GL_TRIANGLES);
+				drawCount++;
 
-						glNormal3fv(finalNormalArray[temp->index[0]]);
-						glTexCoord2fv(finalTexCoordArray[temp->index[0]]);
-						glVertex3fv(finalVertexArray[temp->index[0]]);
+				glColor3f(0.0f, 0.0f, 1.0f);
+				if(shaderTangentId != -1) glUniform3fv(shaderTangentId, 1, finalTangentArray[temp->index[0]]);
+				glBegin(GL_TRIANGLES);
 
-						glNormal3fv(finalNormalArray[temp->index[1]]);
-						glTexCoord2fv(finalTexCoordArray[temp->index[1]]);
-						glVertex3fv(finalVertexArray[temp->index[1]]);
+				glNormal3fv(finalNormalArray[temp->index[0]]);
+				glTexCoord2fv(finalTexCoordArray[temp->index[0]]);
+				glVertex3fv(finalVertexArray[temp->index[0]]);
 
-						glNormal3fv(finalNormalArray[temp->index[2]]);
-						glTexCoord2fv(finalTexCoordArray[temp->index[2]]);
-						glVertex3fv(finalVertexArray[temp->index[2]]);
-						glEnd();
-						}
-					}
+				glNormal3fv(finalNormalArray[temp->index[1]]);
+				glTexCoord2fv(finalTexCoordArray[temp->index[1]]);
+				glVertex3fv(finalVertexArray[temp->index[1]]);
+
+				glNormal3fv(finalNormalArray[temp->index[2]]);
+				glTexCoord2fv(finalTexCoordArray[temp->index[2]]);
+				glVertex3fv(finalVertexArray[temp->index[2]]);
+				glEnd();
+			}
+//			else {
+//				std::cout << "index[0] : " << temp->index[0] << std::endl;
+//				std::cout << "index[1] : " << temp->index[1] << std::endl;
+//				std::cout << "index[2] : " << temp->index[2] << std::endl;
+//				std::cout << "which pass : " << passCount << std::endl;
+//				std::cout << "which draw : " << drawCount << std::endl;
+//				std::cout << "vertex array size : " << vertexArray.size() << std::endl;
+//			}
 		}
+	}
 }
 
 void Md5TexturedRenderer::drawModel(Md5Model * _model)

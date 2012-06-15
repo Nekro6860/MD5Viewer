@@ -183,55 +183,32 @@ void Md5WireframeRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 //		std::cout << "finalVertexArray[i][2] = " << finalVertexArray[i][2] << std::endl << std::endl;
 	}
 
-//	std::cout << std::endl << std::endl << "sortie !" << std::endl << std::endl << std::endl << std::endl;
 
+	int passCount = 0;
+	int drawCount = 0;
 	for(vector<Md5Triangle_t *>::iterator actualTriangle = _mesh->getTriangleArray().begin(); actualTriangle != _mesh->getTriangleArray().end(); actualTriangle++)
 	{
+		passCount++;
 		Md5Triangle_t * temp = *actualTriangle;
-//		std::cout << "temp = " << temp << std::endl;
 		if(temp != NULL)
 		{
 			if(temp->index[0]< weightArray.size() && temp->index[1]< weightArray.size() && temp->index[2]< weightArray.size())
-					{
-//						std::cout << "actualTriangle.index[0] = " << temp->index[0] << std::endl;
-//						std::cout << "actualTriangle.index[1] = " << temp->index[1] << std::endl;
-//						std::cout << "actualTriangle.index[2] = " << temp->index[2] << std::endl << std::endl;
-//
-//						std::cout << "weightArray[temp->index[0]]->pos._x" << weightArray[temp->index[0]]->pos._x << std::endl;
-//						std::cout << "weightArray[temp->index[0]]->pos._y" << weightArray[temp->index[0]]->pos._y << std::endl;
-//						std::cout << "weightArray[temp->index[0]]->pos._z" << weightArray[temp->index[0]]->pos._z << std::endl << std::endl;
-//
-//						std::cout << "weightArray[temp->index[1]]->pos._x" << weightArray[temp->index[1]]->pos._x << std::endl;
-//						std::cout << "weightArray[temp->index[1]]->pos._y" << weightArray[temp->index[1]]->pos._y << std::endl;
-//						std::cout << "weightArray[temp->index[1]]->pos._z" << weightArray[temp->index[1]]->pos._z << std::endl << std::endl;
-//
-//						std::cout << "weightArray[temp->index[2]]->pos._x" << weightArray[temp->index[2]]->pos._x << std::endl;
-//						std::cout << "weightArray[temp->index[2]]->pos._y" << weightArray[temp->index[2]]->pos._y << std::endl;
-//						std::cout << "weightArray[temp->index[2]]->pos._z" << weightArray[temp->index[2]]->pos._z << std::endl;
-//						std::cout << "--------------------------------------------------" << std::endl << std::endl;
+			{
+				drawCount++;
 
-//						glBegin(GL_TRIANGLES);
-//						glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
-//						glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
-//						glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
-//						glEnd();
+				glDisable(GL_LIGHTING);
+				glColor3f(0.4f, 0.4f, 0.4f);
+				glBegin(GL_LINES);
+				glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
+				glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
 
+				glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
+				glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
 
-						glDisable(GL_LIGHTING);
-						glColor3f(0.4f, 0.4f, 0.4f);
-						glBegin(GL_LINES);
-						glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
-						glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
-
-						glVertex3f(finalVertexArray[temp->index[0]][0], finalVertexArray[temp->index[0]][1], finalVertexArray[temp->index[0]][2]);
-						glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
-
-						glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
-						glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
-						glEnd();
-
-						glEnable(GL_LIGHTING);
-					}
+				glVertex3f(finalVertexArray[temp->index[1]][0], finalVertexArray[temp->index[1]][1], finalVertexArray[temp->index[1]][2]);
+				glVertex3f(finalVertexArray[temp->index[2]][0], finalVertexArray[temp->index[2]][1], finalVertexArray[temp->index[2]][2]);
+				glEnd();
+			}
 		}
 
 
