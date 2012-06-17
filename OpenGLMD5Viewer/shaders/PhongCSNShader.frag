@@ -5,11 +5,12 @@
 varying vec2 texCoord;
 varying vec3 N;
 varying vec3 v;
+varying vec3 t;
 
 uniform sampler2D colorMap;
 uniform sampler2D normalMap;
 uniform sampler2D specularMap;
-uniform vec3 tangent;
+//uniform vec3 tangent;
 uniform vec3 eyePos;
 
 void main(void)
@@ -21,8 +22,8 @@ void main(void)
 		normalBase = (2.0*normalBase) - 1.0;
 	
 		//calculate TBN matrix and modified (final) normal:
-		vec3 b = cross(N, tangent);
-		mat3 tbnMatrix = mat3(tangent, b, N);
+		vec3 b = cross(N, t);
+		mat3 tbnMatrix = mat3(t, b, N);
 		vec3 finalNormal = tbnMatrix*normalBase;
 			
 		vec3 L = normalize(gl_LightSource[0].position.xyz - v);

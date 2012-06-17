@@ -1,8 +1,11 @@
 // Vertex shader
 
+attribute vec3 tangent;
+
 varying vec2 texCoord;
 varying vec3 N;
 varying vec3 v;
+varying vec3 t;
 
 
 void main(void)
@@ -12,6 +15,7 @@ void main(void)
 	
 	v = vec3(gl_ModelViewMatrix * gl_Vertex); // Position of the vertex in the scene
 	N = normalize(gl_NormalMatrix * gl_Normal);
+	t = tangent;
 
 	//On n'oublie pas de mettre le vextex à sa place finale lors du rendu
 	gl_Position = ftransform();		

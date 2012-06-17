@@ -471,7 +471,9 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 		glUniform1i(shaderNormalMapId, 2); // Send the id of the color texture to the corresponding uniform variable in the shader
 	}
 
-	int shaderTangentId = glGetUniformLocation(choosedShader, "tangent");
+	// Upload tangents
+	int shaderTangentId = glGetAttribLocationARB(choosedShader, "tangent" );
+
 
 	int passCount = 0;
 	int drawCount = 0;
@@ -488,30 +490,37 @@ void Md5TexturedRenderer::renderMeshVertexArrays(Md5Mesh * _mesh)
 				drawCount++;
 
 				glColor3f(0.0f, 0.0f, 1.0f);
-				if(shaderTangentId != -1) glUniform3fv(shaderTangentId, 1, finalTangentArray[temp->index[0]]);
+//				if(shaderTangentId != -1) glUniform3fv(shaderTangentId, 1, finalTangentArray[temp->index[0]]);
 				glBegin(GL_TRIANGLES);
 
+				if(shaderTangentId != -1)
+				{
+//						glVertexAttribPointerARB( shaderTangentId, 3, GL_FLOAT, GL_FALSE, 0, finalTangentArray);
+				glVertexAttrib3fv( shaderTangentId, finalTangentArray[temp->index[0]]);
+				}
 				glNormal3fv(finalNormalArray[temp->index[0]]);
 				glTexCoord2fv(finalTexCoordArray[temp->index[0]]);
 				glVertex3fv(finalVertexArray[temp->index[0]]);
 
+				if(shaderTangentId != -1)
+				{
+//						glVertexAttribPointerARB( shaderTangentId, 3, GL_FLOAT, GL_FALSE, 0, finalTangentArray);
+				glVertexAttrib3fv( shaderTangentId, finalTangentArray[temp->index[1]]);
+				}
 				glNormal3fv(finalNormalArray[temp->index[1]]);
 				glTexCoord2fv(finalTexCoordArray[temp->index[1]]);
 				glVertex3fv(finalVertexArray[temp->index[1]]);
 
+				if(shaderTangentId != -1)
+				{
+//						glVertexAttribPointerARB( shaderTangentId, 3, GL_FLOAT, GL_FALSE, 0, finalTangentArray);
+				glVertexAttrib3fv( shaderTangentId, finalTangentArray[temp->index[2]]);
+				}
 				glNormal3fv(finalNormalArray[temp->index[2]]);
 				glTexCoord2fv(finalTexCoordArray[temp->index[2]]);
 				glVertex3fv(finalVertexArray[temp->index[2]]);
 				glEnd();
 			}
-//			else {
-//				std::cout << "index[0] : " << temp->index[0] << std::endl;
-//				std::cout << "index[1] : " << temp->index[1] << std::endl;
-//				std::cout << "index[2] : " << temp->index[2] << std::endl;
-//				std::cout << "which pass : " << passCount << std::endl;
-//				std::cout << "which draw : " << drawCount << std::endl;
-//				std::cout << "vertex array size : " << vertexArray.size() << std::endl;
-//			}
 		}
 	}
 }
