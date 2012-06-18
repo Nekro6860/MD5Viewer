@@ -1,5 +1,5 @@
 INPUT(
-./release\subLoaders.o
+./release\shaderLoader.o
 ./release\openglmd5viewer.o
 ./release\Md5iReader.o
 ./release\Md5TexturedRenderer.o
