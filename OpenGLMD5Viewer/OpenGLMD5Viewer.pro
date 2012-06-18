@@ -3,7 +3,8 @@ TARGET = OpenGLMD5Viewer
 QT += core \
     gui \
     opengl
-HEADERS += openglmd5viewer.h \
+HEADERS += src/core/utils/shaderLoader.h \
+    openglmd5viewer.h \
     src/core/MD5/Md5iReader.h \
     src/rendering/Md5TexturedRenderer.h \
     src/rendering/Md5WireframeRenderer.h \
@@ -20,7 +21,8 @@ HEADERS += openglmd5viewer.h \
     src/core/Light.h \
     src/RenderCanvas.h \
     src/rendering/Renderer.h
-SOURCES += openglmd5viewer.cpp \
+SOURCES += src/core/utils/shaderLoader.c \
+    openglmd5viewer.cpp \
     src/core/MD5/Md5iReader.cpp \
     src/rendering/Md5TexturedRenderer.cpp \
     src/rendering/Md5WireframeRenderer.cpp \
