@@ -23,8 +23,6 @@ public:
 	RenderCanvas(int framesPerSecond=60, QWidget *parent = 0);
 	virtual ~RenderCanvas();
 
-	void setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ);
-
 	Renderer * getRenderer();
 	void setRenderer(Renderer * r);
 

@@ -69,13 +69,6 @@ void RenderCanvas::timeOut()
 	updateGL();
 }
 
-void RenderCanvas::setCamera(float camX, float camY, float camZ, float targetX, float targetY, float targetZ) {
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glPushMatrix();
-	gluLookAt(camX, camY, camZ, targetX, targetY, targetZ, 0, 1, 0);
-}
-
 // Quand l'utilisateur clique
 void RenderCanvas::mousePressEvent( QMouseEvent *e )
 {

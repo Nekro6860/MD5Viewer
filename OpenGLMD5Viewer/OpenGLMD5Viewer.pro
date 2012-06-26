@@ -40,8 +40,7 @@ SOURCES += src/core/utils/shaderLoader.c \
     main.cpp
 FORMS += openglmd5viewer.ui
 RESOURCES += 
-INCLUDEPATH += lib/Devil/include/IL \
-    C:/devtools/MinGW/include/GL \
+INCLUDEPATH += C:/devtools/MinGW/include/GL \
     C:/utils/Devil/include/IL
 LIBS += "C:/utils/Devil/lib/DevIL.lib" \
     "C:/utils/glew/glew-1.7.0/bin/glew32.dll"
